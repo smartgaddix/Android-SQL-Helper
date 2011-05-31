@@ -15,10 +15,20 @@
  */
 package com.sgxmobilapps.android.sqlhelper;
 
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
 /**
  * @author gaddini
  *
  */
+@Target(ElementType.FIELD)
+@Retention(RetentionPolicy.SOURCE)
 public @interface PersistentField {
-
+    String columnname() default "";
+    String columntype() default "";
+    boolean key() default true;
+    boolean nullable() default true;
 }

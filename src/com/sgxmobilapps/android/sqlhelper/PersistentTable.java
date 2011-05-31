@@ -15,10 +15,19 @@
  */
 package com.sgxmobilapps.android.sqlhelper;
 
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
 /**
  * @author gaddini
  *
  */
+@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.SOURCE)
 public @interface PersistentTable {
-
+    String tablename() default "";
+    String[] unique() default {};
+    String[] orderby() default {};
 }
