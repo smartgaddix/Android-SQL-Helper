@@ -1,0 +1,9 @@
+Roadmap:
+
+- define annotations
+- implement the annotation processor via japt (integrated into java.exe)
+- use codemodel for code generation
+- make same sample
+
+Todo:
+
