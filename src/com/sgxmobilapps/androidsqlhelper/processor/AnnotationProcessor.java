@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.  
  */
-package com.sgxmobilapps.android.sqlhelper.processor;
+package com.sgxmobilapps.androidsqlhelper.processor;
 
 import java.util.ServiceLoader;
 import java.util.Set;

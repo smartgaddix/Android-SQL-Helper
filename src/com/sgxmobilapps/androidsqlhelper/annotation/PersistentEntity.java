@@ -13,21 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.  
  */
-package com.sgxmobileapps.sqlhelper.test;
+package com.sgxmobilapps.androidsqlhelper.annotation;
 
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
  * @author Massimo Gaddini
  *
  */
-public class MainTest {
-
-    /**
-     * @param args
-     */
-    public static void main(String[] args) {
-        // TODO Auto-generated method stub
-
-    }
-
+@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.SOURCE)
+public @interface PersistentEntity {
+    String tablename() default "";
+    String[] unique() default {};
+    String[] orderby() default {};
 }
