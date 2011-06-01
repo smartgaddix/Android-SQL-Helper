@@ -26,7 +26,7 @@ import java.lang.annotation.Target;
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.SOURCE)
-public @interface PersistentTable {
+public @interface PersistentEntity {
     String tablename() default "";
     String[] unique() default {};
     String[] orderby() default {};

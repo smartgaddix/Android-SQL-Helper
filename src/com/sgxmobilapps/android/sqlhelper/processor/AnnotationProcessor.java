@@ -31,7 +31,7 @@ import javax.tools.StandardLocation;
  * @author Massimo Gaddini
  *
  */
-@SupportedAnnotationTypes({"PersistentField","PersistentTable"})
+@SupportedAnnotationTypes({"PersistentField","PersistentEntity"})
 @SupportedSourceVersion(SourceVersion.RELEASE_6)
 public class AnnotationProcessor extends AbstractProcessor {
 
