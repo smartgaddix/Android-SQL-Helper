@@ -13,21 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.  
  */
-package com.sgxmobileapps.androidsqlhelper.test;
+package com.sgxmobileapps.androidsqlhelper.test.entities;
+
+import com.sgxmobileapps.androidsqlhelper.annotation.PersistentEntity;
+import com.sgxmobileapps.androidsqlhelper.annotation.PersistentField;
 
 
 /**
  * @author Massimo Gaddini
  *
  */
-public class MainTest {
-
-    /**
-     * @param args
-     */
-    public static void main(String[] args) {
-        // TODO Auto-generated method stub
-
-    }
-
+@PersistentEntity
+public class SampleEntity {
+    
+    @PersistentField
+    public String mFieldString;
+    
+    @PersistentField
+    public Long mFieldLong;
 }

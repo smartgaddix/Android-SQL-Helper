@@ -2,8 +2,15 @@ Roadmap:
 
 - define annotations
 - implement the annotation processor via japt (integrated into java.exe)
+- make test case
 - use codemodel for code generation
 - make same sample
+- make test case
 
 Todo:
 
+- optimize test project's settings for path dependency
+- optimize test project's sources
+- test case:
+	- running without annotation class
+	- 

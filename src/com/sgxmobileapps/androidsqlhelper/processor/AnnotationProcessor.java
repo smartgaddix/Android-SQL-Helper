@@ -15,7 +15,6 @@
  */
 package com.sgxmobileapps.androidsqlhelper.processor;
 
-import java.util.ServiceLoader;
 import java.util.Set;
 
 import javax.annotation.processing.AbstractProcessor;
@@ -24,7 +23,7 @@ import javax.annotation.processing.SupportedAnnotationTypes;
 import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.TypeElement;
-import javax.tools.StandardLocation;
+import javax.tools.Diagnostic.Kind;
 
 
 /**
@@ -50,7 +49,7 @@ public class AnnotationProcessor extends AbstractProcessor {
      */
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
-        System.out.println("process");
+        processingEnv.getMessager().printMessage(Kind.OTHER, "Process");
         return true;
     }
 
