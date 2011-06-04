@@ -4,15 +4,20 @@
 	<property name="bin" value="bin" />
 	<property name="src" value="src" />
 
-	<property name="binfile" value="bin/androidsqlhelper.jar" />
+	<property name="completejar" value="bin/androidsqlhelper.jar" />
+	<property name="annotationjar" value="bin/androidsqlhelperannotations.jar" />
 
 	<target name="package">
-		<jar destfile="${binfile}">
+		<jar destfile="${completejar}">
 			<zipfileset dir="${bin}">
 				<include name="META-INF/**" />
 				<include name="**/*.class" />
-				<exclude name="**/R.class" />
-				<exclude name="**/R$*.class" />
+			</zipfileset>
+		</jar>
+		
+		<jar destfile="${annotationjar}">
+			<zipfileset dir="${bin}">
+				<include name="**/annotation/*.class" />
 			</zipfileset>
 		</jar>
 	</target>
