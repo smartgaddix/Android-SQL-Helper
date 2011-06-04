@@ -21,8 +21,29 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * The <b>PersistentEntity</b> annotation declare the annotated class 
+ * as persistent and tells to annotation processor to generate 
+ * the SQL support code.
+ * <br>
+ * 
+ * Parameter:
+ * <li>
+ * <B>tablename:</B> specifies the table name. The default table name is the uppercase class name 
+ * </li>
+ * <li>
+ * <B>unique:</B> list of field names to use for creating a unique constraint for the table. 
+ * The default value is an empty list (no unique constraint)
+ * </li>
+ * <li>
+ * <B>orderby:</B> list of field names for the default order by for the table. 
+ * The default value is an empty list (default order by). 
+ * </li>
+ * <li>
+ * <B>noidcol:</B> disable the generation of the ID column. 
+ * The dafault value is false (ID column generation is enabled)
+ * </li>
+ * 
  * @author Massimo Gaddini
- *
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.SOURCE)
@@ -30,4 +51,5 @@ public @interface PersistentEntity {
     String tablename() default "";
     String[] unique() default {};
     String[] orderby() default {};
+    boolean noidcol() default false;
 }
