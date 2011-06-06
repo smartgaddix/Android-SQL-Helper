@@ -1,11 +1,17 @@
 Roadmap:
 
 - define annotations
-- implement the annotation processor via japt (integrated into java.exe)
+- define model
+- implement the annotation processor via apt (integrated into javac.exe)
+- document supported types and mapping
 - make test case
 - use codemodel for code generation
-- make same sample
 - make test case
+- make same sample
+- support for member class of the persistent bean
+- support for field of type enum
+- support of date time fields. Support of standard conversion or use a custom converter class
+
 
 Todo:
 

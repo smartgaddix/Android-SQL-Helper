@@ -50,6 +50,7 @@ public class CompilerTestCase {
     static {
         mSourceFiles = new ArrayList<String>();
         mSourceFiles.add("src/com/sgxmobileapps/androidsqlhelper/test/entities/SampleEntity.java");
+        mSourceFiles.add("src/com/sgxmobileapps/androidsqlhelper/test/entities/SampleEntity2.java");
     }
         
     protected boolean compileFiles(String testTag, List<String> additionalOptions) {
