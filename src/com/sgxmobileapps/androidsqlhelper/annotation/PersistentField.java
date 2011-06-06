@@ -28,11 +28,11 @@ import java.lang.annotation.Target;
  * 
  * Parameter:
  * <li>
- * <B>columnname:</B> specifies the column name for the field. 
+ * <B>columnName:</B> specifies the column name for the field. 
  * The default column name is the uppercase field name 
  * </li>
  * <li>
- * <B>columntype:</B> SQL type for the column 
+ * <B>columnType:</B> SQL type for the column 
  * The default column type depend on the java type of the field.
  * </li>
  * <li>
@@ -50,8 +50,8 @@ import java.lang.annotation.Target;
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.SOURCE)
 public @interface PersistentField {
-    String columnname() default "";
-    String columntype() default "";
+    String columnName() default "";
+    String columnType() default "";
     boolean key() default false;
     boolean nullable() default true;
 }

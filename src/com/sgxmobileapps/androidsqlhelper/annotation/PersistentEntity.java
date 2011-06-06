@@ -28,18 +28,18 @@ import java.lang.annotation.Target;
  * 
  * Parameter:
  * <li>
- * <B>tablename:</B> specifies the table name. The default table name is the uppercase class name 
+ * <B>tableName:</B> specifies the table name. The default table name is the uppercase class name 
  * </li>
  * <li>
  * <B>unique:</B> list of field names to use for creating a unique constraint for the table. 
  * The default value is an empty list (no unique constraint)
  * </li>
  * <li>
- * <B>orderby:</B> list of field names for the default order by for the table. 
+ * <B>orderBy:</B> list of field names for the default order by for the table. 
  * The default value is an empty list (default order by). 
  * </li>
  * <li>
- * <B>noidcol:</B> disable the generation of the ID column. 
+ * <B>noIdColumn:</B> disable the generation of the ID column. 
  * The dafault value is false (ID column generation is enabled)
  * </li>
  * 
@@ -48,8 +48,8 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.SOURCE)
 public @interface PersistentEntity {
-    String tablename() default "";
+    String tableName() default "";
     String[] unique() default {};
-    String[] orderby() default {};
-    boolean noidcol() default false;
+    String[] orderBy() default {};
+    boolean noIdColumn() default false;
 }
