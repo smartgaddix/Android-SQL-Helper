@@ -15,9 +15,14 @@
  */
 package com.sgxmobileapps.androidsqlhelper.processor.model;
 
+import com.sgxmobileapps.androidsqlhelper.annotation.PersistentField;
+
+import javax.lang.model.element.Element;
+import javax.lang.model.type.DeclaredType;
+
 
 /**
- * The Field class contains the filed information used by the annotation
+ * The Field class contains the field information used by the annotation
  * processor for the generation of SQL helper code.
  * 
  * @author Massimo Gaddini
@@ -28,6 +33,82 @@ public class Field {
     protected String mColumnType;
     protected boolean mKey;
     protected boolean mNullable;
+    
+    /**
+     * Builds a Field instance from an PersistentField annotation and
+     * the annotated member Element 
+     * @param annotation the annotation
+     * @param member the member
+     * @return new Field instance
+     * @throws UnsupportedFieldTypeException if the field's type is unsupported
+     */
+    public static Field buildField(PersistentField annotation, Element member) throws UnsupportedFieldTypeException{
+        Field field = new Field();
+        
+        if (annotation.columnName().isEmpty())
+            field.mColumnName = member.getSimpleName().toString().toUpperCase();
+        else
+            field.mColumnName = annotation.columnName().toUpperCase();
+        
+        field.mNullable = (annotation.key())?false:annotation.nullable();
+        field.mKey = annotation.key();
+        
+        if (!annotation.columnType().isEmpty())
+            field.mColumnType = annotation.columnType();
+        else {
+            switch(member.asType().getKind()) {
+            case BOOLEAN:
+            case BYTE:
+            case LONG:
+            case INT:
+            case SHORT:
+                field.mColumnType = "INTEGER";
+                break;
+            case FLOAT:
+            case DOUBLE:
+                field.mColumnType = "REAL";
+                break;
+            case CHAR:
+                field.mColumnType = "TEXT";
+                break;
+                
+            case DECLARED:
+                /* TODO */
+                String declaredName =  ((DeclaredType)member.asType()).asElement().toString();
+                
+                if (declaredName.equals("java.lang.Character") || 
+                    declaredName.equals("java.lang.String") || 
+                    declaredName.equals("java.lang.CharSequence")) {
+                
+                    field.mColumnType = "TEXT";
+                } else if (declaredName.equals("java.lang.Byte") || 
+                        declaredName.equals("java.lang.Boolean") || 
+                        declaredName.equals("java.lang.Long") || 
+                        declaredName.equals("java.lang.Integer") || 
+                        declaredName.equals("java.lang.Short")) {
+                    
+                    field.mColumnType = "INTEGER";
+                } else if (declaredName.equals("java.lang.Double") || 
+                        declaredName.equals("java.lang.Float")) {
+                    
+                    field.mColumnType = "REAL";
+                } else if (declaredName.equals("java.util.Date") || 
+                        declaredName.equals("java.util.GregorianCalendar") || 
+                        declaredName.equals("java.util.Calendar")) {
+                    /* FixMe */
+                    field.mColumnType = "INTEGER";  
+                } else {
+                    throw new UnsupportedFieldTypeException("Declared type " + declaredName + " unsupported");
+                }
+                break;
+                
+            default:
+                throw new UnsupportedFieldTypeException("Kind " + member.asType().getKind() + " unsupported");
+            }     
+        }
+        
+        return field;
+    }
     
     /**
      * @return the columnName
@@ -84,5 +165,4 @@ public class Field {
     public void setNullable(boolean nullable) {
         mNullable = nullable;
     }
-    
 }

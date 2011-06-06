@@ -15,7 +15,12 @@
  */
 package com.sgxmobileapps.androidsqlhelper.processor.model;
 
+import com.sgxmobileapps.androidsqlhelper.annotation.PersistentEntity;
+
+import java.util.HashSet;
 import java.util.Set;
+
+import javax.lang.model.element.Element;
 
 
 /**
@@ -30,8 +35,19 @@ public class Table {
     protected String[] mUniqueConstraint;
     protected String[] mOrderBy;
     protected boolean mNoIdColumn;
-    protected Set<Field> mFields;
-       
+    protected Set<Field> mFields = new HashSet<Field>();
+    
+    /**
+     * Builds a Table instance from an PersistentEntity annotation and
+     * the annotated class Element 
+     * @param annotation the annotation
+     * @param entity the entity
+     * @return new Table instance
+     */
+    public static Table buildTable(PersistentEntity annotation, Element entity){
+        return new Table();
+    }
+    
     /**
      * @return the tableName
      */
