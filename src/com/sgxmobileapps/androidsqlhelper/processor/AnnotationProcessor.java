@@ -22,7 +22,11 @@ import com.sgxmobileapps.androidsqlhelper.processor.model.Table;
 import com.sgxmobileapps.androidsqlhelper.processor.model.Schema;
 import com.sgxmobileapps.androidsqlhelper.processor.model.UnsupportedFieldTypeException;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Iterator;
+import java.util.Properties;
 import java.util.Set;
 
 import javax.annotation.processing.AbstractProcessor;
@@ -38,14 +42,20 @@ import javax.tools.Diagnostic.Kind;
 
 
 /**
+ * Processor of annotation {@link PersistentEntity} and {@link PersistentField}.
+ * The processor is invoked at compile time from javac tool, it parse the annotated 
+ * classes and fields and generates a schema model and then the source file 
+ * for SQLite support on Android.
+ * Processor settings are read from a properties file named "schema.properties".
+ * 
  * @author Massimo Gaddini
  *
  */
 @SupportedAnnotationTypes(
-        {
-            "com.sgxmobileapps.androidsqlhelper.annotation.PersistentEntity",
-            "com.sgxmobileapps.androidsqlhelper.annotation.PersistentField"
-        }
+{
+    "com.sgxmobileapps.androidsqlhelper.annotation.PersistentEntity",
+    "com.sgxmobileapps.androidsqlhelper.annotation.PersistentField"
+}
 )
 @SupportedSourceVersion(SourceVersion.RELEASE_6)
 public class AnnotationProcessor extends AbstractProcessor {
@@ -53,6 +63,7 @@ public class AnnotationProcessor extends AbstractProcessor {
     protected static final String SQL_HELPER_PROPERTIES_FILE = "schema.properties";
     
     protected Schema mSchema = new Schema();
+    protected Properties mProperties = new Properties();
     
     /**
      * 
@@ -117,13 +128,23 @@ public class AnnotationProcessor extends AbstractProcessor {
      * @see javax.annotation.processing.AbstractProcessor#process(java.util.Set, javax.annotation.processing.RoundEnvironment)
      */
     @Override
-    public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {        
+    public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
+        
+        try {
+            mProperties.load(new FileInputStream(SQL_HELPER_PROPERTIES_FILE));
+        } catch (FileNotFoundException e) {
+            /* default properties */
+        } catch (IOException e) {
+            /* default properties */
+        }
+        
         Iterator<? extends Element> it = roundEnv.getElementsAnnotatedWith(PersistentEntity.class).iterator();
         while (it.hasNext()) {
             Element entity = (Element) it.next();
             processEntity(entity, annotations, roundEnv);
         }
+        
         return true;
     }
-
+    
 }

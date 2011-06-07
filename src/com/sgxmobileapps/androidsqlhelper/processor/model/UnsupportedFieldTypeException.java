@@ -17,8 +17,9 @@ package com.sgxmobileapps.androidsqlhelper.processor.model;
 
 
 /**
- * Indicates that an unknown kind of type was encountered when processing 
- * persistent fields.
+ * Indicates that an unknown type was encountered when processing 
+ * persistent fields within persistent class
+ * 
  * @author Massimo Gaddini
  * 06/giu/2011
  */

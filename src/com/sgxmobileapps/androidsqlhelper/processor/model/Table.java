@@ -45,7 +45,18 @@ public class Table {
      * @return new Table instance
      */
     public static Table buildTable(PersistentEntity annotation, Element entity){
-        return new Table();
+        Table table = new Table();
+        
+        if (annotation.tableName().isEmpty())
+            table.mTableName = entity.getSimpleName().toString().toUpperCase();
+        else
+            table.mTableName = annotation.tableName().toUpperCase();
+        
+        table.mUniqueConstraint = annotation.unique();
+        table.mOrderBy = annotation.orderBy();
+        table.mNoIdColumn = annotation.noIdColumn();
+     
+        return table;
     }
     
     /**
