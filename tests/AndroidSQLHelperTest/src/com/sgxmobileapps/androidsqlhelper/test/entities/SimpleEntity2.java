@@ -18,22 +18,24 @@ package com.sgxmobileapps.androidsqlhelper.test.entities;
 import com.sgxmobileapps.androidsqlhelper.annotation.PersistentEntity;
 import com.sgxmobileapps.androidsqlhelper.annotation.PersistentField;
 
+import java.util.Date;
+
 
 /**
  * @author Massimo Gaddini
  *
  */
 @PersistentEntity
-public class SampleEntity2 {
+public class SimpleEntity2 {
     
     @PersistentField
-    public String mFieldString2;
+    public String mFieldString;
     
     @PersistentField
-    public Long mFieldLong2;
+    public Long mFieldLong;
     
-    public Long mFieldLongNP2;
+    public Long mFieldLongNP;
     
     @PersistentField
-    public Long mFieldLong3;
+    public Date mFieldDate;
 }

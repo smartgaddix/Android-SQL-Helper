@@ -73,7 +73,9 @@ public class Field {
                 break;
                 
             case DECLARED:
-                /* TODO */
+                // TODO
+                //change declared type management
+             
                 String declaredName =  ((DeclaredType)member.asType()).asElement().toString();
                 
                 if (declaredName.equals("java.lang.Character") || 
@@ -165,4 +167,23 @@ public class Field {
     public void setNullable(boolean nullable) {
         mNullable = nullable;
     }
+
+    /* 
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("Field [mColumnName=");
+        builder.append(mColumnName);
+        builder.append(", mColumnType=");
+        builder.append(mColumnType);
+        builder.append(", mKey=");
+        builder.append(mKey);
+        builder.append(", mNullable=");
+        builder.append(mNullable);
+        builder.append("]");
+        return builder.toString();
+    }
+    
 }

@@ -15,8 +15,13 @@
  */
 package com.sgxmobileapps.androidsqlhelper.test;
 
-import org.junit.After;
-import org.junit.Before;
+
+import static org.junit.Assert.*;
+
+import com.sgxmobileapps.androidsqlhelper.test.entities.SimpleEntity;
+
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.File;
@@ -32,6 +37,7 @@ import javax.tools.StandardJavaFileManager;
 import javax.tools.ToolProvider;
 import javax.tools.JavaCompiler.CompilationTask;
 
+
 /**
  * @author Massimo Gaddini
  *
@@ -40,20 +46,24 @@ public class CompilerTestCase {
     
     protected static final String OUT_PATH = "tests_output";
     protected static final String OUT_FILE_NAME = "out.log";
-    
-    protected static ArrayList<String> mSourceFiles = null;
-    
+       
     protected static File mOutputDir;
-    
     protected static Writer mOutputWriter; 
-          
-    static {
-        mSourceFiles = new ArrayList<String>();
-        mSourceFiles.add("src/com/sgxmobileapps/androidsqlhelper/test/entities/SampleEntity.java");
-        mSourceFiles.add("src/com/sgxmobileapps/androidsqlhelper/test/entities/SampleEntity2.java");
+    
+    @BeforeClass
+    public static void beforeTests() throws IOException{
+        mOutputDir = new File("tests_output");
+        mOutputDir.mkdirs();
+      
+        mOutputWriter = new FileWriter(new File(mOutputDir, OUT_FILE_NAME));
     }
-        
-    protected boolean compileFiles(String testTag, List<String> additionalOptions) {
+
+    @AfterClass
+    public static void afterTests() throws IOException{
+        mOutputWriter.close();
+    }
+       
+    protected boolean compileFiles(String testTag, List<String> additionalOptions, ArrayList<String> sources) {
         // Get an instance of java compiler
         JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
         
@@ -71,32 +81,104 @@ public class CompilerTestCase {
         options.add(outputDir.getAbsolutePath());
         options.add("-s");
         options.add(outputDir.getAbsolutePath());
+        options.add("-verbose");
                 
         if (additionalOptions != null)
             options.addAll(additionalOptions);
         
         // Get the list of java file objects
-        Iterable<? extends JavaFileObject> compilationUnits = fileManager.getJavaFileObjectsFromStrings(mSourceFiles);
+        Iterable<? extends JavaFileObject> compilationUnits = fileManager.getJavaFileObjectsFromStrings(sources);
         CompilationTask task = compiler.getTask(mOutputWriter, fileManager, null, options, null, compilationUnits);
         return task.call();
     }
     
-    @Before
-    public void beforeTests() throws IOException{
-        mOutputDir = new File("tests_output");
-        mOutputDir.mkdirs();
-      
-        mOutputWriter = new FileWriter(new File(mOutputDir, OUT_FILE_NAME));
-    }
-
-    @After
-    public void afterTests() throws IOException{
-        mOutputWriter.close();
+    
+    
+    @Test
+    public void compileWithoutLibs() throws IOException{
+        mOutputWriter.write("----------------------compileWithoutLibs----------------------\n");
+               
+        
+        ArrayList<String> sources = new ArrayList<String>();
+        sources.add("src/com/sgxmobileapps/androidsqlhelper/test/entities/SimpleEntity.java");
+        sources.add("src/com/sgxmobileapps/androidsqlhelper/test/entities/SimpleEntity2.java");
+        
+        ArrayList<String> options = new ArrayList<String>();
+        options.add("-cp");
+        options.add(".");
+        
+        assertTrue(!compileFiles("compileWithoutLibs", options, sources));
+        
+        mOutputWriter.write("--------------------------------------------------------------\n");
+        mOutputWriter.write("--------------------------------------------------------------\n");
     }
     
     @Test
-    public void compileTest1(){
-        compileFiles("BaseCompile", null);
+    public void compileWithAnnotationLib() throws IOException{
+        mOutputWriter.write("----------------------compileWithAnnotationLib----------------------\n");
+        
+        ArrayList<String> sources = new ArrayList<String>();
+        sources.add("src/com/sgxmobileapps/androidsqlhelper/test/entities/SimpleEntity.java");
+        sources.add("src/com/sgxmobileapps/androidsqlhelper/test/entities/SimpleEntity2.java");
+        
+        ArrayList<String> options = new ArrayList<String>();
+        options.add("-cp");
+        options.add("lib/androidsqlhelperannotations.jar");
+        
+        assertTrue(compileFiles("compileWithAnnotationLib", options, sources));
+        
+        mOutputWriter.write("--------------------------------------------------------------------\n");
+        mOutputWriter.write("--------------------------------------------------------------------\n");
+    }
+    
+    @Test
+    public void compileWithProcessorLib() throws IOException{
+        mOutputWriter.write("----------------------compileWithProcessorLib----------------------\n");
+        
+        ArrayList<String> sources = new ArrayList<String>();
+        sources.add("src/com/sgxmobileapps/androidsqlhelper/test/entities/SimpleEntity.java");
+        sources.add("src/com/sgxmobileapps/androidsqlhelper/test/entities/SimpleEntity2.java");
+        
+        ArrayList<String> options = new ArrayList<String>();
+        options.add("-cp");
+        options.add("lib/androidsqlhelper.jar");
+        
+        assertTrue(compileFiles("compileWithProcessorLib", options, sources));
+        
+        mOutputWriter.write("-------------------------------------------------------------------\n");
+        mOutputWriter.write("-------------------------------------------------------------------\n");
+    }
+    
+    @Test
+    public void compileFull() throws IOException{
+        mOutputWriter.write("----------------------compileFull----------------------\n");
+        
+        ArrayList<String> sources = new ArrayList<String>();
+        sources.add("src/com/sgxmobileapps/androidsqlhelper/test/entities/FullEntity.java");
+        
+        ArrayList<String> options = new ArrayList<String>();
+        options.add("-cp");
+        options.add("lib/androidsqlhelper.jar");
+        
+        assertTrue(compileFiles("compileFull", options, sources));
+        
+        mOutputWriter.write("-------------------------------------------------------------------\n");
+        mOutputWriter.write("-------------------------------------------------------------------\n");
+    }
+    
+    
+    @Test
+    public void checkRuntimeWithoutAnnotations() throws IOException{
+        mOutputWriter.write("----------------------checkRuntimeWithoutAnnotations----------------------\n");
+            
+        SimpleEntity simple = new SimpleEntity();
+        
+        assertNotNull(simple);
+        
+        assertEquals(0, simple.getClass().getAnnotations().length);
+                
+        mOutputWriter.write("--------------------------------------------------------------------------\n");
+        mOutputWriter.write("--------------------------------------------------------------------------\n");
     }
 
 }

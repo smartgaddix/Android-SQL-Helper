@@ -9,6 +9,7 @@ X loading schema properties from properties file
 - use codemodel for code generation
 - make test case
 - make same sample
+- javadoc
 - support for member class of the persistent bean
 - support for field of type enum
 - support of date time fields. Support of standard conversion or use a custom converter class
@@ -16,8 +17,10 @@ X loading schema properties from properties file
 
 Todo:
 
-- optimize test project's settings for path dependency
-- optimize test project's sources
+X optimize test project's settings for path dependency
+X optimize test project's sources
+- table annotation value for field name prefix to ignore for column name
+- store field type for conversion in code generation
 - test case:
 	- running without annotation class
 	- 

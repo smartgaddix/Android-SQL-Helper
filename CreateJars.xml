@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project basedir="." default="package" name="AndroidSQLHelper">
+<project basedir="." default="copyjars" name="AndroidSQLHelper">
 
 	<property name="bin" value="bin" />
 	<property name="src" value="src" />
 
 	<property name="completejar" value="bin/androidsqlhelper.jar" />
 	<property name="annotationjar" value="bin/androidsqlhelperannotations.jar" />
+	
+	<property name="testslib" value="tests/AndroidSQLHelperTest/lib"/>
 
 	<target name="package">
 		<jar destfile="${completejar}">
@@ -20,5 +22,10 @@
 				<include name="**/annotation/*.class" />
 			</zipfileset>
 		</jar>
+	</target>
+	
+	<target name="copyjars" depends="package">
+		<copy file="${completejar}" todir="${testslib}"/>
+		<copy file="${annotationjar}" todir="${testslib}"/>
 	</target>
 </project>

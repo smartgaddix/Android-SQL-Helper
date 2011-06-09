@@ -17,6 +17,7 @@ package com.sgxmobileapps.androidsqlhelper.processor.model;
 
 import com.sgxmobileapps.androidsqlhelper.annotation.PersistentEntity;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -135,4 +136,25 @@ public class Table {
     public void addField(Field field) {
         mFields.add(field);
     }
+
+    /* 
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("Table [mNoIdColumn=");
+        builder.append(mNoIdColumn);
+        builder.append(", mOrderBy=");
+        builder.append(Arrays.toString(mOrderBy));
+        builder.append(", mTableName=");
+        builder.append(mTableName);
+        builder.append(", mUniqueConstraint=");
+        builder.append(Arrays.toString(mUniqueConstraint));
+        builder.append(", mFields=");
+        builder.append(mFields);
+        builder.append("]");
+        return builder.toString();
+    }
+    
 }

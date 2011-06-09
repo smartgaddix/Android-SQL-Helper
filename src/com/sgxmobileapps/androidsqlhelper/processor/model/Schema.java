@@ -155,4 +155,30 @@ public class Schema {
     public void addTable(Table table) {
         mTables.add(table);
     }
+
+    /* 
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("Schema [mDbAdapterClassName=");
+        builder.append(mDbAdapterClassName);
+        builder.append(", mDbName=");
+        builder.append(mDbName);
+        builder.append(", mMetadataClassName=");
+        builder.append(mMetadataClassName);
+        builder.append(", mOutFolder=");
+        builder.append(mOutFolder);
+        builder.append(", mPackage=");
+        builder.append(mPackage);
+        builder.append(", mTables=");
+        builder.append(mTables);
+        builder.append("]");
+        return builder.toString();
+    }
+    
+    
+    
+    
 }

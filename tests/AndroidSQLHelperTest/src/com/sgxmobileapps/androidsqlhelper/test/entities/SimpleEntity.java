@@ -18,22 +18,16 @@ package com.sgxmobileapps.androidsqlhelper.test.entities;
 import com.sgxmobileapps.androidsqlhelper.annotation.PersistentEntity;
 import com.sgxmobileapps.androidsqlhelper.annotation.PersistentField;
 
-import java.math.BigInteger;
-
-
 /**
  * @author Massimo Gaddini
  *
  */
-@PersistentEntity(tableName="pippo")
-public class SampleEntity {
+@PersistentEntity
+public class SimpleEntity {
     
     @PersistentField
     public String mFieldString;
     
     @PersistentField
     public long mFieldLong;
-    
-    @PersistentField
-    public BigInteger mFieldBigInteger;
 }

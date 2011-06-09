@@ -144,7 +144,8 @@ public class AnnotationProcessor extends AbstractProcessor {
             processEntity(entity, annotations, roundEnv);
         }
         
+        printMessage(Kind.NOTE, "%s", mSchema);
+        
         return true;
     }
-    
 }
