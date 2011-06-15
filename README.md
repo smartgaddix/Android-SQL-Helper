@@ -26,6 +26,10 @@ Requirements
 
 JDK >= 1.6
 
+See Also
+--------
+
+* [Codemodel](http://codemodel.java.net/)
 
 Getting Started
 ---------------
