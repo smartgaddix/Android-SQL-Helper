@@ -10,10 +10,13 @@ X loading schema properties from properties file
 - make test case
 - make same sample
 - javadoc
+- use of entity annotation to force some field properties, like key or nullable
+- update/remove method based on key fields (without row id)
 - support for member class of the persistent bean
 - support for field of type enum
 - support of date time fields. Support of standard conversion or use a custom converter class
 - support for yaml configuration files (by snakeyaml)
+- support for license inclusion at the beginning of generated files(from external file)
 
 Todo:
 
