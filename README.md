@@ -42,8 +42,8 @@ Briefly, to use the Android SQL Helper you must:
 
 The Android SQL Helper does a direct mapping between Java Bean and SQL tables and between Java Bean's Fields and SQL table's columns.
 
-In order to define a Java Bean as persistent you must annotate the class with the PersistentEntity annotation and annotate some or all 
-fields with the annotation PersistentField.
+In order to define a Java Bean as persistent you must annotate the class with the `PersistentEntity` annotation and annotate some or all 
+fields with the annotation `PersistentField`.
 
 For default the class name and field names will be used for the corresponding SQL table name and columns.
 The user can specify custom names with annotation's properties tableName (for PersistentEntity annotation) and columnName 
