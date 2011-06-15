@@ -2,7 +2,9 @@
 <project basedir="." default="copyjars" name="AndroidSQLHelper">
 
 	<property name="bin" value="bin" />
+	<property name="lib" value="lib" />
 	<property name="src" value="src" />
+	<property name="codemodel" value="codemodel-2.4-SNAPSHOT" />
 
 	<property name="completejar" value="bin/androidsqlhelper.jar" />
 	<property name="annotationjar" value="bin/androidsqlhelperannotations.jar" />
@@ -15,12 +17,15 @@
 				<include name="META-INF/**" />
 				<include name="**/*.class" />
 			</zipfileset>
+			<zipfileset dir="${lib}/${codemodel}">
+				<include name="**/*.class" />
+			</zipfileset>
 		</jar>
 		
 		<jar destfile="${annotationjar}">
 			<zipfileset dir="${bin}">
 				<include name="**/annotation/*.class" />
-			</zipfileset>
+			</zipfileset>			
 		</jar>
 	</target>
 	
