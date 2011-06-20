@@ -27,3 +27,4 @@ X optimize test project's sources
 - test case:
 	- running without annotation class
 	- 
+- add used libraries in README for license reasons
