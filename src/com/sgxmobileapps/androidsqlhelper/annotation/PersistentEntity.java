@@ -28,7 +28,8 @@ import java.lang.annotation.Target;
  * 
  * Parameter:
  * <li>
- * <B>tableName:</B> specifies the table name. The default table name is the uppercase class name 
+ * <B>tableName:</B> specifies the table name. 
+ * The default table name is the uppercase class name 
  * </li>
  * <li>
  * <B>unique:</B> list of field names to use for creating a unique constraint for the table. 
@@ -39,8 +40,12 @@ import java.lang.annotation.Target;
  * The default value is an empty list (default order by). 
  * </li>
  * <li>
- * <B>noIdColumn:</B> disable the generation of the ID column. 
- * The dafault value is false (ID column generation is enabled)
+ * <B>fieldPrefix:</B> set the field prefix to be skipped for column names. 
+ * The default value is no prefix so the columns names will be the uppercase complete fields name
+ * </li>
+ * <li>
+ * <B>noIdCol:</B> disable the creation of the standard android id column (integer autoincrement primary key). 
+ * The default value is false, id column is generated
  * </li>
  * 
  * @author Massimo Gaddini
@@ -51,5 +56,6 @@ public @interface PersistentEntity {
     String tableName() default "";
     String[] unique() default {};
     String[] orderBy() default {};
-    boolean noIdColumn() default false;
+    String fieldPrefix() default "";
+    boolean noIdCol() default false;
 }

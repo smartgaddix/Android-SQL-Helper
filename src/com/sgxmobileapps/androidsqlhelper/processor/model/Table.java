@@ -32,11 +32,14 @@ import javax.lang.model.element.Element;
  * Jun 4, 2011
  */
 public class Table {
+    protected String mEntityName;
     protected String mTableName;
     protected String[] mUniqueConstraint;
     protected String[] mOrderBy;
-    protected boolean mNoIdColumn;
+    protected String mFieldPrefix;
     protected Set<Field> mFields = new HashSet<Field>();
+    protected Schema mSchema;
+    protected boolean mNoIdColumn;
     
     /**
      * Builds a Table instance from an PersistentEntity annotation and
@@ -45,8 +48,10 @@ public class Table {
      * @param entity the entity
      * @return new Table instance
      */
-    public static Table buildTable(PersistentEntity annotation, Element entity){
+    public static Table buildTable(PersistentEntity annotation, Element entity, Schema schema){
         Table table = new Table();
+        
+        table.mEntityName = entity.getSimpleName().toString();
         
         if (annotation.tableName().isEmpty())
             table.mTableName = entity.getSimpleName().toString().toUpperCase();
@@ -55,8 +60,14 @@ public class Table {
         
         table.mUniqueConstraint = annotation.unique();
         table.mOrderBy = annotation.orderBy();
-        table.mNoIdColumn = annotation.noIdColumn();
-     
+        table.mNoIdColumn = annotation.noIdCol();
+        table.mFieldPrefix = annotation.fieldPrefix();
+        
+        table.mSchema = schema;
+    
+        if (!table.isNoIdColumn())
+            table.addField(Field.buildIdField(table));
+ 
         return table;
     }
     
@@ -103,19 +114,19 @@ public class Table {
     }
     
     /**
-     * @return the noIdColumn
+     * @return the fieldPrefix
      */
-    public boolean isNoIdColumn() {
-        return mNoIdColumn;
+    public String getFieldPrefix() {
+        return mFieldPrefix;
     }
     
     /**
-     * @param noIdColumn the noIdColumn to set
+     * @param fieldPrefix the fieldPrefix to set
      */
-    public void setNoIdColumn(boolean noIdColumn) {
-        mNoIdColumn = noIdColumn;
+    public void setFieldPrefix(String fieldPrefix) {
+        mFieldPrefix = fieldPrefix;
     }
-    
+        
     /**
      * @return the fields
      */
@@ -135,6 +146,48 @@ public class Table {
      */
     public void addField(Field field) {
         mFields.add(field);
+    }    
+    
+    /**
+     * @return the schema
+     */
+    public Schema getSchema() {
+        return mSchema;
+    }
+    
+    /**
+     * @param schema the schema to set
+     */
+    public void setSchema(Schema schema) {
+        mSchema = schema;
+    }
+    
+    /**
+     * @return the entityName
+     */
+    public String getEntityName() {
+        return mEntityName;
+    }
+    
+    /**
+     * @param entityName the entityName to set
+     */
+    public void setEntityName(String entityName) {
+        mEntityName = entityName;
+    }
+    
+    /**
+     * @return the noIdColumn
+     */
+    public boolean isNoIdColumn() {
+        return mNoIdColumn;
+    }
+    
+    /**
+     * @param noIdColumn the noIdColumn to set
+     */
+    public void setNoIdColumn(boolean noIdColumn) {
+        mNoIdColumn = noIdColumn;
     }
 
     /* 
@@ -143,18 +196,43 @@ public class Table {
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        builder.append("Table [mNoIdColumn=");
+        builder.append("Table [");
+        if (mEntityName != null) {
+            builder.append("mEntityName=");
+            builder.append(mEntityName);
+            builder.append(", ");
+        }
+        if (mFieldPrefix != null) {
+            builder.append("mFieldPrefix=");
+            builder.append(mFieldPrefix);
+            builder.append(", ");
+        }
+        if (mFields != null) {
+            builder.append("mFields=");
+            builder.append(mFields);
+            builder.append(", ");
+        }
+        builder.append("mNoIdColumn=");
         builder.append(mNoIdColumn);
-        builder.append(", mOrderBy=");
-        builder.append(Arrays.toString(mOrderBy));
-        builder.append(", mTableName=");
-        builder.append(mTableName);
-        builder.append(", mUniqueConstraint=");
-        builder.append(Arrays.toString(mUniqueConstraint));
-        builder.append(", mFields=");
-        builder.append(mFields);
+        builder.append(", ");
+        if (mOrderBy != null) {
+            builder.append("mOrderBy=");
+            builder.append(Arrays.toString(mOrderBy));
+            builder.append(", ");
+        }
+        if (mTableName != null) {
+            builder.append("mTableName=");
+            builder.append(mTableName);
+            builder.append(", ");
+        }
+        if (mUniqueConstraint != null) {
+            builder.append("mUniqueConstraint=");
+            builder.append(Arrays.toString(mUniqueConstraint));
+        }
         builder.append("]");
         return builder.toString();
     }
-    
+
+
+
 }

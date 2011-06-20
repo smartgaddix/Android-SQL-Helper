@@ -15,6 +15,9 @@
  */
 package com.sgxmobileapps.androidsqlhelper.processor.model;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
@@ -44,25 +47,52 @@ public class Schema {
     protected String    KEY_DB_NAME = "dbname";
     protected String    DEFAULT_DB_NAME = "App.db";
     
+    protected String    KEY_DB_VERSION = "dbversion";
+    protected String    DEFAULT_DB_VERSION = "1";
+    
+    protected String    KEY_AUTHOR = "author";
+    protected String    DEFAULT_AUTHOR = "";
+    
+    protected String    KEY_LICENSE = "license";
+    protected String    DEFAULT_LICENSE = "";
+    
+    protected String    KEY_LICENSE_FILE = "licensefile";
+    protected String    DEFAULT_LICENSE_FILE = "";
+
+    
     protected Set<Table> mTables = new HashSet<Table>();
     protected String mOutFolder = DEFAULT_OUT_FOLDER;
     protected String mPackage = DEFAULT_PACKAGE;
     protected String mDbAdapterClassName = DEFAULT_ADAPTER_CLASS_NAME;
     protected String mMetadataClassName = DEFAULT_METADATA_CLASS_NAME;
     protected String mDbName = DEFAULT_DB_NAME;
-
-    
+    protected String mDbVersion = DEFAULT_DB_VERSION;
+    protected String mAuthor = DEFAULT_AUTHOR;
+    protected String mLicense = DEFAULT_LICENSE;
+    protected String mLicenseFile = DEFAULT_LICENSE_FILE;
     
     /**
      * Loads properties values from a Properties class
      * @param props the properties class
+     * @throws IOException 
      */
-    public void loadSchemaPropeties(Properties props){
+    public void loadSchemaPropeties(Properties props) throws IOException{
         mOutFolder = props.getProperty(KEY_OUT_FOLDER, DEFAULT_OUT_FOLDER);
         mPackage = props.getProperty(KEY_PACKAGE, DEFAULT_PACKAGE);
         mDbAdapterClassName = props.getProperty(KEY_ADAPTER_CLASS_NAME, DEFAULT_ADAPTER_CLASS_NAME);
         mMetadataClassName = props.getProperty(KEY_METADATA_CLASS_NAME, DEFAULT_METADATA_CLASS_NAME);
         mDbName = props.getProperty(KEY_DB_NAME, DEFAULT_DB_NAME);
+        mDbVersion = props.getProperty(KEY_DB_VERSION, DEFAULT_DB_VERSION);
+        mAuthor = props.getProperty(KEY_AUTHOR, DEFAULT_AUTHOR);
+        mLicense = props.getProperty(KEY_LICENSE, DEFAULT_LICENSE);
+        mLicenseFile = props.getProperty(KEY_LICENSE_FILE, DEFAULT_LICENSE_FILE);
+        
+        if (!mLicenseFile.isEmpty()) {
+            byte[] buffer = new byte[(int) new File(mLicenseFile).length()];
+            FileInputStream file = new FileInputStream(mLicenseFile);
+            file.read(buffer);
+            mLicense = new String(buffer);
+        }
     }
     
     /**
@@ -134,6 +164,48 @@ public class Schema {
     public void setDbName(String dbName) {
         mDbName = dbName;
     }
+    
+    /**
+     * @return the dbVersion
+     */
+    public String getDbVersion() {
+        return mDbVersion;
+    }
+    
+    /**
+     * @param dbVersion the dbVersion to set
+     */
+    public void setDbVersion(String dbVersion) {
+        mDbVersion = dbVersion;
+    }
+
+    /**
+     * @return the author
+     */
+    public String getAuthor() {
+        return mAuthor;
+    }
+
+    /**
+     * @param author the author to set
+     */
+    public void setAuthor(String author) {
+        mAuthor = author;
+    }
+
+    /**
+     * @return the license
+     */
+    public String getLicense() {
+        return mLicense;
+    }
+
+    /**
+     * @param license the license to set
+     */
+    public void setLicense(String license) {
+        mLicense = license;
+    }
 
     /**
      * @return the tables
@@ -162,23 +234,58 @@ public class Schema {
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        builder.append("Schema [mDbAdapterClassName=");
-        builder.append(mDbAdapterClassName);
-        builder.append(", mDbName=");
-        builder.append(mDbName);
-        builder.append(", mMetadataClassName=");
-        builder.append(mMetadataClassName);
-        builder.append(", mOutFolder=");
-        builder.append(mOutFolder);
-        builder.append(", mPackage=");
-        builder.append(mPackage);
-        builder.append(", mTables=");
-        builder.append(mTables);
+        builder.append("Schema [");
+        if (mAuthor != null) {
+            builder.append("mAuthor=");
+            builder.append(mAuthor);
+            builder.append(", ");
+        }
+        if (mDbAdapterClassName != null) {
+            builder.append("mDbAdapterClassName=");
+            builder.append(mDbAdapterClassName);
+            builder.append(", ");
+        }
+        if (mDbName != null) {
+            builder.append("mDbName=");
+            builder.append(mDbName);
+            builder.append(", ");
+        }
+        if (mDbVersion != null) {
+            builder.append("mDbVersion=");
+            builder.append(mDbVersion);
+            builder.append(", ");
+        }
+        if (mLicense != null) {
+            builder.append("mLicense=");
+            builder.append(mLicense);
+            builder.append(", ");
+        }
+        if (mLicenseFile != null) {
+            builder.append("mLicenseFile=");
+            builder.append(mLicenseFile);
+            builder.append(", ");
+        }
+        if (mMetadataClassName != null) {
+            builder.append("mMetadataClassName=");
+            builder.append(mMetadataClassName);
+            builder.append(", ");
+        }
+        if (mOutFolder != null) {
+            builder.append("mOutFolder=");
+            builder.append(mOutFolder);
+            builder.append(", ");
+        }
+        if (mPackage != null) {
+            builder.append("mPackage=");
+            builder.append(mPackage);
+            builder.append(", ");
+        }
+        if (mTables != null) {
+            builder.append("mTables=");
+            builder.append(mTables);
+        }
         builder.append("]");
         return builder.toString();
     }
-    
-    
-    
-    
+
 }

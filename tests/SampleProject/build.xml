@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="." default="compile" name="SampleProject">
+
+	<property name="src" value="src" />
+	<property name="bin" value="bin" />
+	
+	<target name="clean">
+		<delete includeemptydirs="true">
+		    <fileset dir="${bin}" includes="**/*"/>
+		  </delete>
+	</target>
+	
+	<target name="compile" depends="clean">
+		<javac 	srcdir="${src}"
+		       	destdir="${bin}"
+				classpath="lib/androidsqlhelper.jar"
+		       	source="1.6"
+			 	target="1.6"
+				/>
+	</target>
+</project>

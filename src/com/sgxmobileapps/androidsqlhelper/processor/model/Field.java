@@ -17,6 +17,9 @@ package com.sgxmobileapps.androidsqlhelper.processor.model;
 
 import com.sgxmobileapps.androidsqlhelper.annotation.PersistentField;
 
+import java.util.Arrays;
+import java.util.List;
+
 import javax.lang.model.element.Element;
 import javax.lang.model.type.DeclaredType;
 
@@ -29,10 +32,12 @@ import javax.lang.model.type.DeclaredType;
  * Jun 4, 2011
  */
 public class Field {
+    protected String mFieldName;
     protected String mColumnName;
     protected String mColumnType;
-    protected boolean mKey;
     protected boolean mNullable;
+    protected Table mTable;
+    protected boolean mIdField;
     
     /**
      * Builds a Field instance from an PersistentField annotation and
@@ -42,17 +47,26 @@ public class Field {
      * @return new Field instance
      * @throws UnsupportedFieldTypeException if the field's type is unsupported
      */
-    public static Field buildField(PersistentField annotation, Element member) throws UnsupportedFieldTypeException{
+    public static Field buildField(PersistentField annotation, Element member, Table table) throws UnsupportedFieldTypeException{
         Field field = new Field();
         
-        if (annotation.columnName().isEmpty())
-            field.mColumnName = member.getSimpleName().toString().toUpperCase();
-        else
+        field.mFieldName = member.getSimpleName().toString();
+        
+        if (annotation.columnName().isEmpty()) {
+            String colName = member.getSimpleName().toString();
+            if (colName.startsWith(table.getFieldPrefix())){
+                colName = colName.substring(table.getFieldPrefix().length());
+            }
+            field.mColumnName = colName.toUpperCase();
+        } else {
             field.mColumnName = annotation.columnName().toUpperCase();
+        }
         
-        field.mNullable = (annotation.key())?false:annotation.nullable();
-        field.mKey = annotation.key();
-        
+        List<String> unique = Arrays.asList(table.getUniqueConstraint());
+                
+        field.mNullable = unique.contains(field.mFieldName)?false:annotation.nullable();
+        field.mTable = table;
+                
         if (!annotation.columnType().isEmpty())
             field.mColumnType = annotation.columnType();
         else {
@@ -112,6 +126,19 @@ public class Field {
         return field;
     }
     
+    public static Field buildIdField(Table table){
+        Field field = new Field();
+        
+        field.mFieldName = "id";
+        field.mColumnName = "_id";
+        field.mNullable = false;
+        field.mTable = table;
+        field.mColumnType = "INTEGER";
+        field.mIdField = true;
+        
+        return field;
+    }
+    
     /**
      * @return the columnName
      */
@@ -141,20 +168,6 @@ public class Field {
     }
     
     /**
-     * @return the key
-     */
-    public boolean isKey() {
-        return mKey;
-    }
-    
-    /**
-     * @param key the key to set
-     */
-    public void setKey(boolean key) {
-        mKey = key;
-    }
-    
-    /**
      * @return the nullable
      */
     public boolean isNullable() {
@@ -167,6 +180,48 @@ public class Field {
     public void setNullable(boolean nullable) {
         mNullable = nullable;
     }
+    
+    /**
+     * @return the fieldName
+     */
+    public String getFieldName() {
+        return mFieldName;
+    }
+    
+    /**
+     * @param fieldName the fieldName to set
+     */
+    public void setFieldName(String fieldName) {
+        mFieldName = fieldName;
+    }
+    
+    /**
+     * @return the table
+     */
+    public Table getTable() {
+        return mTable;
+    }
+    
+    /**
+     * @param table the table to set
+     */
+    public void setTable(Table table) {
+        mTable = table;
+    }
+    
+    /**
+     * @return the idField
+     */
+    public boolean isIdField() {
+        return mIdField;
+    }
+    
+    /**
+     * @param idField the idField to set
+     */
+    public void setIdField(boolean idField) {
+        mIdField = idField;
+    }
 
     /* 
      * @see java.lang.Object#toString()
@@ -174,16 +229,28 @@ public class Field {
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        builder.append("Field [mColumnName=");
-        builder.append(mColumnName);
-        builder.append(", mColumnType=");
-        builder.append(mColumnType);
-        builder.append(", mKey=");
-        builder.append(mKey);
+        builder.append("Field [");
+        if (mColumnName != null) {
+            builder.append("mColumnName=");
+            builder.append(mColumnName);
+            builder.append(", ");
+        }
+        if (mColumnType != null) {
+            builder.append("mColumnType=");
+            builder.append(mColumnType);
+            builder.append(", ");
+        }
+        if (mFieldName != null) {
+            builder.append("mFieldName=");
+            builder.append(mFieldName);
+            builder.append(", ");
+        }
+        builder.append("mIdField=");
+        builder.append(mIdField);
         builder.append(", mNullable=");
         builder.append(mNullable);
         builder.append("]");
         return builder.toString();
     }
-    
+
 }

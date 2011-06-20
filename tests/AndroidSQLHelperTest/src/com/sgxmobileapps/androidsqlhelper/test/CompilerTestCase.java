@@ -22,6 +22,7 @@ import com.sgxmobileapps.androidsqlhelper.test.entities.SimpleEntity;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.File;
@@ -141,7 +142,7 @@ public class CompilerTestCase {
         
         ArrayList<String> options = new ArrayList<String>();
         options.add("-cp");
-        options.add("lib/androidsqlhelper.jar");
+        options.add("lib/androidsqlhelper.jar:lib/android.jar");
         
         assertTrue(compileFiles("compileWithProcessorLib", options, sources));
         
@@ -150,6 +151,7 @@ public class CompilerTestCase {
     }
     
     @Test
+    @Ignore
     public void compileFull() throws IOException{
         mOutputWriter.write("----------------------compileFull----------------------\n");
         
@@ -158,7 +160,7 @@ public class CompilerTestCase {
         
         ArrayList<String> options = new ArrayList<String>();
         options.add("-cp");
-        options.add("lib/androidsqlhelper.jar");
+        options.add("lib/androidsqlhelper.jar;lib/android.jar");
         
         assertTrue(compileFiles("compileFull", options, sources));
         

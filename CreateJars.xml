@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project basedir="." default="copyjars" name="AndroidSQLHelper">
-
+	
+	<taskdef resource="net/sf/antcontrib/antcontrib.properties">
+		<classpath>
+			<pathelement location="ant-contrib-0.6.jar"/>
+  		</classpath>
+	</taskdef>
+	
 	<property name="bin" value="bin" />
 	<property name="lib" value="lib" />
 	<property name="src" value="src" />
@@ -9,7 +15,7 @@
 	<property name="completejar" value="bin/androidsqlhelper.jar" />
 	<property name="annotationjar" value="bin/androidsqlhelperannotations.jar" />
 	
-	<property name="testslib" value="tests/AndroidSQLHelperTest/lib"/>
+	<property name="targetlist" value="tests/AndroidSQLHelperTest/lib, tests/SampleProject/lib"/>
 
 	<target name="package">
 		<jar destfile="${completejar}">
@@ -29,8 +35,16 @@
 		</jar>
 	</target>
 	
-	<target name="copyjars" depends="package">
-		<copy file="${completejar}" todir="${testslib}"/>
-		<copy file="${annotationjar}" todir="${testslib}"/>
+	<target name="copyjar" >
+		<echo>${targetdir}</echo>
+
+		<copy file="${completejar}" todir="${targetdir}"/>
+		<copy file="${annotationjar}" todir="${targetdir}"/>
 	</target>
+
+	<target name="copyjars" depends="package">
+		<echo>${targetlist}</echo>
+		<foreach list="${targetlist}" target="copyjar" param="targetdir" delimiter="," trim="true" />
+	</target>
+	
 </project>

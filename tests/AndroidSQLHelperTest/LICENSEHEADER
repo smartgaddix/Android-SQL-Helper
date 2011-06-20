@@ -13,19 +13,3 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.  
  */
-package com.sgxmobileapps.androidsqlhelper.generator;
-
-import com.sgxmobileapps.androidsqlhelper.processor.model.Schema;
-
-
-/**
- * Interface for code generators of the sql helper classes from
- * a Schema definition.
- * 
- * @author Massimo Gaddini
- * Jun 14, 2011
- */
-public interface CodeGenerator {
-    
-    public void generate(Schema schema) throws CodeGenerationException; 
-}

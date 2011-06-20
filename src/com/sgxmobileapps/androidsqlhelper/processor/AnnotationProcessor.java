@@ -17,6 +17,9 @@ package com.sgxmobileapps.androidsqlhelper.processor;
 
 import com.sgxmobileapps.androidsqlhelper.annotation.PersistentEntity;
 import com.sgxmobileapps.androidsqlhelper.annotation.PersistentField;
+import com.sgxmobileapps.androidsqlhelper.generator.CodeGenerationException;
+import com.sgxmobileapps.androidsqlhelper.generator.CodeGenerator;
+import com.sgxmobileapps.androidsqlhelper.generator.CodeGeneratorFactory;
 import com.sgxmobileapps.androidsqlhelper.processor.model.Field;
 import com.sgxmobileapps.androidsqlhelper.processor.model.Table;
 import com.sgxmobileapps.androidsqlhelper.processor.model.Schema;
@@ -100,7 +103,7 @@ public class AnnotationProcessor extends AbstractProcessor {
         
         printMessage(Kind.NOTE, "Entity annotation: %s", entityAnnotation);
         
-        Table table = Table.buildTable(entityAnnotation, entity);
+        Table table = Table.buildTable(entityAnnotation, entity, mSchema);
         mSchema.addTable(table);
         
         Iterator<? extends Element> entityElements = entity.getEnclosedElements().iterator();
@@ -113,7 +116,7 @@ public class AnnotationProcessor extends AbstractProcessor {
                     printMessage(Kind.NOTE, "Field annotation: %s", fieldAnnotation);
                     
                     try{
-                        Field field = Field.buildField(fieldAnnotation, memberElement);
+                        Field field = Field.buildField(fieldAnnotation, memberElement, table);
                         table.addField(field);
                     } catch(UnsupportedFieldTypeException ufte){
                         printMessage(Kind.ERROR, memberElement, "Failed processing entity %s, field %s: %s", 
@@ -132,20 +135,35 @@ public class AnnotationProcessor extends AbstractProcessor {
         
         try {
             mProperties.load(new FileInputStream(SQL_HELPER_PROPERTIES_FILE));
+            mSchema.loadSchemaPropeties(mProperties);
         } catch (FileNotFoundException e) {
             /* default properties */
         } catch (IOException e) {
-            /* default properties */
+            printMessage(Kind.ERROR, "Reading properties file failed: %s", e.getMessage());
+            return false;
         }
         
+        
+        
+        boolean found = false;
         Iterator<? extends Element> it = roundEnv.getElementsAnnotatedWith(PersistentEntity.class).iterator();
         while (it.hasNext()) {
             Element entity = (Element) it.next();
             processEntity(entity, annotations, roundEnv);
+            found = true;
         }
         
-        printMessage(Kind.NOTE, "%s", mSchema);
-        
+        if (found) {
+            printMessage(Kind.NOTE, "Resulting Schema: %s", mSchema);
+            
+            try {
+                CodeGenerator generator = CodeGeneratorFactory.getCodeGenerator();
+                generator.generate(mSchema);
+            } catch (CodeGenerationException e) {
+                printMessage(Kind.ERROR, "Code generation failed: %s", e.getMessage());
+            }
+        }
+
         return true;
     }
 }

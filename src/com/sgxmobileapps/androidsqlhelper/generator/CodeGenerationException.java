@@ -15,17 +15,44 @@
  */
 package com.sgxmobileapps.androidsqlhelper.generator;
 
-import com.sgxmobileapps.androidsqlhelper.processor.model.Schema;
-
 
 /**
- * Interface for code generators of the sql helper classes from
- * a Schema definition.
- * 
  * @author Massimo Gaddini
- * Jun 14, 2011
+ * 16/giu/2011
  */
-public interface CodeGenerator {
-    
-    public void generate(Schema schema) throws CodeGenerationException; 
+public class CodeGenerationException extends Exception {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -7411378411122525579L;
+
+    /**
+     * 
+     */
+    public CodeGenerationException() {
+    }
+
+    /**
+     * @param message
+     */
+    public CodeGenerationException(String message) {
+        super(message);
+    }
+
+    /**
+     * @param cause
+     */
+    public CodeGenerationException(Throwable cause) {
+        super(cause);
+    }
+
+    /**
+     * @param message
+     * @param cause
+     */
+    public CodeGenerationException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
 }

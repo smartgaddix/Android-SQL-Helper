@@ -36,10 +36,6 @@ import java.lang.annotation.Target;
  * The default column type depend on the java type of the field.
  * </li>
  * <li>
- * <B>key:</B> specifies that the field is a key field 
- * The default value is false (no key field) 
- * </li>
- * <li>
  * <B>nullable:</B> declare the column for this field as nullable 
  * The dafault value is true (column nullable). For key fields the 
  * column is declared as not nullable.
@@ -52,6 +48,5 @@ import java.lang.annotation.Target;
 public @interface PersistentField {
     String columnName() default "";
     String columnType() default "";
-    boolean key() default false;
     boolean nullable() default true;
 }

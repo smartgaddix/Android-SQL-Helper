@@ -13,19 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.  
  */
-package com.sgxmobileapps.androidsqlhelper.generator;
+package com.sgxmobileapps.androidsqlhelper.test.entities;
 
-import com.sgxmobileapps.androidsqlhelper.processor.model.Schema;
+import com.sgxmobileapps.androidsqlhelper.annotation.PersistentEntity;
+import com.sgxmobileapps.androidsqlhelper.annotation.PersistentField;
+
+import java.util.Date;
 
 
 /**
- * Interface for code generators of the sql helper classes from
- * a Schema definition.
- * 
  * @author Massimo Gaddini
- * Jun 14, 2011
+ *
  */
-public interface CodeGenerator {
+@PersistentEntity
+public class SimpleEntity2 {
     
-    public void generate(Schema schema) throws CodeGenerationException; 
+    @PersistentField
+    public String mFieldString;
+    
+    @PersistentField
+    public Long mFieldLong;
+    
+    public Long mFieldLongNP;
+    
+    @PersistentField
+    public Date mFieldDate;
 }
