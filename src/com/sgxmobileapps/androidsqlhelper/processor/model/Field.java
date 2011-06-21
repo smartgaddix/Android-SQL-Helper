@@ -37,7 +37,7 @@ public class Field {
     protected String mColumnType;
     protected boolean mNullable;
     protected Table mTable;
-    protected boolean mIdField;
+    protected String mCustomColumnDefinition;
     
     /**
      * Builds a Field instance from an PersistentField annotation and
@@ -50,21 +50,24 @@ public class Field {
     public static Field buildField(PersistentField annotation, Element member, Table table) throws UnsupportedFieldTypeException{
         Field field = new Field();
         
-        field.mFieldName = member.getSimpleName().toString();
+        String fieldName = member.getSimpleName().toString();
+        if (fieldName.startsWith(table.getFieldPrefix())){
+            fieldName = fieldName.substring(table.getFieldPrefix().length());
+        }
         
+        field.mFieldName = fieldName;
+       
         if (annotation.columnName().isEmpty()) {
-            String colName = member.getSimpleName().toString();
-            if (colName.startsWith(table.getFieldPrefix())){
-                colName = colName.substring(table.getFieldPrefix().length());
-            }
-            field.mColumnName = colName.toUpperCase();
+            field.mColumnName = fieldName.toUpperCase();
         } else {
             field.mColumnName = annotation.columnName().toUpperCase();
         }
         
         List<String> unique = Arrays.asList(table.getUniqueConstraint());
-                
         field.mNullable = unique.contains(field.mFieldName)?false:annotation.nullable();
+
+        field.mCustomColumnDefinition = annotation.customColumnDefinition();
+        
         field.mTable = table;
                 
         if (!annotation.columnType().isEmpty())
@@ -134,7 +137,7 @@ public class Field {
         field.mNullable = false;
         field.mTable = table;
         field.mColumnType = "INTEGER";
-        field.mIdField = true;
+        field.mCustomColumnDefinition = "INTEGER PRIMARY KEY AUTOINCREMENT";
         
         return field;
     }
@@ -210,17 +213,17 @@ public class Field {
     }
     
     /**
-     * @return the idField
+     * @return the customColumnDefinition
      */
-    public boolean isIdField() {
-        return mIdField;
+    public String getCustomColumnDefinition() {
+        return mCustomColumnDefinition;
     }
     
     /**
-     * @param idField the idField to set
+     * @param customColumnDefinition the customColumnDefinition to set
      */
-    public void setIdField(boolean idField) {
-        mIdField = idField;
+    public void setCustomColumnDefinition(String customColumnDefinition) {
+        mCustomColumnDefinition = customColumnDefinition;
     }
 
     /* 
@@ -240,17 +243,19 @@ public class Field {
             builder.append(mColumnType);
             builder.append(", ");
         }
+        if (mCustomColumnDefinition != null) {
+            builder.append("mCustomColumnDefinition=");
+            builder.append(mCustomColumnDefinition);
+            builder.append(", ");
+        }
         if (mFieldName != null) {
             builder.append("mFieldName=");
             builder.append(mFieldName);
             builder.append(", ");
         }
-        builder.append("mIdField=");
-        builder.append(mIdField);
-        builder.append(", mNullable=");
+        builder.append("mNullable=");
         builder.append(mNullable);
         builder.append("]");
         return builder.toString();
     }
-
-}
+ }

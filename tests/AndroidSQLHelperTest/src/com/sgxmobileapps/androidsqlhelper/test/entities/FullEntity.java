@@ -29,7 +29,7 @@ import java.util.GregorianCalendar;
 @PersistentEntity(
         tableName="FULL", 
         noIdCol=true, 
-        orderBy={"mLongPrimitive", "mIntPrimitive"},
+        orderBy="LONGPRIMITIVE ASC, INTPRIMITIVE DESC",
         unique={"mLong", "mInt"},
         fieldPrefix="m")
 @SuppressWarnings(value="unused")

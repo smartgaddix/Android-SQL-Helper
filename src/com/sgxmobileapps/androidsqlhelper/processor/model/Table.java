@@ -20,6 +20,7 @@ import com.sgxmobileapps.androidsqlhelper.annotation.PersistentEntity;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.Vector;
 
 import javax.lang.model.element.Element;
 
@@ -35,9 +36,9 @@ public class Table {
     protected String mEntityName;
     protected String mTableName;
     protected String[] mUniqueConstraint;
-    protected String[] mOrderBy;
+    protected String mOrderBy;
     protected String mFieldPrefix;
-    protected Set<Field> mFields = new HashSet<Field>();
+    protected Vector<Field> mFields = new Vector<Field>();
     protected Schema mSchema;
     protected boolean mNoIdColumn;
     
@@ -102,14 +103,14 @@ public class Table {
     /**
      * @return the orderBy
      */
-    public String[] getOrderBy() {
+    public String getOrderBy() {
         return mOrderBy;
     }
     
     /**
      * @param orderBy the orderBy to set
      */
-    public void setOrderBy(String[] orderBy) {
+    public void setOrderBy(String orderBy) {
         mOrderBy = orderBy;
     }
     
@@ -130,14 +131,14 @@ public class Table {
     /**
      * @return the fields
      */
-    public Set<Field> getFields() {
+    public Vector<Field> getFields() {
         return mFields;
     }
     
     /**
      * @param fields the fields to set
      */
-    public void setFields(Set<Field> fields) {
+    public void setFields(Vector<Field> fields) {
         mFields = fields;
     }
 
@@ -146,7 +147,21 @@ public class Table {
      */
     public void addField(Field field) {
         mFields.add(field);
-    }    
+    }   
+
+    /**
+     * Finds the field with the specified fieldname (witout prefix)
+     * @param fieldName the field name without prefix
+     * @return the Field class for the fieldName if exists. null otherwise.
+     */
+    public Field getFieldByFieldName(String fieldName) {
+        for (Field field: mFields) {
+            if (field.getFieldName().equals(fieldName))
+                return field;
+        }
+        
+        return null;
+    }
     
     /**
      * @return the schema
@@ -217,7 +232,7 @@ public class Table {
         builder.append(", ");
         if (mOrderBy != null) {
             builder.append("mOrderBy=");
-            builder.append(Arrays.toString(mOrderBy));
+            builder.append(mOrderBy);
             builder.append(", ");
         }
         if (mTableName != null) {

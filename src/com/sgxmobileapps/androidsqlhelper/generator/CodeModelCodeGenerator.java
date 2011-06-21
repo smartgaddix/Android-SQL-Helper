@@ -40,6 +40,7 @@ public class CodeModelCodeGenerator implements CodeGenerator {
     private static final String METADATA_DATABASE_NAME_FIELD = "DATABASE_NAME";
     private static final String METADATA_DATABASE_VERSION_FIELD = "DATABASE_VERSION";
     private static final String METADATA_ENTITY_TABLE_NAME_SUFFIX = "_TABLE_NAME";
+    private static final String METADATA_ENTITY_DEFAULT_ORDER_SUFFIX = "_DEFAULT_ORDER";
     private static final String METADATA_ENTITY_COL_NAME_SUFFIX = "_COL";
     private static final String METADATA_ENTITY_COL_IDX_SUFFIX = "_IDX";
     /**
@@ -95,12 +96,22 @@ public class CodeModelCodeGenerator implements CodeGenerator {
     private void generateEntityMetadataClass(JDefinedClass metadataClass, Table table) throws JClassAlreadyExistsException {
         JDefinedClass entityClass = metadataClass._class(JMod.PUBLIC|JMod.STATIC|JMod.FINAL, table.getEntityName());
         
-        entityClass.field(JMod.PUBLIC|JMod.STATIC|JMod.FINAL, String.class, table.getTableName() + METADATA_ENTITY_TABLE_NAME_SUFFIX, JExpr.lit(table.getTableName()));
-        
+        generateEntityMetadataConstants(entityClass, table);
+       
         int i = 0;
         for (Field field: table.getFields()) {
-            generateEntityMetadataColumnFields(entityClass, table.getTableName(), field.getColumnName(), field.getColumnName(), i);
+            generateEntityMetadataColumnFields(entityClass, table.getTableName(), field.getFieldName().toUpperCase(), field.getColumnName(), i);
             i++;
+        }
+    }
+    
+    private void generateEntityMetadataConstants(JDefinedClass entityClass, Table table) throws JClassAlreadyExistsException {
+        entityClass.field(JMod.PUBLIC|JMod.STATIC|JMod.FINAL, String.class, table.getTableName() + METADATA_ENTITY_TABLE_NAME_SUFFIX, JExpr.lit(table.getTableName()));
+        
+        if ((table.getOrderBy() == null)  || (table.getOrderBy().isEmpty())) {
+            entityClass.field(JMod.PUBLIC|JMod.STATIC|JMod.FINAL, String.class, table.getTableName() + METADATA_ENTITY_DEFAULT_ORDER_SUFFIX, JExpr._null());
+        } else {
+            entityClass.field(JMod.PUBLIC|JMod.STATIC|JMod.FINAL, String.class, table.getTableName() + METADATA_ENTITY_DEFAULT_ORDER_SUFFIX, JExpr.lit(table.getOrderBy()));
         }
     }
     

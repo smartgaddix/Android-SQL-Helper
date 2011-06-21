@@ -31,26 +31,28 @@ public class TestDbMetadata {
     public final static class SimpleEntity {
 
         public final static String SIMPLEENTITY_TABLE_NAME = "SIMPLEENTITY";
-        public final static String SIMPLEENTITY__id_COL = "_id";
-        protected final static int SIMPLEENTITY__id_IDX = 0;
-        public final static String SIMPLEENTITY_MFIELDSTRING_COL = "MFIELDSTRING";
-        protected final static int SIMPLEENTITY_MFIELDSTRING_IDX = 1;
-        public final static String SIMPLEENTITY_MFIELDLONG_COL = "MFIELDLONG";
-        protected final static int SIMPLEENTITY_MFIELDLONG_IDX = 2;
+        public final static String SIMPLEENTITY_DEFAULT_ORDER = "FIELDSTRING ASC, FIELDONG DESC";
+        public final static String SIMPLEENTITY_ID_COL = "_id";
+        protected final static int SIMPLEENTITY_ID_IDX = 0;
+        public final static String SIMPLEENTITY_FIELDSTRING_COL = "FIELDSTRING";
+        protected final static int SIMPLEENTITY_FIELDSTRING_IDX = 1;
+        public final static String SIMPLEENTITY_FIELDLONG_COL = "FIELDLONG";
+        protected final static int SIMPLEENTITY_FIELDLONG_IDX = 2;
 
     }
 
     public final static class SimpleEntity2 {
 
         public final static String SIMPLEENTITY2_TABLE_NAME = "SIMPLEENTITY2";
-        public final static String SIMPLEENTITY2_MFIELDSTRING_COL = "MFIELDSTRING";
-        protected final static int SIMPLEENTITY2_MFIELDSTRING_IDX = 0;
-        public final static String SIMPLEENTITY2_MFIELDDATE_COL = "MFIELDDATE";
-        protected final static int SIMPLEENTITY2_MFIELDDATE_IDX = 1;
-        public final static String SIMPLEENTITY2__id_COL = "_id";
-        protected final static int SIMPLEENTITY2__id_IDX = 2;
-        public final static String SIMPLEENTITY2_MFIELDLONG_COL = "MFIELDLONG";
-        protected final static int SIMPLEENTITY2_MFIELDLONG_IDX = 3;
+        public final static String SIMPLEENTITY2_DEFAULT_ORDER = null;
+        public final static String SIMPLEENTITY2_ID_COL = "_id";
+        protected final static int SIMPLEENTITY2_ID_IDX = 0;
+        public final static String SIMPLEENTITY2_FIELDSTRING_COL = "FIELDSTRING";
+        protected final static int SIMPLEENTITY2_FIELDSTRING_IDX = 1;
+        public final static String SIMPLEENTITY2_FIELDLONG_COL = "FIELDLONG";
+        protected final static int SIMPLEENTITY2_FIELDLONG_IDX = 2;
+        public final static String SIMPLEENTITY2_FIELDDATE_COL = "FIELDDATE";
+        protected final static int SIMPLEENTITY2_FIELDDATE_IDX = 3;
 
     }
 

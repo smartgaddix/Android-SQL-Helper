@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
+import java.util.Vector;
 
 
 /**
@@ -60,7 +61,7 @@ public class Schema {
     protected String    DEFAULT_LICENSE_FILE = "";
 
     
-    protected Set<Table> mTables = new HashSet<Table>();
+    protected Vector<Table> mTables = new Vector<Table>();
     protected String mOutFolder = DEFAULT_OUT_FOLDER;
     protected String mPackage = DEFAULT_PACKAGE;
     protected String mDbAdapterClassName = DEFAULT_ADAPTER_CLASS_NAME;
@@ -210,14 +211,14 @@ public class Schema {
     /**
      * @return the tables
      */
-    public Set<Table> getTables() {
+    public Vector<Table> getTables() {
         return mTables;
     }
     
     /**
      * @param tables the tables to set
      */
-    public void setTables(Set<Table> tables) {
+    public void setTables(Vector<Table> tables) {
         mTables = tables;
     }
     

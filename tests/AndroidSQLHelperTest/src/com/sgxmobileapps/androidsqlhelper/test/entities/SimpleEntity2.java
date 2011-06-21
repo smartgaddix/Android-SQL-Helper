@@ -25,7 +25,7 @@ import java.util.Date;
  * @author Massimo Gaddini
  *
  */
-@PersistentEntity
+@PersistentEntity(fieldPrefix="m")
 public class SimpleEntity2 {
     
     @PersistentField

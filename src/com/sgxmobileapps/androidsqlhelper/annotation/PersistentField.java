@@ -40,6 +40,11 @@ import java.lang.annotation.Target;
  * The dafault value is true (column nullable). For key fields the 
  * column is declared as not nullable.
  * </li>
+ * <li>
+ * <B>customColumnDefinition:</B> declare a custom column definition code
+ * that will be appended directly after the column name. 
+ * The default value is an empty string.
+ * </li>
  * 
  * @author Massimo Gaddini
  */
@@ -49,4 +54,5 @@ public @interface PersistentField {
     String columnName() default "";
     String columnType() default "";
     boolean nullable() default true;
+    String customColumnDefinition() default "";
 }

@@ -36,8 +36,8 @@ import java.lang.annotation.Target;
  * The default value is an empty list (no unique constraint)
  * </li>
  * <li>
- * <B>orderBy:</B> list of field names for the default order by for the table. 
- * The default value is an empty list (default order by). 
+ * <B>orderBy:</B> order by code string for the default order by of the table. 
+ * The default value is an empty string (default order by).  
  * </li>
  * <li>
  * <B>fieldPrefix:</B> set the field prefix to be skipped for column names. 
@@ -55,7 +55,7 @@ import java.lang.annotation.Target;
 public @interface PersistentEntity {
     String tableName() default "";
     String[] unique() default {};
-    String[] orderBy() default {};
+    String orderBy() default "";
     String fieldPrefix() default "";
     boolean noIdCol() default false;
 }

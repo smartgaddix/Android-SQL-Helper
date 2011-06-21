@@ -142,7 +142,7 @@ public class CompilerTestCase {
         
         ArrayList<String> options = new ArrayList<String>();
         options.add("-cp");
-        options.add("lib/androidsqlhelper.jar:lib/android.jar");
+        options.add("lib/androidsqlhelper.jar" + File.pathSeparator + "lib/android.jar");
         
         assertTrue(compileFiles("compileWithProcessorLib", options, sources));
         
