@@ -29,7 +29,6 @@ import java.util.Vector;
  * used by the annotation processor for the generation of SQL helper code.
  * 
  * @author Massimo Gaddini
- * Jun 4, 2011
  */
 public class Schema {
     

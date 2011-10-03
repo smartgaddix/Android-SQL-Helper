@@ -21,7 +21,6 @@ package com.sgxmobileapps.androidsqlhelper.processor.model;
  * persistent fields within persistent class
  * 
  * @author Massimo Gaddini
- * 06/giu/2011
  */
 public class UnsupportedFieldTypeException extends Exception {
 

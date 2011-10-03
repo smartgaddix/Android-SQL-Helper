@@ -22,7 +22,6 @@ import java.util.ServiceLoader;
  * Factory for {@link CodeGenerator} implementations.
  * 
  * @author Massimo Gaddini
- * 16/giu/2011
  */
 public class CodeGeneratorFactory {
     private static ServiceLoader<CodeGenerator> codeGeneratorLoader;

@@ -30,7 +30,6 @@ import javax.lang.model.element.Element;
  * processor for the generation of SQL helper code.
  * 
  * @author Massimo Gaddini
- * Jun 4, 2011
  */
 public class Table {
     protected String mEntityName;

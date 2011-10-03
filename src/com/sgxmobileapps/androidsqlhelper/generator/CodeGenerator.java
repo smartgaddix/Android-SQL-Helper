@@ -23,7 +23,6 @@ import com.sgxmobileapps.androidsqlhelper.processor.model.Schema;
  * a Schema definition.
  * 
  * @author Massimo Gaddini
- * Jun 14, 2011
  */
 public interface CodeGenerator {
     

@@ -18,7 +18,6 @@ package com.sgxmobileapps.androidsqlhelper.generator;
 
 /**
  * @author Massimo Gaddini
- * 16/giu/2011
  */
 public class CodeGenerationException extends Exception {
 

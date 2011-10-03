@@ -29,11 +29,11 @@ import com.sun.codemodel.JPackage;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 
 
 /**
  * @author Massimo Gaddini
- * 16/giu/2011
  */
 public class CodeModelCodeGenerator implements CodeGenerator {
     private static final String METADATA_CLASS_JAVADOC = "This class defines some metadata costants used by datastore. Contains table names and column names.";
@@ -43,15 +43,34 @@ public class CodeModelCodeGenerator implements CodeGenerator {
     private static final String METADATA_ENTITY_DEFAULT_ORDER_SUFFIX = "_DEFAULT_ORDER";
     private static final String METADATA_ENTITY_COL_NAME_SUFFIX = "_COL";
     private static final String METADATA_ENTITY_COL_IDX_SUFFIX = "_IDX";
+    
+    private static final String DBADAPTER_CLASS_JAVADOC = "This class contains utility methods and classes for the application datastore.";
+    private static final String DBADAPTER_SQL_ENTITY_CREATE_TABLE_PREFIX = "SQL_";
+    private static final String DBADAPTER_SQL_ENTITY_CREATE_TABLE_SUFFIX = "_DROP_TABLE";
+    
+    private class TableGenerationInfo {
+         
+        
+    }
+    
+    private class MetadataGenerationInfo{
+        
+    }
+    
+    
+    JDefinedClass mMetadataClass;
+    HashMap<String, TableGenerationInfo> mTables;
+
+    
     /**
      * 
      */
     public CodeModelCodeGenerator() {
     }
-
+ 
     @Override
     public void generate(Schema schema) throws CodeGenerationException {
-       try {
+        try {
             JCodeModel root = new JCodeModel();
             
             generateMetadataClass(root, schema);
@@ -121,8 +140,37 @@ public class CodeModelCodeGenerator implements CodeGenerator {
     }
     
     private void generateDbAdapterClass(JCodeModel root, Schema schema) throws JClassAlreadyExistsException{
-        //JDefinedClass dbAdapterClass = root._class(buildFullClassName(schema.getPackage(), schema.getDbAdapterClassName()));
+        JPackage pckg = root._package(schema.getPackage());
+        JDefinedClass dbAdapterClass = pckg._class(schema.getDbAdapterClassName());
+             
+        generateDbAdapterJavaDoc(dbAdapterClass, schema);
+        generateDbAdapterCreateDropTables(dbAdapterClass, schema);
     }
+    
+    private void generateDbAdapterJavaDoc(JDefinedClass dbAdapterClass, Schema schema) throws JClassAlreadyExistsException {
+        JDocComment doc = dbAdapterClass.javadoc();
+        doc.add(DBADAPTER_CLASS_JAVADOC);
+        if (!schema.getAuthor().isEmpty())
+            doc.add("\n\n@author " + schema.getAuthor());
+    }   
+    
+    private void generateDbAdapterCreateDropTables(JDefinedClass dbAdapterClass, Schema schema) throws JClassAlreadyExistsException {
+        for (Table table: schema.getTables()) {
+            generateEntityCreateDropTable(dbAdapterClass, table);
+        }
+    }
+    
+    private void generateEntityCreateDropTable(JDefinedClass dbAdapterClass, Table table) throws JClassAlreadyExistsException {
+        //dbAdapterClass.field(JMod.PRIVATE|JMod.STATIC|JMod.FINAL, String.class, 
+        //        DBADAPTER_SQL_ENTITY_CREATE_TABLE_PREFIX + table.getTableName() + DBADAPTER_SQL_ENTITY_CREATE_TABLE_SUFFIX, 
+                //JExpr.lit("CREATE TABLE IF NOT EXISTS ").plus(JExpr.lit(table.getTableName())).plus(JExpr.lit(" (")).plus(JExpr.) 
+                
+        
+        
+        //);
+    }
+    
+    
     
     
     

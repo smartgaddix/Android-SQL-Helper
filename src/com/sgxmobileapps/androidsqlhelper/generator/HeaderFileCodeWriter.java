@@ -26,7 +26,6 @@ import java.io.OutputStream;
 
 /**
  * @author Massimo Gaddini
- * 17/giu/2011
  */
 public class HeaderFileCodeWriter extends FileCodeWriter {
 
