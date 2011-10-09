@@ -30,13 +30,14 @@ import javax.lang.model.type.DeclaredType;
  * 
  * @author Massimo Gaddini
  */
-public class Field {
+public class Field implements Visitable {
     protected String mFieldName;
     protected String mColumnName;
     protected String mColumnType;
     protected boolean mNullable;
     protected Table mTable;
     protected String mCustomColumnDefinition;
+    protected int mIndex;
     
     /**
      * Builds a Field instance from an PersistentField annotation and
@@ -131,6 +132,7 @@ public class Field {
     public static Field buildIdField(Table table){
         Field field = new Field();
         
+        field.mIndex = 0;
         field.mFieldName = "id";
         field.mColumnName = "_id";
         field.mNullable = false;
@@ -139,6 +141,14 @@ public class Field {
         field.mCustomColumnDefinition = "INTEGER PRIMARY KEY AUTOINCREMENT";
         
         return field;
+    }
+    
+    /* 
+     * @see com.sgxmobileapps.androidsqlhelper.processor.model.Visitable#accept(com.sgxmobileapps.androidsqlhelper.processor.model.GeneratorVisitor)
+     */
+    @Override
+    public void accept(Visitor visitor) throws VisitorException {
+        visitor.visit(this);
     }
     
     /**
@@ -225,6 +235,22 @@ public class Field {
         mCustomColumnDefinition = customColumnDefinition;
     }
 
+    
+    /**
+     * @return the index
+     */
+    public int getIndex() {
+        return mIndex;
+    }
+
+    
+    /**
+     * @param index the index to set
+     */
+    public void setIndex(int index) {
+        mIndex = index;
+    }
+
     /* 
      * @see java.lang.Object#toString()
      */
@@ -252,9 +278,12 @@ public class Field {
             builder.append(mFieldName);
             builder.append(", ");
         }
-        builder.append("mNullable=");
+        builder.append("mIndex=");
+        builder.append(mIndex);
+        builder.append(", mNullable=");
         builder.append(mNullable);
         builder.append("]");
         return builder.toString();
     }
+
  }

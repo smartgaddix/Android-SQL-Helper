@@ -25,13 +25,13 @@ package outpackage.test;
  */
 public class TestDbMetadata {
 
-    final static String DATABASE_NAME = "test.db";
-    final static int DATABASE_VERSION = 1;
+    public final static String DATABASE_NAME = "test.db";
+    public final static int DATABASE_VERSION = 1;
 
     public final static class SimpleEntity {
 
         public final static String SIMPLEENTITY_TABLE_NAME = "SIMPLEENTITY";
-        public final static String SIMPLEENTITY_DEFAULT_ORDER = "FIELDSTRING ASC, FIELDONG DESC";
+        public final static String SIMPLEENTITY_DEFAULT_ORDER = "FIELDSTRING ASC, FIELDLONG DESC";
         public final static String SIMPLEENTITY_ID_COL = "_id";
         protected final static int SIMPLEENTITY_ID_IDX = 0;
         public final static String SIMPLEENTITY_FIELDSTRING_COL = "FIELDSTRING";

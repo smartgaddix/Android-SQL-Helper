@@ -18,8 +18,6 @@ package com.sgxmobileapps.androidsqlhelper.processor.model;
 import com.sgxmobileapps.androidsqlhelper.annotation.PersistentEntity;
 
 import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.Vector;
 
 import javax.lang.model.element.Element;
@@ -31,7 +29,7 @@ import javax.lang.model.element.Element;
  * 
  * @author Massimo Gaddini
  */
-public class Table {
+public class Table implements Visitable{
     protected String mEntityName;
     protected String mTableName;
     protected String[] mUniqueConstraint;
@@ -65,10 +63,22 @@ public class Table {
         
         table.mSchema = schema;
     
-        if (!table.isNoIdColumn())
+        if (!table.isNoIdColumn()) {
             table.addField(Field.buildIdField(table));
+        }
  
         return table;
+    }
+    
+    /* 
+     * @see com.sgxmobileapps.androidsqlhelper.processor.model.Visitable#accept(com.sgxmobileapps.androidsqlhelper.processor.model.GeneratorVisitor)
+     */
+    @Override
+    public void accept(Visitor visitor) throws VisitorException {
+        visitor.visit(this);
+        for (Field field: mFields) {
+            field.accept(visitor);
+        }
     }
     
     /**
@@ -145,7 +155,8 @@ public class Table {
      * @param field the field to add
      */
     public void addField(Field field) {
-        mFields.add(field);
+        field.setIndex(mFields.size());
+        mFields.add(field.getIndex(), field);
     }   
 
     /**

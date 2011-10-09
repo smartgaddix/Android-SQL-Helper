@@ -15,12 +15,12 @@
  */
 package com.sgxmobileapps.androidsqlhelper.processor.model;
 
+
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.HashSet;
 import java.util.Properties;
-import java.util.Set;
 import java.util.Vector;
 
 
@@ -30,7 +30,7 @@ import java.util.Vector;
  * 
  * @author Massimo Gaddini
  */
-public class Schema {
+public class Schema implements Visitable {
     
     protected String    KEY_OUT_FOLDER = "outfolder";
     protected String    DEFAULT_OUT_FOLDER = "OUT";
@@ -92,6 +92,17 @@ public class Schema {
             FileInputStream file = new FileInputStream(mLicenseFile);
             file.read(buffer);
             mLicense = new String(buffer);
+        }
+    }
+    
+    /* 
+     * @see com.sgxmobileapps.androidsqlhelper.processor.model.Visitable#accept(com.sgxmobileapps.androidsqlhelper.processor.model.GeneratorVisitor)
+     */
+    @Override
+    public void accept(Visitor visitor) throws VisitorException {
+        visitor.visit(this);
+        for (Table table: mTables) {
+            table.accept(visitor);
         }
     }
     
