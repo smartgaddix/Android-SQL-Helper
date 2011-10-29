@@ -20,13 +20,8 @@ import com.sgxmobileapps.androidsqlhelper.generator.CodeGenerationException;
 import com.sgxmobileapps.androidsqlhelper.generator.CodeGenerator;
 import com.sgxmobileapps.androidsqlhelper.generator.HeaderFileCodeWriter;
 import com.sgxmobileapps.androidsqlhelper.processor.model.Schema;
-import com.sgxmobileapps.androidsqlhelper.processor.model.Table;
 import com.sgxmobileapps.androidsqlhelper.processor.model.VisitorException;
-import com.sun.codemodel.JClassAlreadyExistsException;
 import com.sun.codemodel.JCodeModel;
-import com.sun.codemodel.JDefinedClass;
-import com.sun.codemodel.JDocComment;
-import com.sun.codemodel.JPackage;
 
 import java.io.File;
 import java.io.IOException;
@@ -37,13 +32,6 @@ import java.io.IOException;
  */
 public class CodeModelCodeGenerator implements CodeGenerator {
  
-    
-    /**
-     * 
-     */
-    public CodeModelCodeGenerator() {
-    }
- 
     @Override
     public void generate(Schema schema) throws CodeGenerationException {
         try {
@@ -51,8 +39,7 @@ public class CodeModelCodeGenerator implements CodeGenerator {
             ctx.mCMRoot = new JCodeModel();
             
             (new MetadataClassVisitor()).startVisit(schema, ctx);
-
-            //generateDbAdapterClass(ctx.cmRoot, schema);
+            (new DbAdapterClassVisitor()).startVisit(schema, ctx);
             
             File outPath = new File(schema.getOutFolder());
             outPath.mkdirs();
@@ -65,40 +52,4 @@ public class CodeModelCodeGenerator implements CodeGenerator {
         } 
         
     }
-    
-    /*private void generateDbAdapterClass(JCodeModel root, Schema schema) throws JClassAlreadyExistsException{
-        JPackage pckg = root._package(schema.getPackage());
-        JDefinedClass dbAdapterClass = pckg._class(schema.getDbAdapterClassName());
-             
-        generateDbAdapterJavaDoc(dbAdapterClass, schema);
-        generateDbAdapterCreateDropTables(dbAdapterClass, schema);
-    }
-    
-    private void generateDbAdapterJavaDoc(JDefinedClass dbAdapterClass, Schema schema) throws JClassAlreadyExistsException {
-        JDocComment doc = dbAdapterClass.javadoc();
-        //doc.add(DBADAPTER_CLASS_JAVADOC);
-        if (!schema.getAuthor().isEmpty())
-            doc.add("\n\n@author " + schema.getAuthor());
-    }   
-    
-    private void generateDbAdapterCreateDropTables(JDefinedClass dbAdapterClass, Schema schema) throws JClassAlreadyExistsException {
-        for (Table table: schema.getTables()) {
-            generateEntityCreateDropTable(dbAdapterClass, table);
-        }
-    }
-    
-    private void generateEntityCreateDropTable(JDefinedClass dbAdapterClass, Table table) throws JClassAlreadyExistsException {
-        //dbAdapterClass.field(JMod.PRIVATE|JMod.STATIC|JMod.FINAL, String.class, 
-        //        DBADAPTER_SQL_ENTITY_CREATE_TABLE_PREFIX + table.getTableName() + DBADAPTER_SQL_ENTITY_CREATE_TABLE_SUFFIX, 
-                //JExpr.lit("CREATE TABLE IF NOT EXISTS ").plus(JExpr.lit(table.getTableName())).plus(JExpr.lit(" (")).plus(JExpr.) 
-                
-        
-        
-        //);
-    }*/
-    
-    
-    
-    
-    
 }

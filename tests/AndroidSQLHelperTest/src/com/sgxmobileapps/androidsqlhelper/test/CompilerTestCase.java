@@ -151,7 +151,6 @@ public class CompilerTestCase {
     }
     
     @Test
-    @Ignore
     public void compileFull() throws IOException{
         mOutputWriter.write("----------------------compileFull----------------------\n");
         

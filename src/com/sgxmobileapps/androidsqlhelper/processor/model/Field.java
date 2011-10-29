@@ -143,6 +143,28 @@ public class Field implements Visitable {
         return field;
     }
     
+    /**
+     * Returns the column definition using other fields
+     * @return the column definition
+     */
+    public String getColumnDefinition() {
+        if (!mCustomColumnDefinition.isEmpty())  {
+            return mCustomColumnDefinition;
+        }
+        
+        String definition = mColumnType;
+        if (!mNullable) {
+            definition += " NOT NULL";
+        }
+        
+        List<String> unique = Arrays.asList(mTable.getUniqueConstraint());
+        if (unique.contains(mFieldName)) {
+            definition += " UNIQUE";
+        }
+        
+        return definition;
+    }
+    
     /* 
      * @see com.sgxmobileapps.androidsqlhelper.processor.model.Visitable#accept(com.sgxmobileapps.androidsqlhelper.processor.model.GeneratorVisitor)
      */

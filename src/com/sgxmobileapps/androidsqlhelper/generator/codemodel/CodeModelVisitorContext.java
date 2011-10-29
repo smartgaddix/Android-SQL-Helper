@@ -16,10 +16,13 @@
 package com.sgxmobileapps.androidsqlhelper.generator.codemodel;
 
 import com.sgxmobileapps.androidsqlhelper.processor.model.VisitorContext;
+import com.sun.codemodel.JBlock;
 import com.sun.codemodel.JCodeModel;
 import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JFieldVar;
+import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JPackage;
+import com.sun.codemodel.JVar;
 
 import java.util.HashMap;
 
@@ -43,6 +46,12 @@ public class CodeModelVisitorContext implements VisitorContext{
         HashMap<String, MetaFieldInfo> mFields = new HashMap<String, MetaFieldInfo>();
     }
     
+    class DbAdapterTableInfo {
+        public String mEntityName;
+        public JFieldVar mCreateTableField;
+        public JFieldVar mDropTableField;
+    }
+    
     class MetadataClassInfo {
         public JDefinedClass mClass;
         public JFieldVar mDbNameField;
@@ -50,9 +59,21 @@ public class CodeModelVisitorContext implements VisitorContext{
         public HashMap<String, MetaTableInfo> mTables = new HashMap<String, MetaTableInfo>();
     }
     
+    class DbAdapterClassInfo {
+        public JDefinedClass mClass;
+        public JMethod mOnUpgradeMethod;
+        public JDefinedClass mHelperClass;
+        public JBlock mHelperOnCreateMethodBody;
+        public JBlock mHelperOnUpgradeMethodBody;
+        public JVar mHelperOnCreateDbParam;
+        public JVar mHelperOnUpgradeDbParam;
+        public HashMap<String, DbAdapterTableInfo> mTables = new HashMap<String, DbAdapterTableInfo>();
+    }
+    
     public JCodeModel mCMRoot;
     public JPackage mPckg;
     public MetadataClassInfo mMetadataInfo = new MetadataClassInfo();  
+    public DbAdapterClassInfo mDbAdapterInfo = new DbAdapterClassInfo();
     
     public MetaTableInfo getMetaTableInfo(String entityName) {
         MetaTableInfo mti = mMetadataInfo.mTables.get(entityName);
@@ -63,6 +84,17 @@ public class CodeModelVisitorContext implements VisitorContext{
         }
         
         return mti;
+    }
+    
+    public DbAdapterTableInfo getDbAdapterTableInfo(String entityName) {
+        DbAdapterTableInfo dbati = mDbAdapterInfo.mTables.get(entityName);
+        if (dbati == null) {
+            dbati = new DbAdapterTableInfo();
+            dbati.mEntityName = entityName;
+            mDbAdapterInfo.mTables.put(entityName, dbati);
+        }
+        
+        return dbati;
     }
     
     public MetaFieldInfo getMetaFieldInfo(String entityName, String fieldName) {
