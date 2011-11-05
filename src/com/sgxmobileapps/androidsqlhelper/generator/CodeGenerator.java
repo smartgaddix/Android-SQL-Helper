@@ -15,6 +15,8 @@
  */
 package com.sgxmobileapps.androidsqlhelper.generator;
 
+import javax.annotation.processing.Filer;
+
 import com.sgxmobileapps.androidsqlhelper.processor.model.Schema;
 
 
@@ -26,5 +28,11 @@ import com.sgxmobileapps.androidsqlhelper.processor.model.Schema;
  */
 public interface CodeGenerator {
     
-    public void generate(Schema schema) throws CodeGenerationException; 
+    /**
+     * Generates Java source files from schema information using the filer
+     * @param schema 
+     * @param filer
+     * @throws CodeGenerationException
+     */
+    public void generate(Schema schema, Filer filer) throws CodeGenerationException; 
 }

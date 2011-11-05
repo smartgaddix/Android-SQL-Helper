@@ -20,10 +20,13 @@ import static org.junit.Assert.*;
 
 import com.sgxmobileapps.androidsqlhelper.test.entities.SimpleEntity;
 
+import org.junit.After;
 import org.junit.AfterClass;
+import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TestName;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -45,25 +48,56 @@ import javax.tools.JavaCompiler.CompilationTask;
  */
 public class CompilerTestCase {
     
-    protected static final String OUT_PATH = "tests_output";
-    protected static final String OUT_FILE_NAME = "out.log";
+    protected static final String TESTS_PATH = "tests";
+    protected static final String TESTS_IN_PATH = "in";
+    protected static final String TESTS_OUT_BUILD_PATH = "out" + File.separatorChar + "build";
+    protected static final String TESTS_OUT_SRC_PATH = "out" + File.separatorChar + "src";
+    protected static final String SUMMARY_FILE_NAME = "tests_summary.log";
        
-    protected static File mOutputDir;
+    protected static File mOutputBuildDir;
+    protected static File mOutputSrcDir;
+    protected static File mInDir;
     protected static Writer mOutputWriter; 
+    
+    @Rule
+    public TestName name= new TestName();
     
     @BeforeClass
     public static void beforeTests() throws IOException{
-        mOutputDir = new File("tests_output");
-        mOutputDir.mkdirs();
-      
-        mOutputWriter = new FileWriter(new File(mOutputDir, OUT_FILE_NAME));
+        mOutputWriter = new FileWriter(new File(TESTS_PATH, SUMMARY_FILE_NAME));
     }
 
     @AfterClass
     public static void afterTests() throws IOException{
         mOutputWriter.close();
     }
-       
+    
+    @Before
+    public void beforeTest() throws IOException {
+    	printStartTest(name.getMethodName());
+    	
+    	setInOutDir(name.getMethodName());
+    }
+    
+    @After
+    public void afterTest() throws IOException {
+    	printEndTest(name.getMethodName(), true);
+    }
+     
+    protected void setInOutDir(String testTag) {
+    	mOutputBuildDir = new File(TESTS_PATH, name.getMethodName());
+    	mOutputBuildDir.mkdirs();
+    	
+    	mInDir = new File(mOutputBuildDir, TESTS_IN_PATH);
+    	mInDir.mkdirs();
+        
+    	mOutputSrcDir = new File(mOutputBuildDir, TESTS_OUT_SRC_PATH);
+    	mOutputSrcDir.mkdirs();
+    	
+    	mOutputBuildDir = new File(mOutputBuildDir, TESTS_OUT_BUILD_PATH);
+    	mOutputBuildDir.mkdirs();
+    }
+    
     protected boolean compileFiles(String testTag, List<String> additionalOptions, ArrayList<String> sources) {
         // Get an instance of java compiler
         JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
@@ -74,14 +108,11 @@ public class CompilerTestCase {
         // Get a new instance of the standard file manager implementation
         StandardJavaFileManager fileManager = compiler.getStandardFileManager(null, null,null);
         
-        File outputDir = new File("tests_output", testTag);
-        outputDir.mkdirs();
-        
         List<String> options = new ArrayList<String>();
         options.add("-d");
-        options.add(outputDir.getAbsolutePath());
+        options.add(mOutputBuildDir.getAbsolutePath());
         options.add("-s");
-        options.add(outputDir.getAbsolutePath());
+        options.add(mOutputSrcDir.getAbsolutePath());
         options.add("-verbose");
                 
         if (additionalOptions != null)
@@ -93,13 +124,21 @@ public class CompilerTestCase {
         return task.call();
     }
     
+    protected void printStartTest(String testTag) throws IOException {
+    	mOutputWriter.write("--------------------------------------------------------------\n");
+    	mOutputWriter.write("----------------------[" + testTag + "]----------------------\n");
+    	mOutputWriter.write("--------------------------------------------------------------\n");
+    }
     
+    protected void printEndTest(String testTag, boolean success) throws IOException {
+    	mOutputWriter.write("\n--------------------------------------------------------------\n");
+    	mOutputWriter.write("Test [" + testTag + "] " + (success?"SUCCESS":"FAILED") + "\n");
+    	mOutputWriter.write("--------------------------------------------------------------\n");
+        mOutputWriter.write("--------------------------------------------------------------\n\n\n\n");
+    }
     
     @Test
     public void compileWithoutLibs() throws IOException{
-        mOutputWriter.write("----------------------compileWithoutLibs----------------------\n");
-               
-        
         ArrayList<String> sources = new ArrayList<String>();
         sources.add("src/com/sgxmobileapps/androidsqlhelper/test/entities/SimpleEntity.java");
         sources.add("src/com/sgxmobileapps/androidsqlhelper/test/entities/SimpleEntity2.java");
@@ -109,14 +148,10 @@ public class CompilerTestCase {
         options.add(".");
         
         assertTrue(!compileFiles("compileWithoutLibs", options, sources));
-        
-        mOutputWriter.write("--------------------------------------------------------------\n");
-        mOutputWriter.write("--------------------------------------------------------------\n");
     }
     
     @Test
     public void compileWithAnnotationLib() throws IOException{
-        mOutputWriter.write("----------------------compileWithAnnotationLib----------------------\n");
         
         ArrayList<String> sources = new ArrayList<String>();
         sources.add("src/com/sgxmobileapps/androidsqlhelper/test/entities/SimpleEntity.java");
@@ -128,13 +163,10 @@ public class CompilerTestCase {
         
         assertTrue(compileFiles("compileWithAnnotationLib", options, sources));
         
-        mOutputWriter.write("--------------------------------------------------------------------\n");
-        mOutputWriter.write("--------------------------------------------------------------------\n");
     }
     
     @Test
     public void compileWithProcessorLib() throws IOException{
-        mOutputWriter.write("----------------------compileWithProcessorLib----------------------\n");
         
         ArrayList<String> sources = new ArrayList<String>();
         sources.add("src/com/sgxmobileapps/androidsqlhelper/test/entities/SimpleEntity.java");
@@ -142,35 +174,28 @@ public class CompilerTestCase {
         
         ArrayList<String> options = new ArrayList<String>();
         options.add("-cp");
-        options.add("lib/androidsqlhelper.jar" + File.pathSeparator + "lib/android.jar");
+        options.add(mInDir.getAbsolutePath() + File.pathSeparator + "lib/androidsqlhelper.jar" + File.pathSeparator + "lib/android.jar" );
         
-        assertTrue(compileFiles("compileWithProcessorLib", options, sources));
-        
-        mOutputWriter.write("-------------------------------------------------------------------\n");
-        mOutputWriter.write("-------------------------------------------------------------------\n");
+        assertTrue(compileFiles("compileWithProcessorLib", options, sources));        
     }
     
     @Test
     public void compileFull() throws IOException{
-        mOutputWriter.write("----------------------compileFull----------------------\n");
         
         ArrayList<String> sources = new ArrayList<String>();
         sources.add("src/com/sgxmobileapps/androidsqlhelper/test/entities/FullEntity.java");
         
         ArrayList<String> options = new ArrayList<String>();
         options.add("-cp");
-        options.add("lib/androidsqlhelper.jar;lib/android.jar");
+        options.add(mInDir.getAbsolutePath() + File.pathSeparator + "lib/androidsqlhelper.jar" + File.pathSeparator + "lib/android.jar");
         
         assertTrue(compileFiles("compileFull", options, sources));
         
-        mOutputWriter.write("-------------------------------------------------------------------\n");
-        mOutputWriter.write("-------------------------------------------------------------------\n");
     }
     
     
     @Test
     public void checkRuntimeWithoutAnnotations() throws IOException{
-        mOutputWriter.write("----------------------checkRuntimeWithoutAnnotations----------------------\n");
             
         SimpleEntity simple = new SimpleEntity();
         
@@ -178,8 +203,6 @@ public class CompilerTestCase {
         
         assertEquals(0, simple.getClass().getAnnotations().length);
                 
-        mOutputWriter.write("--------------------------------------------------------------------------\n");
-        mOutputWriter.write("--------------------------------------------------------------------------\n");
     }
 
 }

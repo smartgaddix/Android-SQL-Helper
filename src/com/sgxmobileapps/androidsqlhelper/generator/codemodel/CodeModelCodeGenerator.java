@@ -18,13 +18,13 @@ package com.sgxmobileapps.androidsqlhelper.generator.codemodel;
 
 import com.sgxmobileapps.androidsqlhelper.generator.CodeGenerationException;
 import com.sgxmobileapps.androidsqlhelper.generator.CodeGenerator;
-import com.sgxmobileapps.androidsqlhelper.generator.HeaderFileCodeWriter;
 import com.sgxmobileapps.androidsqlhelper.processor.model.Schema;
 import com.sgxmobileapps.androidsqlhelper.processor.model.VisitorException;
 import com.sun.codemodel.JCodeModel;
 
-import java.io.File;
 import java.io.IOException;
+
+import javax.annotation.processing.Filer;
 
 
 /**
@@ -33,7 +33,7 @@ import java.io.IOException;
 public class CodeModelCodeGenerator implements CodeGenerator {
  
     @Override
-    public void generate(Schema schema) throws CodeGenerationException {
+    public void generate(Schema schema, Filer filer) throws CodeGenerationException {
         try {
             CodeModelVisitorContext ctx = new CodeModelVisitorContext();
             ctx.mCMRoot = new JCodeModel();
@@ -41,9 +41,7 @@ public class CodeModelCodeGenerator implements CodeGenerator {
             (new MetadataClassVisitor()).startVisit(schema, ctx);
             (new DbAdapterClassVisitor()).startVisit(schema, ctx);
             
-            File outPath = new File(schema.getOutFolder());
-            outPath.mkdirs();
-            HeaderFileCodeWriter codeWriter = new HeaderFileCodeWriter(outPath, schema);
+            HeaderFileCodeWriter codeWriter = new HeaderFileCodeWriter(schema, filer);
             ctx.mCMRoot.build(codeWriter);
         } catch (IOException e) {
             throw new CodeGenerationException(e);

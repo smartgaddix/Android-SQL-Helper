@@ -1,0 +1,410 @@
+--------------------------------------------------------------
+----------------------[compileWithoutLibs]----------------------
+--------------------------------------------------------------
+[parsing started src/com/sgxmobileapps/androidsqlhelper/test/entities/SimpleEntity.java]
+[parsing completed 11ms]
+[parsing started src/com/sgxmobileapps/androidsqlhelper/test/entities/SimpleEntity2.java]
+[parsing completed 0ms]
+[search path for source files: .]
+[search path for class files: /Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Classes/jsfd.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Classes/classes.jar,/System/Library/Frameworks/JavaVM.framework/Frameworks/JavaRuntimeSupport.framework/Resources/Java/JavaRuntimeSupport.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Classes/ui.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Classes/laf.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Classes/sunrsasign.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Classes/jsse.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Classes/jce.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Classes/charsets.jar,/System/Library/Java/Extensions/AppleScriptEngine.jar,/System/Library/Java/Extensions/dns_sd.jar,/System/Library/Java/Extensions/j3daudio.jar,/System/Library/Java/Extensions/j3dcore.jar,/System/Library/Java/Extensions/j3dutils.jar,/System/Library/Java/Extensions/jai_codec.jar,/System/Library/Java/Extensions/jai_core.jar,/System/Library/Java/Extensions/mlibwrapper_jai.jar,/System/Library/Java/Extensions/MRJToolkit.jar,/System/Library/Java/Extensions/QTJava.zip,/System/Library/Java/Extensions/vecmath.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Home/lib/ext/apple_provider.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Home/lib/ext/dnsns.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Home/lib/ext/localedata.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Home/lib/ext/sunjce_provider.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Home/lib/ext/sunpkcs11.jar,.]
+src/com/sgxmobileapps/androidsqlhelper/test/entities/SimpleEntity.java:18: package com.sgxmobileapps.androidsqlhelper.annotation does not exist
+import com.sgxmobileapps.androidsqlhelper.annotation.PersistentEntity;
+                                                    ^
+src/com/sgxmobileapps/androidsqlhelper/test/entities/SimpleEntity.java:19: package com.sgxmobileapps.androidsqlhelper.annotation does not exist
+import com.sgxmobileapps.androidsqlhelper.annotation.PersistentField;
+                                                    ^
+src/com/sgxmobileapps/androidsqlhelper/test/entities/SimpleEntity.java:25: cannot find symbol
+symbol: class PersistentEntity
+@PersistentEntity(fieldPrefix="m", orderBy="FIELDSTRING ASC, FIELDLONG DESC")
+ ^
+[loading java/lang/Object.class(java/lang:Object.class)]
+[loading java/lang/String.class(java/lang:String.class)]
+src/com/sgxmobileapps/androidsqlhelper/test/entities/SimpleEntity2.java:18: package com.sgxmobileapps.androidsqlhelper.annotation does not exist
+import com.sgxmobileapps.androidsqlhelper.annotation.PersistentEntity;
+                                                    ^
+src/com/sgxmobileapps/androidsqlhelper/test/entities/SimpleEntity2.java:19: package com.sgxmobileapps.androidsqlhelper.annotation does not exist
+import com.sgxmobileapps.androidsqlhelper.annotation.PersistentField;
+                                                    ^
+[loading java/util/Date.class(java/util:Date.class)]
+src/com/sgxmobileapps/androidsqlhelper/test/entities/SimpleEntity2.java:28: cannot find symbol
+symbol: class PersistentEntity
+@PersistentEntity(fieldPrefix="m")
+ ^
+[loading java/lang/Long.class(java/lang:Long.class)]
+src/com/sgxmobileapps/androidsqlhelper/test/entities/SimpleEntity.java:28: cannot find symbol
+symbol  : class PersistentField
+location: class com.sgxmobileapps.androidsqlhelper.test.entities.SimpleEntity
+    @PersistentField
+     ^
+src/com/sgxmobileapps/androidsqlhelper/test/entities/SimpleEntity.java:31: cannot find symbol
+symbol  : class PersistentField
+location: class com.sgxmobileapps.androidsqlhelper.test.entities.SimpleEntity
+    @PersistentField
+     ^
+src/com/sgxmobileapps/androidsqlhelper/test/entities/SimpleEntity2.java:31: cannot find symbol
+symbol  : class PersistentField
+location: class com.sgxmobileapps.androidsqlhelper.test.entities.SimpleEntity2
+    @PersistentField
+     ^
+src/com/sgxmobileapps/androidsqlhelper/test/entities/SimpleEntity2.java:34: cannot find symbol
+symbol  : class PersistentField
+location: class com.sgxmobileapps.androidsqlhelper.test.entities.SimpleEntity2
+    @PersistentField
+     ^
+src/com/sgxmobileapps/androidsqlhelper/test/entities/SimpleEntity2.java:39: cannot find symbol
+symbol  : class PersistentField
+location: class com.sgxmobileapps.androidsqlhelper.test.entities.SimpleEntity2
+    @PersistentField
+     ^
+[checking com.sgxmobileapps.androidsqlhelper.test.entities.SimpleEntity]
+[checking com.sgxmobileapps.androidsqlhelper.test.entities.SimpleEntity2]
+[total 376ms]
+11 errors
+
+--------------------------------------------------------------
+Test [compileWithoutLibs] SUCCESS
+--------------------------------------------------------------
+--------------------------------------------------------------
+
+
+
+--------------------------------------------------------------
+----------------------[compileWithAnnotationLib]----------------------
+--------------------------------------------------------------
+[parsing started src/com/sgxmobileapps/androidsqlhelper/test/entities/SimpleEntity.java]
+[parsing completed 1ms]
+[parsing started src/com/sgxmobileapps/androidsqlhelper/test/entities/SimpleEntity2.java]
+[parsing completed 0ms]
+[search path for source files: lib/androidsqlhelperannotations.jar]
+[search path for class files: /Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Classes/jsfd.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Classes/classes.jar,/System/Library/Frameworks/JavaVM.framework/Frameworks/JavaRuntimeSupport.framework/Resources/Java/JavaRuntimeSupport.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Classes/ui.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Classes/laf.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Classes/sunrsasign.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Classes/jsse.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Classes/jce.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Classes/charsets.jar,/System/Library/Java/Extensions/AppleScriptEngine.jar,/System/Library/Java/Extensions/dns_sd.jar,/System/Library/Java/Extensions/j3daudio.jar,/System/Library/Java/Extensions/j3dcore.jar,/System/Library/Java/Extensions/j3dutils.jar,/System/Library/Java/Extensions/jai_codec.jar,/System/Library/Java/Extensions/jai_core.jar,/System/Library/Java/Extensions/mlibwrapper_jai.jar,/System/Library/Java/Extensions/MRJToolkit.jar,/System/Library/Java/Extensions/QTJava.zip,/System/Library/Java/Extensions/vecmath.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Home/lib/ext/apple_provider.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Home/lib/ext/dnsns.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Home/lib/ext/localedata.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Home/lib/ext/sunjce_provider.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Home/lib/ext/sunpkcs11.jar,lib/androidsqlhelperannotations.jar]
+[loading com/sgxmobileapps/androidsqlhelper/annotation/PersistentEntity.class(com/sgxmobileapps/androidsqlhelper/annotation:PersistentEntity.class)]
+[loading com/sgxmobileapps/androidsqlhelper/annotation/PersistentField.class(com/sgxmobileapps/androidsqlhelper/annotation:PersistentField.class)]
+[loading java/lang/Object.class(java/lang:Object.class)]
+[loading java/lang/String.class(java/lang:String.class)]
+[loading java/util/Date.class(java/util:Date.class)]
+[loading java/lang/Long.class(java/lang:Long.class)]
+[loading java/lang/annotation/Target.class(java/lang/annotation:Target.class)]
+[loading java/lang/annotation/ElementType.class(java/lang/annotation:ElementType.class)]
+[loading java/lang/annotation/Retention.class(java/lang/annotation:Retention.class)]
+[loading java/lang/annotation/RetentionPolicy.class(java/lang/annotation:RetentionPolicy.class)]
+[loading java/lang/annotation/Annotation.class(java/lang/annotation:Annotation.class)]
+[checking com.sgxmobileapps.androidsqlhelper.test.entities.SimpleEntity]
+[wrote /Users/massimo/Dropbox/EclipseWS/AndroidSQLHelper/tests/AndroidSQLHelperTest/tests/compileWithAnnotationLib/out/build/com/sgxmobileapps/androidsqlhelper/test/entities/SimpleEntity.class]
+[checking com.sgxmobileapps.androidsqlhelper.test.entities.SimpleEntity2]
+[wrote /Users/massimo/Dropbox/EclipseWS/AndroidSQLHelper/tests/AndroidSQLHelperTest/tests/compileWithAnnotationLib/out/build/com/sgxmobileapps/androidsqlhelper/test/entities/SimpleEntity2.class]
+[total 58ms]
+
+--------------------------------------------------------------
+Test [compileWithAnnotationLib] SUCCESS
+--------------------------------------------------------------
+--------------------------------------------------------------
+
+
+
+--------------------------------------------------------------
+----------------------[compileWithProcessorLib]----------------------
+--------------------------------------------------------------
+[parsing started src/com/sgxmobileapps/androidsqlhelper/test/entities/SimpleEntity.java]
+[parsing completed 1ms]
+[parsing started src/com/sgxmobileapps/androidsqlhelper/test/entities/SimpleEntity2.java]
+[parsing completed 1ms]
+[search path for source files: /Users/massimo/Dropbox/EclipseWS/AndroidSQLHelper/tests/AndroidSQLHelperTest/tests/compileWithProcessorLib/in,lib/androidsqlhelper.jar,lib/android.jar]
+[search path for class files: /Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Classes/jsfd.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Classes/classes.jar,/System/Library/Frameworks/JavaVM.framework/Frameworks/JavaRuntimeSupport.framework/Resources/Java/JavaRuntimeSupport.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Classes/ui.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Classes/laf.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Classes/sunrsasign.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Classes/jsse.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Classes/jce.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Classes/charsets.jar,/System/Library/Java/Extensions/AppleScriptEngine.jar,/System/Library/Java/Extensions/dns_sd.jar,/System/Library/Java/Extensions/j3daudio.jar,/System/Library/Java/Extensions/j3dcore.jar,/System/Library/Java/Extensions/j3dutils.jar,/System/Library/Java/Extensions/jai_codec.jar,/System/Library/Java/Extensions/jai_core.jar,/System/Library/Java/Extensions/mlibwrapper_jai.jar,/System/Library/Java/Extensions/MRJToolkit.jar,/System/Library/Java/Extensions/QTJava.zip,/System/Library/Java/Extensions/vecmath.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Home/lib/ext/apple_provider.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Home/lib/ext/dnsns.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Home/lib/ext/localedata.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Home/lib/ext/sunjce_provider.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Home/lib/ext/sunpkcs11.jar,/Users/massimo/Dropbox/EclipseWS/AndroidSQLHelper/tests/AndroidSQLHelperTest/tests/compileWithProcessorLib/in,lib/androidsqlhelper.jar,lib/android.jar]
+[loading com/sgxmobileapps/androidsqlhelper/annotation/PersistentEntity.class(com/sgxmobileapps/androidsqlhelper/annotation:PersistentEntity.class)]
+[loading com/sgxmobileapps/androidsqlhelper/annotation/PersistentField.class(com/sgxmobileapps/androidsqlhelper/annotation:PersistentField.class)]
+[loading java/lang/Object.class(java/lang:Object.class)]
+[loading java/lang/String.class(java/lang:String.class)]
+[loading java/util/Date.class(java/util:Date.class)]
+[loading java/lang/Long.class(java/lang:Long.class)]
+[loading java/lang/annotation/Target.class(java/lang/annotation:Target.class)]
+[loading java/lang/annotation/ElementType.class(java/lang/annotation:ElementType.class)]
+[loading java/lang/annotation/Retention.class(java/lang/annotation:Retention.class)]
+[loading java/lang/annotation/RetentionPolicy.class(java/lang/annotation:RetentionPolicy.class)]
+[loading java/lang/annotation/Annotation.class(java/lang/annotation:Annotation.class)]
+Round 1:
+	input files: {com.sgxmobileapps.androidsqlhelper.test.entities.SimpleEntity, com.sgxmobileapps.androidsqlhelper.test.entities.SimpleEntity2}
+	annotations: [com.sgxmobileapps.androidsqlhelper.annotation.PersistentEntity, com.sgxmobileapps.androidsqlhelper.annotation.PersistentField]
+	last round: false
+Note: Processing entity: com.sgxmobileapps.androidsqlhelper.test.entities.SimpleEntity
+Note: Entity annotation: @com.sgxmobileapps.androidsqlhelper.annotation.PersistentEntity(noIdCol=false, fieldPrefix=m, orderBy=FIELDSTRING ASC, FIELDLONG DESC, unique=[], tableName=)
+Note: Field annotation: @com.sgxmobileapps.androidsqlhelper.annotation.PersistentField(customColumnDefinition=, nullable=true, columnType=, columnName=)
+Note: Field annotation: @com.sgxmobileapps.androidsqlhelper.annotation.PersistentField(customColumnDefinition=, nullable=true, columnType=, columnName=)
+Note: Processing entity: com.sgxmobileapps.androidsqlhelper.test.entities.SimpleEntity2
+Note: Entity annotation: @com.sgxmobileapps.androidsqlhelper.annotation.PersistentEntity(noIdCol=false, fieldPrefix=m, orderBy=, unique=[], tableName=)
+Note: Field annotation: @com.sgxmobileapps.androidsqlhelper.annotation.PersistentField(customColumnDefinition=, nullable=true, columnType=, columnName=)
+Note: Field annotation: @com.sgxmobileapps.androidsqlhelper.annotation.PersistentField(customColumnDefinition=, nullable=true, columnType=, columnName=)
+Note: Field annotation: @com.sgxmobileapps.androidsqlhelper.annotation.PersistentField(customColumnDefinition=, nullable=true, columnType=, columnName=)
+Note: Resulting Schema: Schema [mAuthor=smartgaddix, mDbAdapterClassName=TestDbAdapter, mDbName=test.db, mDbVersion=1, mLicense=/**
+ * Copyright 2011 Massimo Gaddini
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.  
+ */, mLicenseFile=LICENSEHEADER, mMetadataClassName=TestDbMetadata, mPackage=outpackage.test, mTables=[Table [mEntityName=SimpleEntity, mFieldPrefix=m, mFields=[Field [mColumnName=_id, mColumnType=INTEGER, mCustomColumnDefinition=INTEGER PRIMARY KEY AUTOINCREMENT, mFieldName=id, mIndex=0, mNullable=false], Field [mColumnName=FIELDSTRING, mColumnType=TEXT, mCustomColumnDefinition=, mFieldName=FieldString, mIndex=1, mNullable=true], Field [mColumnName=FIELDLONG, mColumnType=INTEGER, mCustomColumnDefinition=, mFieldName=FieldLong, mIndex=2, mNullable=true]], mNoIdColumn=false, mOrderBy=FIELDSTRING ASC, FIELDLONG DESC, mTableName=SIMPLEENTITY, mUniqueConstraint=[]], Table [mEntityName=SimpleEntity2, mFieldPrefix=m, mFields=[Field [mColumnName=_id, mColumnType=INTEGER, mCustomColumnDefinition=INTEGER PRIMARY KEY AUTOINCREMENT, mFieldName=id, mIndex=0, mNullable=false], Field [mColumnName=FIELDSTRING, mColumnType=TEXT, mCustomColumnDefinition=, mFieldName=FieldString, mIndex=1, mNullable=true], Field [mColumnName=FIELDLONG, mColumnType=INTEGER, mCustomColumnDefinition=, mFieldName=FieldLong, mIndex=2, mNullable=true], Field [mColumnName=FIELDDATE, mColumnType=INTEGER, mCustomColumnDefinition=, mFieldName=FieldDate, mIndex=3, mNullable=true]], mNoIdColumn=false, mOrderBy=, mTableName=SIMPLEENTITY2, mUniqueConstraint=[]]]]
+Processor com.sgxmobileapps.androidsqlhelper.processor.AnnotationProcessor matches [com.sgxmobileapps.androidsqlhelper.annotation.PersistentField, com.sgxmobileapps.androidsqlhelper.annotation.PersistentEntity] and returns true.
+[parsing started /Users/massimo/Dropbox/EclipseWS/AndroidSQLHelper/tests/AndroidSQLHelperTest/tests/compileWithProcessorLib/out/src/outpackage/test/TestDbMetadata.java]
+[parsing completed 1ms]
+[parsing started /Users/massimo/Dropbox/EclipseWS/AndroidSQLHelper/tests/AndroidSQLHelperTest/tests/compileWithProcessorLib/out/src/outpackage/test/TestDbAdapter.java]
+[parsing completed 5ms]
+[search path for source files: /Users/massimo/Dropbox/EclipseWS/AndroidSQLHelper/tests/AndroidSQLHelperTest/tests/compileWithProcessorLib/in,lib/androidsqlhelper.jar,lib/android.jar]
+[search path for class files: /Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Classes/jsfd.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Classes/classes.jar,/System/Library/Frameworks/JavaVM.framework/Frameworks/JavaRuntimeSupport.framework/Resources/Java/JavaRuntimeSupport.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Classes/ui.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Classes/laf.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Classes/sunrsasign.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Classes/jsse.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Classes/jce.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Classes/charsets.jar,/System/Library/Java/Extensions/AppleScriptEngine.jar,/System/Library/Java/Extensions/dns_sd.jar,/System/Library/Java/Extensions/j3daudio.jar,/System/Library/Java/Extensions/j3dcore.jar,/System/Library/Java/Extensions/j3dutils.jar,/System/Library/Java/Extensions/jai_codec.jar,/System/Library/Java/Extensions/jai_core.jar,/System/Library/Java/Extensions/mlibwrapper_jai.jar,/System/Library/Java/Extensions/MRJToolkit.jar,/System/Library/Java/Extensions/QTJava.zip,/System/Library/Java/Extensions/vecmath.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Home/lib/ext/apple_provider.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Home/lib/ext/dnsns.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Home/lib/ext/localedata.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Home/lib/ext/sunjce_provider.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Home/lib/ext/sunpkcs11.jar,/Users/massimo/Dropbox/EclipseWS/AndroidSQLHelper/tests/AndroidSQLHelperTest/tests/compileWithProcessorLib/in,lib/androidsqlhelper.jar,lib/android.jar]
+[loading com/sgxmobileapps/androidsqlhelper/annotation/PersistentEntity.class(com/sgxmobileapps/androidsqlhelper/annotation:PersistentEntity.class)]
+[loading com/sgxmobileapps/androidsqlhelper/annotation/PersistentField.class(com/sgxmobileapps/androidsqlhelper/annotation:PersistentField.class)]
+[loading java/lang/Object.class(java/lang:Object.class)]
+[loading java/lang/String.class(java/lang:String.class)]
+[loading java/util/Date.class(java/util:Date.class)]
+[loading java/lang/Long.class(java/lang:Long.class)]
+[loading android/content/Context.class(android/content:Context.class)]
+[loading android/database/SQLException.class(android/database:SQLException.class)]
+[loading android/database/sqlite/SQLiteDatabase.class(android/database/sqlite:SQLiteDatabase.class)]
+[loading android/database/sqlite/SQLiteOpenHelper.class(android/database/sqlite:SQLiteOpenHelper.class)]
+[loading java/lang/Boolean.class(java/lang:Boolean.class)]
+[loading android/database/sqlite/SQLiteDatabase$CursorFactory.class(android/database/sqlite:SQLiteDatabase$CursorFactory.class)]
+[loading java/lang/annotation/Target.class(java/lang/annotation:Target.class)]
+[loading java/lang/annotation/ElementType.class(java/lang/annotation:ElementType.class)]
+[loading java/lang/annotation/Retention.class(java/lang/annotation:Retention.class)]
+[loading java/lang/annotation/RetentionPolicy.class(java/lang/annotation:RetentionPolicy.class)]
+[loading java/lang/annotation/Annotation.class(java/lang/annotation:Annotation.class)]
+[loading java/lang/Override.class(java/lang:Override.class)]
+Round 2:
+	input files: {outpackage.test.TestDbMetadata, outpackage.test.TestDbAdapter}
+	annotations: [java.lang.Override]
+	last round: false
+Processor com.sgxmobileapps.androidsqlhelper.processor.AnnotationProcessor matches [] and returns true.
+Round 3:
+	input files: {}
+	annotations: []
+	last round: true
+[search path for source files: /Users/massimo/Dropbox/EclipseWS/AndroidSQLHelper/tests/AndroidSQLHelperTest/tests/compileWithProcessorLib/in,lib/androidsqlhelper.jar,lib/android.jar]
+[search path for class files: /Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Classes/jsfd.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Classes/classes.jar,/System/Library/Frameworks/JavaVM.framework/Frameworks/JavaRuntimeSupport.framework/Resources/Java/JavaRuntimeSupport.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Classes/ui.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Classes/laf.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Classes/sunrsasign.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Classes/jsse.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Classes/jce.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Classes/charsets.jar,/System/Library/Java/Extensions/AppleScriptEngine.jar,/System/Library/Java/Extensions/dns_sd.jar,/System/Library/Java/Extensions/j3daudio.jar,/System/Library/Java/Extensions/j3dcore.jar,/System/Library/Java/Extensions/j3dutils.jar,/System/Library/Java/Extensions/jai_codec.jar,/System/Library/Java/Extensions/jai_core.jar,/System/Library/Java/Extensions/mlibwrapper_jai.jar,/System/Library/Java/Extensions/MRJToolkit.jar,/System/Library/Java/Extensions/QTJava.zip,/System/Library/Java/Extensions/vecmath.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Home/lib/ext/apple_provider.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Home/lib/ext/dnsns.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Home/lib/ext/localedata.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Home/lib/ext/sunjce_provider.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Home/lib/ext/sunpkcs11.jar,/Users/massimo/Dropbox/EclipseWS/AndroidSQLHelper/tests/AndroidSQLHelperTest/tests/compileWithProcessorLib/in,lib/androidsqlhelper.jar,lib/android.jar]
+[loading com/sgxmobileapps/androidsqlhelper/annotation/PersistentEntity.class(com/sgxmobileapps/androidsqlhelper/annotation:PersistentEntity.class)]
+[loading com/sgxmobileapps/androidsqlhelper/annotation/PersistentField.class(com/sgxmobileapps/androidsqlhelper/annotation:PersistentField.class)]
+[loading java/lang/Object.class(java/lang:Object.class)]
+[loading java/lang/String.class(java/lang:String.class)]
+[loading java/util/Date.class(java/util:Date.class)]
+[loading java/lang/Long.class(java/lang:Long.class)]
+[loading android/content/Context.class(android/content:Context.class)]
+[loading android/database/SQLException.class(android/database:SQLException.class)]
+[loading android/database/sqlite/SQLiteDatabase.class(android/database/sqlite:SQLiteDatabase.class)]
+[loading android/database/sqlite/SQLiteOpenHelper.class(android/database/sqlite:SQLiteOpenHelper.class)]
+[loading java/lang/Boolean.class(java/lang:Boolean.class)]
+[loading android/database/sqlite/SQLiteDatabase$CursorFactory.class(android/database/sqlite:SQLiteDatabase$CursorFactory.class)]
+[loading java/lang/annotation/Target.class(java/lang/annotation:Target.class)]
+[loading java/lang/annotation/ElementType.class(java/lang/annotation:ElementType.class)]
+[loading java/lang/annotation/Retention.class(java/lang/annotation:Retention.class)]
+[loading java/lang/annotation/RetentionPolicy.class(java/lang/annotation:RetentionPolicy.class)]
+[loading java/lang/annotation/Annotation.class(java/lang/annotation:Annotation.class)]
+[loading java/lang/Override.class(java/lang:Override.class)]
+[checking com.sgxmobileapps.androidsqlhelper.test.entities.SimpleEntity]
+[wrote /Users/massimo/Dropbox/EclipseWS/AndroidSQLHelper/tests/AndroidSQLHelperTest/tests/compileWithProcessorLib/out/build/com/sgxmobileapps/androidsqlhelper/test/entities/SimpleEntity.class]
+[checking com.sgxmobileapps.androidsqlhelper.test.entities.SimpleEntity2]
+[wrote /Users/massimo/Dropbox/EclipseWS/AndroidSQLHelper/tests/AndroidSQLHelperTest/tests/compileWithProcessorLib/out/build/com/sgxmobileapps/androidsqlhelper/test/entities/SimpleEntity2.class]
+[checking outpackage.test.TestDbMetadata]
+[wrote /Users/massimo/Dropbox/EclipseWS/AndroidSQLHelper/tests/AndroidSQLHelperTest/tests/compileWithProcessorLib/out/build/outpackage/test/TestDbMetadata$SimpleEntity.class]
+[wrote /Users/massimo/Dropbox/EclipseWS/AndroidSQLHelper/tests/AndroidSQLHelperTest/tests/compileWithProcessorLib/out/build/outpackage/test/TestDbMetadata$SimpleEntity2.class]
+[wrote /Users/massimo/Dropbox/EclipseWS/AndroidSQLHelper/tests/AndroidSQLHelperTest/tests/compileWithProcessorLib/out/build/outpackage/test/TestDbMetadata.class]
+[checking outpackage.test.TestDbAdapter]
+[loading java/lang/RuntimeException.class(java/lang:RuntimeException.class)]
+[loading java/lang/Exception.class(java/lang:Exception.class)]
+[loading java/lang/Throwable.class(java/lang:Throwable.class)]
+[loading android/database/sqlite/SQLiteClosable.class(android/database/sqlite:SQLiteClosable.class)]
+[loading java/lang/Byte.class(java/lang:Byte.class)]
+[loading java/lang/Character.class(java/lang:Character.class)]
+[loading java/lang/Short.class(java/lang:Short.class)]
+[loading java/lang/Integer.class(java/lang:Integer.class)]
+[loading java/lang/Float.class(java/lang:Float.class)]
+[loading java/lang/Double.class(java/lang:Double.class)]
+[loading java/lang/Error.class(java/lang:Error.class)]
+[wrote /Users/massimo/Dropbox/EclipseWS/AndroidSQLHelper/tests/AndroidSQLHelperTest/tests/compileWithProcessorLib/out/build/outpackage/test/TestDbAdapter$DbHelper.class]
+[wrote /Users/massimo/Dropbox/EclipseWS/AndroidSQLHelper/tests/AndroidSQLHelperTest/tests/compileWithProcessorLib/out/build/outpackage/test/TestDbAdapter.class]
+[total 436ms]
+
+--------------------------------------------------------------
+Test [compileWithProcessorLib] SUCCESS
+--------------------------------------------------------------
+--------------------------------------------------------------
+
+
+
+--------------------------------------------------------------
+----------------------[compileFull]----------------------
+--------------------------------------------------------------
+[parsing started src/com/sgxmobileapps/androidsqlhelper/test/entities/FullEntity.java]
+[parsing completed 4ms]
+[search path for source files: /Users/massimo/Dropbox/EclipseWS/AndroidSQLHelper/tests/AndroidSQLHelperTest/tests/compileFull/in,lib/androidsqlhelper.jar,lib/android.jar]
+[search path for class files: /Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Classes/jsfd.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Classes/classes.jar,/System/Library/Frameworks/JavaVM.framework/Frameworks/JavaRuntimeSupport.framework/Resources/Java/JavaRuntimeSupport.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Classes/ui.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Classes/laf.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Classes/sunrsasign.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Classes/jsse.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Classes/jce.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Classes/charsets.jar,/System/Library/Java/Extensions/AppleScriptEngine.jar,/System/Library/Java/Extensions/dns_sd.jar,/System/Library/Java/Extensions/j3daudio.jar,/System/Library/Java/Extensions/j3dcore.jar,/System/Library/Java/Extensions/j3dutils.jar,/System/Library/Java/Extensions/jai_codec.jar,/System/Library/Java/Extensions/jai_core.jar,/System/Library/Java/Extensions/mlibwrapper_jai.jar,/System/Library/Java/Extensions/MRJToolkit.jar,/System/Library/Java/Extensions/QTJava.zip,/System/Library/Java/Extensions/vecmath.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Home/lib/ext/apple_provider.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Home/lib/ext/dnsns.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Home/lib/ext/localedata.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Home/lib/ext/sunjce_provider.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Home/lib/ext/sunpkcs11.jar,/Users/massimo/Dropbox/EclipseWS/AndroidSQLHelper/tests/AndroidSQLHelperTest/tests/compileFull/in,lib/androidsqlhelper.jar,lib/android.jar]
+[loading com/sgxmobileapps/androidsqlhelper/annotation/PersistentEntity.class(com/sgxmobileapps/androidsqlhelper/annotation:PersistentEntity.class)]
+[loading com/sgxmobileapps/androidsqlhelper/annotation/PersistentField.class(com/sgxmobileapps/androidsqlhelper/annotation:PersistentField.class)]
+[loading java/util/Date.class(java/util:Date.class)]
+[loading java/util/GregorianCalendar.class(java/util:GregorianCalendar.class)]
+[loading java/lang/SuppressWarnings.class(java/lang:SuppressWarnings.class)]
+[loading java/lang/Object.class(java/lang:Object.class)]
+[loading java/lang/Long.class(java/lang:Long.class)]
+[loading java/lang/Integer.class(java/lang:Integer.class)]
+[loading java/lang/Byte.class(java/lang:Byte.class)]
+[loading java/lang/Short.class(java/lang:Short.class)]
+[loading java/lang/Character.class(java/lang:Character.class)]
+[loading java/lang/Boolean.class(java/lang:Boolean.class)]
+[loading java/lang/Float.class(java/lang:Float.class)]
+[loading java/lang/Double.class(java/lang:Double.class)]
+[loading java/lang/String.class(java/lang:String.class)]
+[loading java/lang/CharSequence.class(java/lang:CharSequence.class)]
+[loading java/lang/annotation/Target.class(java/lang/annotation:Target.class)]
+[loading java/lang/annotation/ElementType.class(java/lang/annotation:ElementType.class)]
+[loading java/lang/annotation/Retention.class(java/lang/annotation:Retention.class)]
+[loading java/lang/annotation/RetentionPolicy.class(java/lang/annotation:RetentionPolicy.class)]
+[loading java/lang/annotation/Annotation.class(java/lang/annotation:Annotation.class)]
+Round 1:
+	input files: {com.sgxmobileapps.androidsqlhelper.test.entities.FullEntity}
+	annotations: [com.sgxmobileapps.androidsqlhelper.annotation.PersistentEntity, java.lang.SuppressWarnings, com.sgxmobileapps.androidsqlhelper.annotation.PersistentField]
+	last round: false
+Note: Processing entity: com.sgxmobileapps.androidsqlhelper.test.entities.FullEntity
+Note: Entity annotation: @com.sgxmobileapps.androidsqlhelper.annotation.PersistentEntity(noIdCol=true, fieldPrefix=m, orderBy=LONGPRIMITIVE ASC, INTPRIMITIVE DESC, unique=[mLong, mInt], tableName=FULL)
+Note: Field annotation: @com.sgxmobileapps.androidsqlhelper.annotation.PersistentField(customColumnDefinition=, nullable=false, columnType=INTEGER, columnName=LongPrimitive)
+Note: Field annotation: @com.sgxmobileapps.androidsqlhelper.annotation.PersistentField(customColumnDefinition=, nullable=false, columnType=INTEGER, columnName=Long)
+Note: Field annotation: @com.sgxmobileapps.androidsqlhelper.annotation.PersistentField(customColumnDefinition=, nullable=false, columnType=INTEGER, columnName=IntPrimitive)
+Note: Field annotation: @com.sgxmobileapps.androidsqlhelper.annotation.PersistentField(customColumnDefinition=, nullable=false, columnType=INTEGER, columnName=Int)
+Note: Field annotation: @com.sgxmobileapps.androidsqlhelper.annotation.PersistentField(customColumnDefinition=, nullable=false, columnType=INTEGER, columnName=BytePrimitive)
+Note: Field annotation: @com.sgxmobileapps.androidsqlhelper.annotation.PersistentField(customColumnDefinition=, nullable=false, columnType=INTEGER, columnName=Byte)
+Note: Field annotation: @com.sgxmobileapps.androidsqlhelper.annotation.PersistentField(customColumnDefinition=, nullable=false, columnType=INTEGER, columnName=ShortPrimitive)
+Note: Field annotation: @com.sgxmobileapps.androidsqlhelper.annotation.PersistentField(customColumnDefinition=, nullable=false, columnType=INTEGER, columnName=Short)
+Note: Field annotation: @com.sgxmobileapps.androidsqlhelper.annotation.PersistentField(customColumnDefinition=, nullable=false, columnType=TEXT, columnName=CharPrimitive)
+Note: Field annotation: @com.sgxmobileapps.androidsqlhelper.annotation.PersistentField(customColumnDefinition=, nullable=false, columnType=TEXT, columnName=Char)
+Note: Field annotation: @com.sgxmobileapps.androidsqlhelper.annotation.PersistentField(customColumnDefinition=, nullable=false, columnType=INTEGER, columnName=BoolPrimitive)
+Note: Field annotation: @com.sgxmobileapps.androidsqlhelper.annotation.PersistentField(customColumnDefinition=, nullable=false, columnType=INTEGER, columnName=Bool)
+Note: Field annotation: @com.sgxmobileapps.androidsqlhelper.annotation.PersistentField(customColumnDefinition=, nullable=false, columnType=REAL, columnName=FloatPrimitive)
+Note: Field annotation: @com.sgxmobileapps.androidsqlhelper.annotation.PersistentField(customColumnDefinition=, nullable=false, columnType=REAL, columnName=Float)
+Note: Field annotation: @com.sgxmobileapps.androidsqlhelper.annotation.PersistentField(customColumnDefinition=, nullable=false, columnType=REAL, columnName=DoublePrimitive)
+Note: Field annotation: @com.sgxmobileapps.androidsqlhelper.annotation.PersistentField(customColumnDefinition=, nullable=false, columnType=REAL, columnName=Double)
+Note: Field annotation: @com.sgxmobileapps.androidsqlhelper.annotation.PersistentField(customColumnDefinition=, nullable=false, columnType=TEXT, columnName=String)
+Note: Field annotation: @com.sgxmobileapps.androidsqlhelper.annotation.PersistentField(customColumnDefinition=, nullable=false, columnType=TEXT, columnName=CharSeq)
+Note: Field annotation: @com.sgxmobileapps.androidsqlhelper.annotation.PersistentField(customColumnDefinition=, nullable=false, columnType=INTEGER, columnName=Date)
+Note: Field annotation: @com.sgxmobileapps.androidsqlhelper.annotation.PersistentField(customColumnDefinition=, nullable=false, columnType=INTEGER, columnName=Calendar)
+Note: Resulting Schema: Schema [mAuthor=smartgaddix, mDbAdapterClassName=TestDbAdapter, mDbName=test.db, mDbVersion=1, mLicense=/**
+ * Copyright 2011 Massimo Gaddini
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.  
+ */, mLicenseFile=LICENSEHEADER, mMetadataClassName=TestDbMetadata, mPackage=outpackage.test, mTables=[Table [mEntityName=FullEntity, mFieldPrefix=m, mFields=[Field [mColumnName=LONGPRIMITIVE, mColumnType=INTEGER, mCustomColumnDefinition=, mFieldName=LongPrimitive, mIndex=0, mNullable=false], Field [mColumnName=LONG, mColumnType=INTEGER, mCustomColumnDefinition=, mFieldName=Long, mIndex=1, mNullable=false], Field [mColumnName=INTPRIMITIVE, mColumnType=INTEGER, mCustomColumnDefinition=, mFieldName=IntPrimitive, mIndex=2, mNullable=false], Field [mColumnName=INT, mColumnType=INTEGER, mCustomColumnDefinition=, mFieldName=Int, mIndex=3, mNullable=false], Field [mColumnName=BYTEPRIMITIVE, mColumnType=INTEGER, mCustomColumnDefinition=, mFieldName=BytePrimitive, mIndex=4, mNullable=false], Field [mColumnName=BYTE, mColumnType=INTEGER, mCustomColumnDefinition=, mFieldName=Byte, mIndex=5, mNullable=false], Field [mColumnName=SHORTPRIMITIVE, mColumnType=INTEGER, mCustomColumnDefinition=, mFieldName=ShortPrimitive, mIndex=6, mNullable=false], Field [mColumnName=SHORT, mColumnType=INTEGER, mCustomColumnDefinition=, mFieldName=Short, mIndex=7, mNullable=false], Field [mColumnName=CHARPRIMITIVE, mColumnType=TEXT, mCustomColumnDefinition=, mFieldName=CharPrimitive, mIndex=8, mNullable=false], Field [mColumnName=CHAR, mColumnType=TEXT, mCustomColumnDefinition=, mFieldName=Char, mIndex=9, mNullable=false], Field [mColumnName=BOOLPRIMITIVE, mColumnType=INTEGER, mCustomColumnDefinition=, mFieldName=BoolPrimitive, mIndex=10, mNullable=false], Field [mColumnName=BOOL, mColumnType=INTEGER, mCustomColumnDefinition=, mFieldName=Bool, mIndex=11, mNullable=false], Field [mColumnName=FLOATPRIMITIVE, mColumnType=REAL, mCustomColumnDefinition=, mFieldName=FloatPrimitive, mIndex=12, mNullable=false], Field [mColumnName=FLOAT, mColumnType=REAL, mCustomColumnDefinition=, mFieldName=Float, mIndex=13, mNullable=false], Field [mColumnName=DOUBLEPRIMITIVE, mColumnType=REAL, mCustomColumnDefinition=, mFieldName=DoublePrimitive, mIndex=14, mNullable=false], Field [mColumnName=DOUBLE, mColumnType=REAL, mCustomColumnDefinition=, mFieldName=Double, mIndex=15, mNullable=false], Field [mColumnName=STRING, mColumnType=TEXT, mCustomColumnDefinition=, mFieldName=String, mIndex=16, mNullable=false], Field [mColumnName=CHARSEQ, mColumnType=TEXT, mCustomColumnDefinition=, mFieldName=CharSeq, mIndex=17, mNullable=false], Field [mColumnName=DATE, mColumnType=INTEGER, mCustomColumnDefinition=, mFieldName=Date, mIndex=18, mNullable=false], Field [mColumnName=CALENDAR, mColumnType=INTEGER, mCustomColumnDefinition=, mFieldName=Calendar, mIndex=19, mNullable=false]], mNoIdColumn=true, mOrderBy=LONGPRIMITIVE ASC, INTPRIMITIVE DESC, mTableName=FULL, mUniqueConstraint=[mLong, mInt]]]]
+Processor com.sgxmobileapps.androidsqlhelper.processor.AnnotationProcessor matches [com.sgxmobileapps.androidsqlhelper.annotation.PersistentField, com.sgxmobileapps.androidsqlhelper.annotation.PersistentEntity] and returns true.
+[parsing started /Users/massimo/Dropbox/EclipseWS/AndroidSQLHelper/tests/AndroidSQLHelperTest/tests/compileFull/out/src/outpackage/test/TestDbMetadata.java]
+[parsing completed 2ms]
+[parsing started /Users/massimo/Dropbox/EclipseWS/AndroidSQLHelper/tests/AndroidSQLHelperTest/tests/compileFull/out/src/outpackage/test/TestDbAdapter.java]
+[parsing completed 3ms]
+[search path for source files: /Users/massimo/Dropbox/EclipseWS/AndroidSQLHelper/tests/AndroidSQLHelperTest/tests/compileFull/in,lib/androidsqlhelper.jar,lib/android.jar]
+[search path for class files: /Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Classes/jsfd.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Classes/classes.jar,/System/Library/Frameworks/JavaVM.framework/Frameworks/JavaRuntimeSupport.framework/Resources/Java/JavaRuntimeSupport.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Classes/ui.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Classes/laf.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Classes/sunrsasign.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Classes/jsse.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Classes/jce.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Classes/charsets.jar,/System/Library/Java/Extensions/AppleScriptEngine.jar,/System/Library/Java/Extensions/dns_sd.jar,/System/Library/Java/Extensions/j3daudio.jar,/System/Library/Java/Extensions/j3dcore.jar,/System/Library/Java/Extensions/j3dutils.jar,/System/Library/Java/Extensions/jai_codec.jar,/System/Library/Java/Extensions/jai_core.jar,/System/Library/Java/Extensions/mlibwrapper_jai.jar,/System/Library/Java/Extensions/MRJToolkit.jar,/System/Library/Java/Extensions/QTJava.zip,/System/Library/Java/Extensions/vecmath.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Home/lib/ext/apple_provider.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Home/lib/ext/dnsns.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Home/lib/ext/localedata.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Home/lib/ext/sunjce_provider.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Home/lib/ext/sunpkcs11.jar,/Users/massimo/Dropbox/EclipseWS/AndroidSQLHelper/tests/AndroidSQLHelperTest/tests/compileFull/in,lib/androidsqlhelper.jar,lib/android.jar]
+[loading com/sgxmobileapps/androidsqlhelper/annotation/PersistentEntity.class(com/sgxmobileapps/androidsqlhelper/annotation:PersistentEntity.class)]
+[loading com/sgxmobileapps/androidsqlhelper/annotation/PersistentField.class(com/sgxmobileapps/androidsqlhelper/annotation:PersistentField.class)]
+[loading java/util/Date.class(java/util:Date.class)]
+[loading java/util/GregorianCalendar.class(java/util:GregorianCalendar.class)]
+[loading java/lang/SuppressWarnings.class(java/lang:SuppressWarnings.class)]
+[loading java/lang/Object.class(java/lang:Object.class)]
+[loading java/lang/Long.class(java/lang:Long.class)]
+[loading java/lang/Integer.class(java/lang:Integer.class)]
+[loading java/lang/Byte.class(java/lang:Byte.class)]
+[loading java/lang/Short.class(java/lang:Short.class)]
+[loading java/lang/Character.class(java/lang:Character.class)]
+[loading java/lang/Boolean.class(java/lang:Boolean.class)]
+[loading java/lang/Float.class(java/lang:Float.class)]
+[loading java/lang/Double.class(java/lang:Double.class)]
+[loading java/lang/String.class(java/lang:String.class)]
+[loading java/lang/CharSequence.class(java/lang:CharSequence.class)]
+[loading android/content/Context.class(android/content:Context.class)]
+[loading android/database/SQLException.class(android/database:SQLException.class)]
+[loading android/database/sqlite/SQLiteDatabase.class(android/database/sqlite:SQLiteDatabase.class)]
+[loading android/database/sqlite/SQLiteOpenHelper.class(android/database/sqlite:SQLiteOpenHelper.class)]
+[loading android/database/sqlite/SQLiteDatabase$CursorFactory.class(android/database/sqlite:SQLiteDatabase$CursorFactory.class)]
+[loading java/lang/annotation/Target.class(java/lang/annotation:Target.class)]
+[loading java/lang/annotation/ElementType.class(java/lang/annotation:ElementType.class)]
+[loading java/lang/annotation/Retention.class(java/lang/annotation:Retention.class)]
+[loading java/lang/annotation/RetentionPolicy.class(java/lang/annotation:RetentionPolicy.class)]
+[loading java/lang/annotation/Annotation.class(java/lang/annotation:Annotation.class)]
+[loading java/lang/Override.class(java/lang:Override.class)]
+Round 2:
+	input files: {outpackage.test.TestDbMetadata, outpackage.test.TestDbAdapter}
+	annotations: [java.lang.Override]
+	last round: false
+Processor com.sgxmobileapps.androidsqlhelper.processor.AnnotationProcessor matches [] and returns true.
+Round 3:
+	input files: {}
+	annotations: []
+	last round: true
+[search path for source files: /Users/massimo/Dropbox/EclipseWS/AndroidSQLHelper/tests/AndroidSQLHelperTest/tests/compileFull/in,lib/androidsqlhelper.jar,lib/android.jar]
+[search path for class files: /Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Classes/jsfd.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Classes/classes.jar,/System/Library/Frameworks/JavaVM.framework/Frameworks/JavaRuntimeSupport.framework/Resources/Java/JavaRuntimeSupport.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Classes/ui.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Classes/laf.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Classes/sunrsasign.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Classes/jsse.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Classes/jce.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Classes/charsets.jar,/System/Library/Java/Extensions/AppleScriptEngine.jar,/System/Library/Java/Extensions/dns_sd.jar,/System/Library/Java/Extensions/j3daudio.jar,/System/Library/Java/Extensions/j3dcore.jar,/System/Library/Java/Extensions/j3dutils.jar,/System/Library/Java/Extensions/jai_codec.jar,/System/Library/Java/Extensions/jai_core.jar,/System/Library/Java/Extensions/mlibwrapper_jai.jar,/System/Library/Java/Extensions/MRJToolkit.jar,/System/Library/Java/Extensions/QTJava.zip,/System/Library/Java/Extensions/vecmath.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Home/lib/ext/apple_provider.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Home/lib/ext/dnsns.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Home/lib/ext/localedata.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Home/lib/ext/sunjce_provider.jar,/Library/Java/JavaVirtualMachines/1.6.0_26-b03-383.jdk/Contents/Home/lib/ext/sunpkcs11.jar,/Users/massimo/Dropbox/EclipseWS/AndroidSQLHelper/tests/AndroidSQLHelperTest/tests/compileFull/in,lib/androidsqlhelper.jar,lib/android.jar]
+[loading com/sgxmobileapps/androidsqlhelper/annotation/PersistentEntity.class(com/sgxmobileapps/androidsqlhelper/annotation:PersistentEntity.class)]
+[loading com/sgxmobileapps/androidsqlhelper/annotation/PersistentField.class(com/sgxmobileapps/androidsqlhelper/annotation:PersistentField.class)]
+[loading java/util/Date.class(java/util:Date.class)]
+[loading java/util/GregorianCalendar.class(java/util:GregorianCalendar.class)]
+[loading java/lang/SuppressWarnings.class(java/lang:SuppressWarnings.class)]
+[loading java/lang/Object.class(java/lang:Object.class)]
+[loading java/lang/Long.class(java/lang:Long.class)]
+[loading java/lang/Integer.class(java/lang:Integer.class)]
+[loading java/lang/Byte.class(java/lang:Byte.class)]
+[loading java/lang/Short.class(java/lang:Short.class)]
+[loading java/lang/Character.class(java/lang:Character.class)]
+[loading java/lang/Boolean.class(java/lang:Boolean.class)]
+[loading java/lang/Float.class(java/lang:Float.class)]
+[loading java/lang/Double.class(java/lang:Double.class)]
+[loading java/lang/String.class(java/lang:String.class)]
+[loading java/lang/CharSequence.class(java/lang:CharSequence.class)]
+[loading android/content/Context.class(android/content:Context.class)]
+[loading android/database/SQLException.class(android/database:SQLException.class)]
+[loading android/database/sqlite/SQLiteDatabase.class(android/database/sqlite:SQLiteDatabase.class)]
+[loading android/database/sqlite/SQLiteOpenHelper.class(android/database/sqlite:SQLiteOpenHelper.class)]
+[loading android/database/sqlite/SQLiteDatabase$CursorFactory.class(android/database/sqlite:SQLiteDatabase$CursorFactory.class)]
+[loading java/lang/annotation/Target.class(java/lang/annotation:Target.class)]
+[loading java/lang/annotation/ElementType.class(java/lang/annotation:ElementType.class)]
+[loading java/lang/annotation/Retention.class(java/lang/annotation:Retention.class)]
+[loading java/lang/annotation/RetentionPolicy.class(java/lang/annotation:RetentionPolicy.class)]
+[loading java/lang/annotation/Annotation.class(java/lang/annotation:Annotation.class)]
+[loading java/lang/Override.class(java/lang:Override.class)]
+[checking com.sgxmobileapps.androidsqlhelper.test.entities.FullEntity]
+[wrote /Users/massimo/Dropbox/EclipseWS/AndroidSQLHelper/tests/AndroidSQLHelperTest/tests/compileFull/out/build/com/sgxmobileapps/androidsqlhelper/test/entities/FullEntity.class]
+[checking outpackage.test.TestDbMetadata]
+[wrote /Users/massimo/Dropbox/EclipseWS/AndroidSQLHelper/tests/AndroidSQLHelperTest/tests/compileFull/out/build/outpackage/test/TestDbMetadata$FullEntity.class]
+[wrote /Users/massimo/Dropbox/EclipseWS/AndroidSQLHelper/tests/AndroidSQLHelperTest/tests/compileFull/out/build/outpackage/test/TestDbMetadata.class]
+[checking outpackage.test.TestDbAdapter]
+[loading java/lang/RuntimeException.class(java/lang:RuntimeException.class)]
+[loading java/lang/Exception.class(java/lang:Exception.class)]
+[loading java/lang/Throwable.class(java/lang:Throwable.class)]
+[loading android/database/sqlite/SQLiteClosable.class(android/database/sqlite:SQLiteClosable.class)]
+[loading java/lang/Error.class(java/lang:Error.class)]
+[wrote /Users/massimo/Dropbox/EclipseWS/AndroidSQLHelper/tests/AndroidSQLHelperTest/tests/compileFull/out/build/outpackage/test/TestDbAdapter$DbHelper.class]
+[wrote /Users/massimo/Dropbox/EclipseWS/AndroidSQLHelper/tests/AndroidSQLHelperTest/tests/compileFull/out/build/outpackage/test/TestDbAdapter.class]
+[total 364ms]
+
+--------------------------------------------------------------
+Test [compileFull] SUCCESS
+--------------------------------------------------------------
+--------------------------------------------------------------
+
+
+
+--------------------------------------------------------------
+----------------------[checkRuntimeWithoutAnnotations]----------------------
+--------------------------------------------------------------
+
+--------------------------------------------------------------
+Test [checkRuntimeWithoutAnnotations] SUCCESS
+--------------------------------------------------------------
+--------------------------------------------------------------
+
+
+

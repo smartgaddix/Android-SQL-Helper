@@ -15,12 +15,10 @@
  */
 package com.sgxmobileapps.androidsqlhelper.generator.codemodel;
 
-import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JExpressionImpl;
 import com.sun.codemodel.JFormatter;
 import com.sun.codemodel.JGenerable;
-import com.sun.codemodel.JStringLiteral;
 
 
 /**

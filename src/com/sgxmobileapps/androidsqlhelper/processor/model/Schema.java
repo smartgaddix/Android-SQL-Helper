@@ -30,11 +30,7 @@ import java.util.Vector;
  * 
  * @author Massimo Gaddini
  */
-public class Schema implements Visitable {
-    
-    protected String    KEY_OUT_FOLDER = "outfolder";
-    protected String    DEFAULT_OUT_FOLDER = "OUT";
-    
+public class Schema implements Visitable {    
     protected String    KEY_PACKAGE = "package";
     protected String    DEFAULT_PACKAGE = "";
     
@@ -61,7 +57,6 @@ public class Schema implements Visitable {
 
     
     protected Vector<Table> mTables = new Vector<Table>();
-    protected String mOutFolder = DEFAULT_OUT_FOLDER;
     protected String mPackage = DEFAULT_PACKAGE;
     protected String mDbAdapterClassName = DEFAULT_ADAPTER_CLASS_NAME;
     protected String mMetadataClassName = DEFAULT_METADATA_CLASS_NAME;
@@ -77,7 +72,6 @@ public class Schema implements Visitable {
      * @throws IOException 
      */
     public void loadSchemaPropeties(Properties props) throws IOException{
-        mOutFolder = props.getProperty(KEY_OUT_FOLDER, DEFAULT_OUT_FOLDER);
         mPackage = props.getProperty(KEY_PACKAGE, DEFAULT_PACKAGE);
         mDbAdapterClassName = props.getProperty(KEY_ADAPTER_CLASS_NAME, DEFAULT_ADAPTER_CLASS_NAME);
         mMetadataClassName = props.getProperty(KEY_METADATA_CLASS_NAME, DEFAULT_METADATA_CLASS_NAME);
@@ -88,10 +82,15 @@ public class Schema implements Visitable {
         mLicenseFile = props.getProperty(KEY_LICENSE_FILE, DEFAULT_LICENSE_FILE);
         
         if (!mLicenseFile.isEmpty()) {
-            byte[] buffer = new byte[(int) new File(mLicenseFile).length()];
-            FileInputStream file = new FileInputStream(mLicenseFile);
-            file.read(buffer);
-            mLicense = new String(buffer);
+        	FileInputStream file = null;
+            try{
+            	byte[] buffer = new byte[(int) new File(mLicenseFile).length()];
+            	file = new FileInputStream(mLicenseFile);
+                file.read(buffer);
+                mLicense = new String(buffer);
+            } finally{
+            	file.close();
+            }
         }
     }
     
@@ -105,21 +104,7 @@ public class Schema implements Visitable {
             table.accept(visitor);
         }
     }
-    
-    /**
-     * @return the outFolder
-     */
-    public String getOutFolder() {
-        return mOutFolder;
-    }
-   
-    /**
-     * @param outFolder the outFolder to set
-     */
-    public void setOutFolder(String outFolder) {
-        mOutFolder = outFolder;
-    }
-        
+            
     /**
      * @return the package
      */
@@ -279,11 +264,6 @@ public class Schema implements Visitable {
         if (mMetadataClassName != null) {
             builder.append("mMetadataClassName=");
             builder.append(mMetadataClassName);
-            builder.append(", ");
-        }
-        if (mOutFolder != null) {
-            builder.append("mOutFolder=");
-            builder.append(mOutFolder);
             builder.append(", ");
         }
         if (mPackage != null) {

@@ -28,6 +28,7 @@ import com.sgxmobileapps.androidsqlhelper.processor.model.UnsupportedFieldTypeEx
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Iterator;
 import java.util.Properties;
 import java.util.Set;
@@ -42,6 +43,8 @@ import javax.lang.model.element.AnnotationValue;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
 import javax.tools.Diagnostic.Kind;
+import javax.tools.FileObject;
+import javax.tools.StandardLocation;
 
 
 /**
@@ -132,18 +135,31 @@ public class AnnotationProcessor extends AbstractProcessor {
      */
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
-        
-        try {
-            mProperties.load(new FileInputStream(SQL_HELPER_PROPERTIES_FILE));
-            mSchema.loadSchemaPropeties(mProperties);
+    	InputStream is = null;
+    	try {
+        	FileObject fo = processingEnv.getFiler().getResource(StandardLocation.CLASS_PATH, "", SQL_HELPER_PROPERTIES_FILE);
+        	if (fo != null) {
+        		is = fo.openInputStream();
+        	}
         } catch (FileNotFoundException e) {
-            /* default properties */
+            try {
+				is = new FileInputStream(SQL_HELPER_PROPERTIES_FILE);
+			} catch (FileNotFoundException e1) {
+				printMessage(Kind.ERROR, "Opening properties file failed. File not found: %s", e.getMessage());
+	            return false;
+			}
+        } catch (IOException e) {
+            printMessage(Kind.ERROR, "Opening properties file failed: %s", e.getMessage());
+            return false;
+        }
+        
+    	try {
+        	mProperties.load(is);
+            mSchema.loadSchemaPropeties(mProperties);
         } catch (IOException e) {
             printMessage(Kind.ERROR, "Reading properties file failed: %s", e.getMessage());
             return false;
         }
-        
-        
         
         boolean found = false;
         Iterator<? extends Element> it = roundEnv.getElementsAnnotatedWith(PersistentEntity.class).iterator();
@@ -158,10 +174,10 @@ public class AnnotationProcessor extends AbstractProcessor {
             
             try {
                 CodeGenerator generator = CodeGeneratorFactory.getCodeGenerator();
-                generator.generate(mSchema);
+                generator.generate(mSchema, processingEnv.getFiler());
             } catch (CodeGenerationException e) {
                 printMessage(Kind.ERROR, "Code generation failed: %s", e.getMessage());
-            }
+            } 
         }
 
         return true;

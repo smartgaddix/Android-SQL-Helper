@@ -15,9 +15,6 @@
  */
 package com.sgxmobileapps.androidsqlhelper.generator;
 
-import android.database.SQLException;
-
-
 
 /**
  * @author Massimo Gaddini

@@ -39,17 +39,17 @@ public abstract class TestDbAdapter {
      * 
      */
     private SQLiteDatabase mDb;
-    private final static String SQL_SIMPLEENTITY_CREATE_TABLE = "CREATE TABLE IF NOT EXISTS "+ outpackage.test.TestDbMetadata.SimpleEntity.SIMPLEENTITY_TABLE_NAME +" ("+
-    outpackage.test.TestDbMetadata.SimpleEntity.SIMPLEENTITY_ID_COL +" INTEGER PRIMARY KEY AUTOINCREMENT, "+
-    outpackage.test.TestDbMetadata.SimpleEntity.SIMPLEENTITY_FIELDSTRING_COL +" TEXT, "+
-    outpackage.test.TestDbMetadata.SimpleEntity.SIMPLEENTITY_FIELDLONG_COL +" INTEGER"+" );";
-    private final static String SQL_SIMPLEENTITY_DROP_TABLE = "DROP TABLE IF EXISTS "+ outpackage.test.TestDbMetadata.SimpleEntity.SIMPLEENTITY_TABLE_NAME +";";
-    private final static String SQL_SIMPLEENTITY2_CREATE_TABLE = "CREATE TABLE IF NOT EXISTS "+ outpackage.test.TestDbMetadata.SimpleEntity2 .SIMPLEENTITY2_TABLE_NAME +" ("+
-    outpackage.test.TestDbMetadata.SimpleEntity2 .SIMPLEENTITY2_ID_COL +" INTEGER PRIMARY KEY AUTOINCREMENT, "+
-    outpackage.test.TestDbMetadata.SimpleEntity2 .SIMPLEENTITY2_FIELDSTRING_COL +" TEXT, "+
-    outpackage.test.TestDbMetadata.SimpleEntity2 .SIMPLEENTITY2_FIELDLONG_COL +" INTEGER, "+
-    outpackage.test.TestDbMetadata.SimpleEntity2 .SIMPLEENTITY2_FIELDDATE_COL +" INTEGER"+" );";
-    private final static String SQL_SIMPLEENTITY2_DROP_TABLE = "DROP TABLE IF EXISTS "+ outpackage.test.TestDbMetadata.SimpleEntity2 .SIMPLEENTITY2_TABLE_NAME +";";
+    private final static String SQL_SIMPLEENTITY_CREATE_TABLE = "CREATE TABLE IF NOT EXISTS "+ TestDbMetadata.SimpleEntity.SIMPLEENTITY_TABLE_NAME +" ("+
+    TestDbMetadata.SimpleEntity.SIMPLEENTITY_ID_COL +" INTEGER PRIMARY KEY AUTOINCREMENT, "+
+    TestDbMetadata.SimpleEntity.SIMPLEENTITY_FIELDSTRING_COL +" TEXT, "+
+    TestDbMetadata.SimpleEntity.SIMPLEENTITY_FIELDLONG_COL +" INTEGER"+" );";
+    private final static String SQL_SIMPLEENTITY_DROP_TABLE = "DROP TABLE IF EXISTS "+ TestDbMetadata.SimpleEntity.SIMPLEENTITY_TABLE_NAME +";";
+    private final static String SQL_SIMPLEENTITY2_CREATE_TABLE = "CREATE TABLE IF NOT EXISTS "+ TestDbMetadata.SimpleEntity2 .SIMPLEENTITY2_TABLE_NAME +" ("+
+    TestDbMetadata.SimpleEntity2 .SIMPLEENTITY2_ID_COL +" INTEGER PRIMARY KEY AUTOINCREMENT, "+
+    TestDbMetadata.SimpleEntity2 .SIMPLEENTITY2_FIELDSTRING_COL +" TEXT, "+
+    TestDbMetadata.SimpleEntity2 .SIMPLEENTITY2_FIELDLONG_COL +" INTEGER, "+
+    TestDbMetadata.SimpleEntity2 .SIMPLEENTITY2_FIELDDATE_COL +" INTEGER"+" );";
+    private final static String SQL_SIMPLEENTITY2_DROP_TABLE = "DROP TABLE IF EXISTS "+ TestDbMetadata.SimpleEntity2 .SIMPLEENTITY2_TABLE_NAME +";";
 
     /**
      * Initializes the data store
@@ -58,8 +58,7 @@ public abstract class TestDbAdapter {
      *     the context
      */
     public TestDbAdapter(Context context) {
-        mDbHelper = new TestDbAdapter.DbHelper(context, DATABASE_NAME, null, DATABASE_VERSION, this);
-        return this;
+        mDbHelper = new TestDbAdapter.DbHelper(context, TestDbMetadata.DATABASE_NAME, null, TestDbMetadata.DATABASE_VERSION, this);
     }
 
     /**
@@ -99,7 +98,6 @@ public abstract class TestDbAdapter {
      * @return
      *     if the method return false the old schema will be destroyed and the new schema will be created. If return true the upgrade process terminates
      */
-    @Override
     public Boolean onDatastoreUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         return false;
     }
@@ -121,8 +119,8 @@ public abstract class TestDbAdapter {
          */
         @Override
         public void onCreate(SQLiteDatabase db) {
-            execSQL(SQL_SIMPLEENTITY_CREATE_TABLE);
-            execSQL(SQL_SIMPLEENTITY2_CREATE_TABLE);
+            db.execSQL(SQL_SIMPLEENTITY_CREATE_TABLE);
+            db.execSQL(SQL_SIMPLEENTITY2_CREATE_TABLE);
         }
 
         /**
@@ -136,8 +134,8 @@ public abstract class TestDbAdapter {
             }
             // Upgrade the existing database to conform to the new version. Multiple previous versions can be handled by comparing _oldVersion and _newVersion values
             // The simplest case is to drop the old table and create a new one.
-            execSQL(SQL_SIMPLEENTITY_DROP_TABLE);
-            execSQL(SQL_SIMPLEENTITY2_DROP_TABLE);
+            db.execSQL(SQL_SIMPLEENTITY_DROP_TABLE);
+            db.execSQL(SQL_SIMPLEENTITY2_DROP_TABLE);
             // Create a new one.
             onCreate(db);
         }
