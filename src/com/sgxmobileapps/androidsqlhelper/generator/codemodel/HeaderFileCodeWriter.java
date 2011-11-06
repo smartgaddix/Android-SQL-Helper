@@ -61,11 +61,12 @@ public class HeaderFileCodeWriter extends CodeWriter {
     	}
     	
     	String noExtFileName = fileName.substring(0, lastDotIndex);
+    	String fqn = pkg.name().isEmpty()?noExtFileName:(pkg.name() + "." + noExtFileName);
     	JavaFileObject jfo = null;
     	if (fileName.substring(lastDotIndex).equals(".java")) {
-    		jfo = mFiler.createSourceFile(pkg.name() + "." + noExtFileName);
+    		jfo = mFiler.createSourceFile(fqn);
     	} else if (fileName.substring(lastDotIndex).equals(".class")) {
-    		jfo = mFiler.createClassFile(pkg.name() + "." + noExtFileName);
+    		jfo = mFiler.createClassFile(fqn);
     	} 
     	
     	if (jfo == null){
