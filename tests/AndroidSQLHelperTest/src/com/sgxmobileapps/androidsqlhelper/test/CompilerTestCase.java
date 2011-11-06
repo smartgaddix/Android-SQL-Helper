@@ -21,17 +21,10 @@ import static org.junit.Assert.*;
 import com.sgxmobileapps.androidsqlhelper.processor.model.Schema;
 import com.sgxmobileapps.androidsqlhelper.test.entities.SimpleEntity;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.TestName;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.Writer;
 import java.util.ArrayList;
 
 
@@ -40,34 +33,8 @@ import java.util.ArrayList;
  * @author Massimo Gaddini
  *
  */
-public class CompilerTestCase {
-    protected static File mInDir;
-    protected static Writer mOutputWriter; 
+public class CompilerTestCase extends BaseTestCase { 
     
-    @Rule
-    public TestName name = new TestName();
-    
-    @BeforeClass
-    public static void beforeTests() throws IOException{
-        mOutputWriter = TestUtil.openSummary("compiler");
-    }
-
-    @AfterClass
-    public static void afterTests() throws IOException{
-        TestUtil.closeSumamry(mOutputWriter);
-    }
-    
-    @Before
-    public void beforeTest() throws IOException {
-    	TestUtil.printStartTest(mOutputWriter, name.getMethodName());
-    	
-    	mInDir = TestUtil.getInDir(name.getMethodName());
-    }
-    
-    @After
-    public void afterTest() throws IOException {
-        TestUtil.printEndTest(mOutputWriter, name.getMethodName(), true);
-    }
     
     @Test
     public void compileWithoutLibs() throws IOException{

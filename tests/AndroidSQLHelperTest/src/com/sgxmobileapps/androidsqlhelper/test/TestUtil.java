@@ -44,7 +44,7 @@ public class TestUtil {
         return new FileWriter(new File(TESTS_PATH, SUMMARY_FILE_NAME + "_" + testUnit + ".log"));
     }
 
-    public static void closeSumamry(Writer summary) throws IOException{
+    public static void closeSummary(Writer summary) throws IOException{
         summary.close();
     }
     
