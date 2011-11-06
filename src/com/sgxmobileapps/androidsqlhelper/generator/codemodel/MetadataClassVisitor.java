@@ -49,8 +49,7 @@ public class MetadataClassVisitor implements Visitor {
      */
     public void visit(Schema schema) throws VisitorException {
         ctx.mPckg = ctx.mCMRoot._package(schema.getPackage());
-        
-        
+           
         try {
             ctx.mMetadataInfo.mClass = ctx.mPckg._class(schema.getMetadataClassName());
             generateMetadataJavaDoc(schema);

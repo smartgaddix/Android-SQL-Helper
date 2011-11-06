@@ -47,7 +47,9 @@ public class CodeModelCodeGenerator implements CodeGenerator {
             throw new CodeGenerationException(e);
         } catch (VisitorException e) {
             throw new CodeGenerationException(e);
-        } 
+        } catch (Exception e){
+            throw new CodeGenerationException(e);
+        }
         
     }
 }
