@@ -66,8 +66,6 @@ import javax.tools.StandardLocation;
 @SupportedSourceVersion(SourceVersion.RELEASE_6)
 public class AnnotationProcessor extends AbstractProcessor {
     
-    protected static final String SQL_HELPER_PROPERTIES_FILE = "schema.properties";
-    
     protected Schema mSchema = new Schema();
     protected Properties mProperties = new Properties();
     
@@ -137,13 +135,13 @@ public class AnnotationProcessor extends AbstractProcessor {
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
     	InputStream is = null;
     	try {
-        	FileObject fo = processingEnv.getFiler().getResource(StandardLocation.CLASS_PATH, "", SQL_HELPER_PROPERTIES_FILE);
+        	FileObject fo = processingEnv.getFiler().getResource(StandardLocation.CLASS_PATH, "", Schema.SCHEMA_PROPERTIES_FILE);
         	if (fo != null) {
         		is = fo.openInputStream();
         	}
         } catch (FileNotFoundException e) {
             try {
-				is = new FileInputStream(SQL_HELPER_PROPERTIES_FILE);
+				is = new FileInputStream(Schema.SCHEMA_PROPERTIES_FILE);
 			} catch (FileNotFoundException e1) {
 				printMessage(Kind.ERROR, "Opening properties file failed. File not found: %s", e.getMessage());
 	            return false;

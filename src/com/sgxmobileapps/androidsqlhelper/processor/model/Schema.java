@@ -15,10 +15,9 @@
  */
 package com.sgxmobileapps.androidsqlhelper.processor.model;
 
-
-
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.Vector;
@@ -30,7 +29,9 @@ import java.util.Vector;
  * 
  * @author Massimo Gaddini
  */
-public class Schema implements Visitable {    
+public class Schema implements Visitable {  
+    public static final String SCHEMA_PROPERTIES_FILE = "schema.properties";
+    
     protected String    KEY_PACKAGE = "package";
     protected String    DEFAULT_PACKAGE = "";
     
@@ -94,6 +95,20 @@ public class Schema implements Visitable {
         }
     }
     
+    public void storeSchemaProperties(File outDir) throws IOException {
+        Properties props = new Properties();
+        props.setProperty(KEY_PACKAGE, mPackage);
+        props.setProperty(KEY_ADAPTER_CLASS_NAME, mDbAdapterClassName);
+        props.setProperty(KEY_METADATA_CLASS_NAME, mMetadataClassName);
+        props.setProperty(KEY_DB_NAME, mDbName);
+        props.setProperty(KEY_DB_VERSION, mDbVersion);
+        props.setProperty(KEY_AUTHOR, mAuthor);
+        props.setProperty(KEY_LICENSE, mLicense);
+        props.setProperty(KEY_LICENSE_FILE, mLicenseFile);
+        
+        props.store(new FileOutputStream(new File(outDir, SCHEMA_PROPERTIES_FILE)), null);
+    }
+    
     /* 
      * @see com.sgxmobileapps.androidsqlhelper.processor.model.Visitable#accept(com.sgxmobileapps.androidsqlhelper.processor.model.GeneratorVisitor)
      */
@@ -115,8 +130,8 @@ public class Schema implements Visitable {
     /**
      * @param package1 the package to set
      */
-    public void setPackage(String package1) {
-        mPackage = package1;
+    public void setPackage(String pkg) {
+        mPackage = pkg;
     }
    
     /**
@@ -201,6 +216,22 @@ public class Schema implements Visitable {
      */
     public void setLicense(String license) {
         mLicense = license;
+    }
+
+    
+    /**
+     * @return the license file name
+     */
+    public String getLicenseFile() {
+        return mLicenseFile;
+    }
+
+    
+    /**
+     * @param licenseFile the license file name to set
+     */
+    public void setLicenseFile(String licenseFile) {
+        mLicenseFile = licenseFile;
     }
 
     /**
