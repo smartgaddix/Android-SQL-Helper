@@ -204,7 +204,7 @@ public class DbAdapterClassVisitor implements Visitor {
 
         dbati.mCreateTableField =
             ctx.mDbAdapterInfo.mClass.field(JMod.PRIVATE|JMod.STATIC|JMod.FINAL, String.class,
-                    CodeGenerationConstants.DBADAPTER_SQL_ENTITY_CREATE_TABLE_PREFIX + table.getTableName() + CodeGenerationConstants.DBADAPTER_SQL_ENTITY_CREATE_TABLE_SUFFIX,
+                    CodeGenerationConstants.DBADAPTER_SQL_ENTITY_CREATE_TABLE_PREFIX + table.getEntityName().toUpperCase() + CodeGenerationConstants.DBADAPTER_SQL_ENTITY_CREATE_TABLE_SUFFIX,
                     createTableExpr );
 
         ctx.mDbAdapterInfo.mHelperOnCreateMethodBody.invoke(ctx.mDbAdapterInfo.mHelperOnCreateDbParam, "execSQL").arg(dbati.mCreateTableField);
@@ -218,7 +218,7 @@ public class DbAdapterClassVisitor implements Visitor {
 
         dbati.mDropTableField =
             ctx.mDbAdapterInfo.mClass.field(JMod.PRIVATE|JMod.STATIC|JMod.FINAL, String.class,
-                    CodeGenerationConstants.DBADAPTER_SQL_ENTITY_DROP_TABLE_PREFIX + table.getTableName() + CodeGenerationConstants.DBADAPTER_SQL_ENTITY_DROP_TABLE_SUFFIX,
+                    CodeGenerationConstants.DBADAPTER_SQL_ENTITY_DROP_TABLE_PREFIX + table.getEntityName().toUpperCase() + CodeGenerationConstants.DBADAPTER_SQL_ENTITY_DROP_TABLE_SUFFIX,
                     dropTableExpr );
 
         ctx.mDbAdapterInfo.mHelperOnUpgradeMethodBody.invoke(ctx.mDbAdapterInfo.mHelperOnUpgradeDbParam, "execSQL").arg(dbati.mDropTableField);

@@ -98,21 +98,21 @@ public class MetadataClassVisitor implements Visitor {
     
     private void generateEntityMetadataConstants(CodeModelVisitorContext.MetaTableInfo mti, Table table) throws JClassAlreadyExistsException {
         mti.mTableNameField = mti.mClass.field(JMod.PUBLIC|JMod.STATIC|JMod.FINAL, String.class, 
-                table.getTableName() + CodeGenerationConstants.METADATA_ENTITY_TABLE_NAME_SUFFIX, JExpr.lit(table.getTableName()));
+                table.getEntityName().toUpperCase() + CodeGenerationConstants.METADATA_ENTITY_TABLE_NAME_SUFFIX, JExpr.lit(table.getTableName()));
         
         if ((table.getOrderBy() == null)  || (table.getOrderBy().isEmpty())) {
             mti.mDefOrderField = mti.mClass.field(JMod.PUBLIC|JMod.STATIC|JMod.FINAL, String.class, 
-                    table.getTableName() + CodeGenerationConstants.METADATA_ENTITY_DEFAULT_ORDER_SUFFIX, JExpr._null());
+                    table.getEntityName().toUpperCase() + CodeGenerationConstants.METADATA_ENTITY_DEFAULT_ORDER_SUFFIX, JExpr._null());
         } else {
             mti.mDefOrderField = mti.mClass.field(JMod.PUBLIC|JMod.STATIC|JMod.FINAL, String.class, 
-                    table.getTableName() + CodeGenerationConstants.METADATA_ENTITY_DEFAULT_ORDER_SUFFIX, JExpr.lit(table.getOrderBy()));
+                    table.getEntityName().toUpperCase() + CodeGenerationConstants.METADATA_ENTITY_DEFAULT_ORDER_SUFFIX, JExpr.lit(table.getOrderBy()));
         }
     }
     
     private void generateEntityMetadataField(CodeModelVisitorContext.MetaTableInfo mti, CodeModelVisitorContext.MetaFieldInfo mfi, Field field) {
         mfi.mColNameField = mti.mClass.field(JMod.PUBLIC|JMod.STATIC|JMod.FINAL, String.class, 
-                field.getTable().getTableName() + "_" + field.getFieldName().toUpperCase() + CodeGenerationConstants.METADATA_ENTITY_COL_NAME_SUFFIX, JExpr.lit(field.getColumnName()));
+                field.getTable().getEntityName().toUpperCase() + "_" + field.getFieldName().toUpperCase() + CodeGenerationConstants.METADATA_ENTITY_COL_NAME_SUFFIX, JExpr.lit(field.getColumnName()));
         mfi.mColIdxField = mti.mClass.field(JMod.PROTECTED|JMod.STATIC|JMod.FINAL, int.class, 
-                field.getTable().getTableName() + "_" + field.getFieldName().toUpperCase() + CodeGenerationConstants.METADATA_ENTITY_COL_IDX_SUFFIX, JExpr.lit(field.getIndex()));
+                field.getTable().getEntityName().toUpperCase() + "_" + field.getFieldName().toUpperCase() + CodeGenerationConstants.METADATA_ENTITY_COL_IDX_SUFFIX, JExpr.lit(field.getIndex()));
     }
 }
