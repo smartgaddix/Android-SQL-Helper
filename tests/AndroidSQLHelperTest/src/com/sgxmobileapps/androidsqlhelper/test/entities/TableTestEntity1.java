@@ -22,7 +22,7 @@ import com.sgxmobileapps.androidsqlhelper.annotation.PersistentField;
  * @author Massimo Gaddini
  *
  */
-@PersistentEntity(tableName="FIRSTENTITY")
+@PersistentEntity(tableName="FIRSTENTITY", unique={"mFieldString", "mFieldLong"})
 public class TableTestEntity1 {
 
     @PersistentField

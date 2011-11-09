@@ -19,7 +19,6 @@ package com.sgxmobileapps.androidsqlhelper.test;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import com.sgxmobileapps.androidsqlhelper.processor.model.Schema;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -27,8 +26,6 @@ import org.junit.Test;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.ArrayList;
 
 
@@ -46,41 +43,22 @@ public class TableTestCase extends BaseTestCase {
     
     @Test
     public void tebleNameSpecified() throws IOException{
-        Schema schema = new Schema();
-        schema.setPackage("generated");
-        schema.setAuthor("smartgaddix");
-        schema.setDbAdapterClassName("TestDbAdapter");
-        schema.setDbName("test.db");
-        schema.setDbVersion("1");
-        schema.setLicense("short license");
-        schema.setLicenseFile("LICENSEHEADER");
-        schema.setMetadataClassName("TestDbMetadata");
-
-        schema.storeSchemaProperties(mInDir);
+        writeDefaultSchema();
 
         ArrayList<String> sources = new ArrayList<String>();
         sources.add("src/com/sgxmobileapps/androidsqlhelper/test/entities/TableTestEntity1.java");
 
         ArrayList<String> options = new ArrayList<String>();
         options.add("-cp");
-        options.add(mInDir.getAbsolutePath() + File.pathSeparator + "lib/androidsqlhelper.jar" + File.pathSeparator + "lib/android.jar" );
+        options.add(getInDir().getAbsolutePath() + File.pathSeparator + "lib/androidsqlhelper.jar" + File.pathSeparator + "lib/android.jar" );
 
         assertTrue(compileFiles(options, sources));
-
-        File outSrcDir = getOutSrcDir();
-        File dbAdpFile = new File(outSrcDir, "generated/TestDbAdapter.java");
-        File dbMetadataFile = new File(outSrcDir, "generated/TestDbMetadata.java");
-
-        File outBuildDir = getOutBuildDir();
-		File dbAdpClassFile = new File(outBuildDir, "generated/TestDbAdapter.class");
-        File dbMetadataClassFile = new File(outBuildDir, "generated/TestDbMetadata.class");
-
-        assertTrue(dbAdpFile.exists() && dbMetadataFile.exists() && dbAdpClassFile.exists() && dbMetadataClassFile.exists());
         
-		URLClassLoader classLoader = new URLClassLoader(new URL[]{outBuildDir.toURI().toURL()});	
-		String tableName = null;
+        assertTrue(checkGeneratedSource("outpackage/test/TestDbAdapter", "outpackage/test/TestDbMetadata"));
+
+        String tableName = null;
 		try {
-		    Class<?> metadataClazz = classLoader.loadClass("generated.TestDbMetadata$TableTestEntity1");
+		    Class<?> metadataClazz = loadGeneratedClass("outpackage.test.TestDbMetadata$TableTestEntity1");
             Field tableNameField = metadataClazz.getField("TABLETESTENTITY1_TABLE_NAME");
             tableName = (String)tableNameField.get(null);    
         } catch (Exception e) {
@@ -88,5 +66,35 @@ public class TableTestCase extends BaseTestCase {
         } 
 		
 		assertTrue(tableName.equals("FIRSTENTITY"));
+    }
+    
+    @Test
+    public void uniqueSpecified() throws IOException{
+        writeDefaultSchema();
+
+        ArrayList<String> sources = new ArrayList<String>();
+        sources.add("src/com/sgxmobileapps/androidsqlhelper/test/entities/TableTestEntity1.java");
+
+        ArrayList<String> options = new ArrayList<String>();
+        options.add("-cp");
+        options.add(getInDir().getAbsolutePath() + File.pathSeparator + "lib/androidsqlhelper.jar" + File.pathSeparator + "lib/android.jar" );
+
+        assertTrue(compileFiles(options, sources));
+
+        assertTrue(checkGeneratedSource("outpackage/test/TestDbAdapter", "outpackage/test/TestDbMetadata"));
+        
+        String createTable = null;
+        try {
+            Class<?> adapterClazz = loadGeneratedClass("outpackage.test.TestDbAdapter");
+            Field createTableField = adapterClazz.getDeclaredField("SQL_TABLETESTENTITY1_CREATE_TABLE");
+            createTableField.setAccessible(true);
+            createTable = (String)createTableField.get(null);    
+        } catch (Exception e) {
+            fail(e.getMessage());
+        } 
+        
+        printToOutput(createTable);
+        
+        assertTrue(createTable.contains("MFIELDSTRING TEXT NOT NULL UNIQUE")  && createTable.contains("MFIELDLONG INTEGER NOT NULL UNIQUE"));
     }
 }

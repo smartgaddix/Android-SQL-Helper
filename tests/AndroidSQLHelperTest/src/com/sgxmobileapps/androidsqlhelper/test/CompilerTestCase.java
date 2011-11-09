@@ -18,7 +18,6 @@ package com.sgxmobileapps.androidsqlhelper.test;
 
 import static org.junit.Assert.*;
 
-import com.sgxmobileapps.androidsqlhelper.processor.model.Schema;
 import com.sgxmobileapps.androidsqlhelper.test.entities.SimpleEntity;
 
 import org.junit.BeforeClass;
@@ -43,17 +42,7 @@ public class CompilerTestCase extends BaseTestCase {
     
     @Test
     public void compileWithoutLibs() throws IOException{
-        Schema schema = new Schema();
-        schema.setPackage("outpackage.test");
-        schema.setAuthor("smartgaddix");
-        schema.setDbAdapterClassName("TestDbAdapter");
-        schema.setDbName("test.db");
-        schema.setDbVersion("1");
-        schema.setLicense("short license");
-        schema.setLicenseFile("LICENSEHEADER");
-        schema.setMetadataClassName("TestDbMetadata");
-
-        schema.storeSchemaProperties(mInDir);
+        writeDefaultSchema();
 
         ArrayList<String> sources = new ArrayList<String>();
         sources.add("src/com/sgxmobileapps/androidsqlhelper/test/entities/SimpleEntity.java");
@@ -64,22 +53,13 @@ public class CompilerTestCase extends BaseTestCase {
         options.add(".");
 
         assertTrue(!compileFiles(options, sources));
+        
+        assertTrue(!checkGeneratedSource("outpackage/test/TestDbAdapter", "outpackage/test/TestDbMetadata"));
     }
 
     @Test
-    public void compileWithAnnotationLib() throws IOException{
-
-        Schema schema = new Schema();
-        schema.setPackage("outpackage.test");
-        schema.setAuthor("smartgaddix");
-        schema.setDbAdapterClassName("TestDbAdapter");
-        schema.setDbName("test.db");
-        schema.setDbVersion("1");
-        schema.setLicense("short license");
-        schema.setLicenseFile("LICENSEHEADER");
-        schema.setMetadataClassName("TestDbMetadata");
-
-        schema.storeSchemaProperties(mInDir);
+    public void compileWithAnnotationLib() throws IOException {
+        writeDefaultSchema();
 
         ArrayList<String> sources = new ArrayList<String>();
         sources.add("src/com/sgxmobileapps/androidsqlhelper/test/entities/SimpleEntity.java");
@@ -90,23 +70,13 @@ public class CompilerTestCase extends BaseTestCase {
         options.add("lib/androidsqlhelperannotations.jar");
 
         assertTrue(compileFiles(options, sources));
-
+        
+        assertTrue(!checkGeneratedSource("outpackage/test/TestDbAdapter", "outpackage/test/TestDbMetadata"));
     }
 
     @Test
     public void compileWithProcessorLib() throws IOException{
-
-        Schema schema = new Schema();
-        schema.setPackage("outpackage.test");
-        schema.setAuthor("smartgaddix");
-        schema.setDbAdapterClassName("TestDbAdapter");
-        schema.setDbName("test.db");
-        schema.setDbVersion("1");
-        schema.setLicense("short license");
-        schema.setLicenseFile("LICENSEHEADER");
-        schema.setMetadataClassName("TestDbMetadata");
-
-        schema.storeSchemaProperties(mInDir);
+        writeDefaultSchema();
 
         ArrayList<String> sources = new ArrayList<String>();
         sources.add("src/com/sgxmobileapps/androidsqlhelper/test/entities/SimpleEntity.java");
@@ -114,34 +84,27 @@ public class CompilerTestCase extends BaseTestCase {
 
         ArrayList<String> options = new ArrayList<String>();
         options.add("-cp");
-        options.add(mInDir.getAbsolutePath() + File.pathSeparator + "lib/androidsqlhelper.jar" + File.pathSeparator + "lib/android.jar" );
+        options.add(getInDir().getAbsolutePath() + File.pathSeparator + "lib/androidsqlhelper.jar" + File.pathSeparator + "lib/android.jar" );
 
         assertTrue(compileFiles(options, sources));
+        
+        assertTrue(checkGeneratedSource("outpackage/test/TestDbAdapter", "outpackage/test/TestDbMetadata"));
     }
 
     @Test
     public void compileFull() throws IOException{
-        Schema schema = new Schema();
-        schema.setPackage("outpackage.test");
-        schema.setAuthor("smartgaddix");
-        schema.setDbAdapterClassName("TestDbAdapter");
-        schema.setDbName("test.db");
-        schema.setDbVersion("1");
-        schema.setLicense("short license");
-        schema.setLicenseFile("LICENSEHEADER");
-        schema.setMetadataClassName("TestDbMetadata");
-
-        schema.storeSchemaProperties(mInDir);
+        writeDefaultSchema();
 
         ArrayList<String> sources = new ArrayList<String>();
         sources.add("src/com/sgxmobileapps/androidsqlhelper/test/entities/FullEntity.java");
 
         ArrayList<String> options = new ArrayList<String>();
         options.add("-cp");
-        options.add(mInDir.getAbsolutePath() + File.pathSeparator + "lib/androidsqlhelper.jar" + File.pathSeparator + "lib/android.jar");
+        options.add(getInDir().getAbsolutePath() + File.pathSeparator + "lib/androidsqlhelper.jar" + File.pathSeparator + "lib/android.jar");
 
         assertTrue(compileFiles(options, sources));
 
+        assertTrue(checkGeneratedSource("outpackage/test/TestDbAdapter", "outpackage/test/TestDbMetadata"));
     }
 
 

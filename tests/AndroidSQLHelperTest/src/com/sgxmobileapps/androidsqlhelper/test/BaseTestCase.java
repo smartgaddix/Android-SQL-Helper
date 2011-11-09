@@ -15,6 +15,8 @@
  */
 package com.sgxmobileapps.androidsqlhelper.test;
 
+import com.sgxmobileapps.androidsqlhelper.processor.model.Schema;
+
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Rule;
@@ -26,6 +28,9 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,14 +47,13 @@ import javax.tools.ToolProvider;
  */
 public class BaseTestCase {
 
-    protected static final String TESTS_PATH = "tests";
-	protected static final String TESTS_IN_PATH = "in";
-	protected static final String TESTS_OUT_BUILD_PATH = "out" + File.separatorChar + "build";
-	protected static final String TESTS_OUT_SRC_PATH = "out" + File.separatorChar + "src";
-	protected static final String SUMMARY_FILE_NAME = "tests_summary";
+    private static final String TESTS_PATH = "tests";
+    private static final String TESTS_IN_PATH = "in";
+    private static final String TESTS_OUT_BUILD_PATH = "out" + File.separatorChar + "build";
+    private static final String TESTS_OUT_SRC_PATH = "out" + File.separatorChar + "src";
+    private static final String SUMMARY_FILE_NAME = "tests_summary";
 
-	protected static File mInDir;
-    protected static Writer mOutputWriter;
+    private static Writer mOutputWriter;
 
 	protected static void openSummary(String testUnit) throws IOException {
 		mOutputWriter = new FileWriter(new File(TESTS_PATH, SUMMARY_FILE_NAME + "_" + testUnit + ".log"));
@@ -70,6 +74,10 @@ public class BaseTestCase {
 		mOutputWriter.write("Test [" + testTag + "] " + (success?"SUCCESS":"FAILED") + "\n");
 		mOutputWriter.write("--------------------------------------------------------------\n");
 		mOutputWriter.write("--------------------------------------------------------------\n\n\n\n");
+	}
+	
+	protected static void printToOutput(String msg) throws IOException{
+	    mOutputWriter.write(msg);
 	}
 
 	protected static File getOutBuildDir() {
@@ -127,6 +135,52 @@ public class BaseTestCase {
 		CompilationTask task = compiler.getTask(mOutputWriter, fileManager, null, options, null, compilationUnits);
 		return task.call();
     }
+	
+	protected static Schema getDefaultSchema() throws IOException{ 
+        Schema schema = new Schema();
+        schema.setPackage("outpackage.test");
+        schema.setAuthor("smartgaddix");
+        schema.setDbAdapterClassName("TestDbAdapter");
+        schema.setDbName("test.db");
+        schema.setDbVersion("1");
+        schema.setLicense("short license");
+        schema.setLicenseFile("LICENSEHEADER");
+        schema.setMetadataClassName("TestDbMetadata");
+        
+        return schema;
+    }
+	
+	protected static void writeSchema(Schema schema) throws IOException{ 
+        schema.storeSchemaProperties(getInDir());
+    }
+	
+	protected static void writeDefaultSchema() throws IOException{ 
+        writeSchema(getDefaultSchema());
+	}
+	
+	protected static File getGeneratedSourceFile(String relativePath){
+	    File outSrcDir = getOutSrcDir();
+        return new File(outSrcDir, relativePath);
+	}
+	
+	protected static File getGeneratedBuildFile(String relativePath){
+        File outBuildDir = getOutBuildDir();
+        return new File(outBuildDir, relativePath);
+    }
+	
+	protected static boolean checkGeneratedSource(String relativePath1, String relativePath2){
+	    File dbAdpFile = getGeneratedSourceFile(relativePath1 + ".java");
+        File dbMetadataFile = getGeneratedSourceFile(relativePath2 + ".java");
+        File dbAdpClassFile = getGeneratedBuildFile(relativePath1 + ".class");
+        File dbMetadataClassFile = getGeneratedBuildFile(relativePath2 + ".class");
+
+        return dbAdpFile.exists() && dbMetadataFile.exists() && dbAdpClassFile.exists() && dbMetadataClassFile.exists();
+	}
+	
+	protected static Class<?> loadGeneratedClass(String fqName) throws MalformedURLException, ClassNotFoundException{
+	    URLClassLoader classLoader = new URLClassLoader(new URL[]{ getOutBuildDir().toURI().toURL(), (new File("lib/android.jar")).toURI().toURL()});    
+        return classLoader.loadClass(fqName);
+	}
 
     @Rule
     public static TestName name = new TestName();
@@ -158,7 +212,8 @@ public class BaseTestCase {
     @Before
     public void beforeTest() throws IOException {
         printStartTest(name.getMethodName());
-
-        mInDir = getInDir();
+        getInDir();
+        getOutSrcDir();
+        getOutBuildDir();
     }
 }

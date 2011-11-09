@@ -48,24 +48,17 @@ public class SchemaTestCase extends BaseTestCase {
 
         ArrayList<String> options = new ArrayList<String>();
         options.add("-cp");
-        options.add(mInDir.getAbsolutePath() + File.pathSeparator + "lib/androidsqlhelper.jar" + File.pathSeparator + "lib/android.jar" );
+        options.add(getInDir().getAbsolutePath() + File.pathSeparator + "lib/androidsqlhelper.jar" + File.pathSeparator + "lib/android.jar" );
 
         assertTrue(!compileFiles(options, sources));
     }
 
     @Test
-    public void noPackage() throws IOException{
-        Schema schema = new Schema();
+    public void noPackage() throws IOException {
+        
+        Schema schema = getDefaultSchema();
         schema.setPackage("");
-        schema.setAuthor("smartgaddix");
-        schema.setDbAdapterClassName("TestDbAdapter");
-        schema.setDbName("test.db");
-        schema.setDbVersion("1");
-        schema.setLicense("short license");
-        schema.setLicenseFile("LICENSEHEADER");
-        schema.setMetadataClassName("TestDbMetadata");
-
-        schema.storeSchemaProperties(mInDir);
+        writeSchema(schema);
 
         ArrayList<String> sources = new ArrayList<String>();
         sources.add("src/com/sgxmobileapps/androidsqlhelper/test/entities/SimpleEntity.java");
@@ -73,94 +66,67 @@ public class SchemaTestCase extends BaseTestCase {
 
         ArrayList<String> options = new ArrayList<String>();
         options.add("-cp");
-        options.add(mInDir.getAbsolutePath() + File.pathSeparator + "lib/androidsqlhelper.jar" + File.pathSeparator + "lib/android.jar" );
+        options.add(getInDir().getAbsolutePath() + File.pathSeparator + "lib/androidsqlhelper.jar" + File.pathSeparator + "lib/android.jar" );
 
         assertTrue(compileFiles(options, sources));
 
-        File outSrcDir = getOutSrcDir();
-        File dbAdpFile = new File(outSrcDir, "TestDbAdapter.java");
-        File dbMetadataFile = new File(outSrcDir, "TestDbMetadata.java");
-
-        assertTrue(dbAdpFile.exists() && dbMetadataFile.exists());
+        assertTrue(checkGeneratedSource("TestDbAdapter", "TestDbMetadata"));
     }
 
     @Test
     public void noLicenseFile() throws IOException{
-        Schema schema = new Schema();
-        schema.setPackage("com.generated");
-        schema.setAuthor("smartgaddix");
-        schema.setDbAdapterClassName("TestDbAdapter");
-        schema.setMetadataClassName("TestDbMetadata");
-        schema.setDbName("test.db");
-        schema.setDbVersion("1");
+        Schema schema = getDefaultSchema();
         schema.setLicense("/*short license\nshort license second line*/");
-
-        schema.storeSchemaProperties(mInDir);
+        schema.setLicenseFile("");
+        writeSchema(schema);
 
         ArrayList<String> sources = new ArrayList<String>();
         sources.add("src/com/sgxmobileapps/androidsqlhelper/test/entities/SimpleEntity.java");
 
         ArrayList<String> options = new ArrayList<String>();
         options.add("-cp");
-        options.add(mInDir.getAbsolutePath() + File.pathSeparator + "lib/androidsqlhelper.jar" + File.pathSeparator + "lib/android.jar" );
+        options.add(getInDir().getAbsolutePath() + File.pathSeparator + "lib/androidsqlhelper.jar" + File.pathSeparator + "lib/android.jar" );
 
         assertTrue(compileFiles(options, sources));
-
-        File outSrcDir = getOutSrcDir();
-        File dbAdpFile = new File(outSrcDir, "com/generated/TestDbAdapter.java");
-        File dbMetadataFile = new File(outSrcDir, "com/generated/TestDbMetadata.java");
-
-        assertTrue(dbAdpFile.exists() && dbMetadataFile.exists());
+    
+        assertTrue(checkGeneratedSource("outpackage/test/TestDbAdapter", "outpackage/test/TestDbMetadata"));
     }
 
+    
     @Test
     public void noLicense() throws IOException{
-        Schema schema = new Schema();
-        schema.setPackage("com.generated");
-        schema.setAuthor("smartgaddix");
-        schema.setDbAdapterClassName("TestDbAdapter");
-        schema.setMetadataClassName("TestDbMetadata");
-        schema.setDbName("test.db");
-        schema.setDbVersion("1");
-
-        schema.storeSchemaProperties(mInDir);
-
+        Schema schema = getDefaultSchema();
+        schema.setLicense("");
+        schema.setLicenseFile("");
+        writeSchema(schema);
+        
         ArrayList<String> sources = new ArrayList<String>();
         sources.add("src/com/sgxmobileapps/androidsqlhelper/test/entities/SimpleEntity.java");
 
         ArrayList<String> options = new ArrayList<String>();
         options.add("-cp");
-        options.add(mInDir.getAbsolutePath() + File.pathSeparator + "lib/androidsqlhelper.jar" + File.pathSeparator + "lib/android.jar" );
+        options.add(getInDir().getAbsolutePath() + File.pathSeparator + "lib/androidsqlhelper.jar" + File.pathSeparator + "lib/android.jar" );
 
         assertTrue(compileFiles(options, sources));
 
-        File outSrcDir = getOutSrcDir();
-        File dbAdpFile = new File(outSrcDir, "com/generated/TestDbAdapter.java");
-        File dbMetadataFile = new File(outSrcDir, "com/generated/TestDbMetadata.java");
-
-        assertTrue(dbAdpFile.exists() && dbMetadataFile.exists());
+        assertTrue(checkGeneratedSource("outpackage/test/TestDbAdapter", "outpackage/test/TestDbMetadata"));
     }
 
     @Test
     public void defaultSchema() throws IOException{
         Schema schema = new Schema();
-
-        schema.storeSchemaProperties(mInDir);
+        writeSchema(schema);
 
         ArrayList<String> sources = new ArrayList<String>();
         sources.add("src/com/sgxmobileapps/androidsqlhelper/test/entities/SimpleEntity.java");
 
         ArrayList<String> options = new ArrayList<String>();
         options.add("-cp");
-        options.add(mInDir.getAbsolutePath() + File.pathSeparator + "lib/androidsqlhelper.jar" + File.pathSeparator + "lib/android.jar" );
+        options.add(getInDir().getAbsolutePath() + File.pathSeparator + "lib/androidsqlhelper.jar" + File.pathSeparator + "lib/android.jar" );
 
         assertTrue(compileFiles(options, sources));
-
-        File outSrcDir = getOutSrcDir();
-        File dbAdpFile = new File(outSrcDir, "DbAdapter.java");
-        File dbMetadataFile = new File(outSrcDir, "DbMetadata.java");
-
-        assertTrue(dbAdpFile.exists() && dbMetadataFile.exists());
+        
+        assertTrue(checkGeneratedSource("DbAdapter", "DbMetadata"));
     }
 
     @Test
@@ -174,15 +140,14 @@ public class SchemaTestCase extends BaseTestCase {
         schema.setLicense("");
         schema.setLicenseFile("");
         schema.setMetadataClassName("");
-
-        schema.storeSchemaProperties(mInDir);
+        writeSchema(schema);
 
         ArrayList<String> sources = new ArrayList<String>();
         sources.add("src/com/sgxmobileapps/androidsqlhelper/test/entities/SimpleEntity.java");
 
         ArrayList<String> options = new ArrayList<String>();
         options.add("-cp");
-        options.add(mInDir.getAbsolutePath() + File.pathSeparator + "lib/androidsqlhelper.jar" + File.pathSeparator + "lib/android.jar" );
+        options.add(getInDir().getAbsolutePath() + File.pathSeparator + "lib/androidsqlhelper.jar" + File.pathSeparator + "lib/android.jar" );
 
         assertTrue(!compileFiles(options, sources));
     }
