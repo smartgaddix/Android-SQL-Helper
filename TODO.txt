@@ -5,26 +5,25 @@ X define model
 X implement the annotation processor via apt (integrated into javac.exe)
 X loading schema properties from properties file
 - document supported types and mapping
-- make test case
-- use codemodel for code generation
-- make test case
+X use codemodel for code generation
+X make test case
 - make same sample
 - javadoc
-- use of entity annotation to force some field properties, like key or nullable
+X use of entity annotation to force some field properties, like key or nullable
 - update/remove method based on key fields (without row id)
 - support for member class of the persistent bean
 - support for field of type enum
 - support of date time fields. Support of standard conversion or use a custom converter class
 - support for yaml configuration files (by snakeyaml)
-- support for license inclusion at the beginning of generated files(from external file)
+X support for license inclusion at the beginning of generated files(from external file)
 
 Todo:
 
 X optimize test project's settings for path dependency
 X optimize test project's sources
-- table annotation value for field name prefix to ignore for column name
+X table annotation value for field name prefix to ignore for column name
 - store field type for conversion in code generation
-- test case:
-	- running without annotation class
+X test case:
+	X running without annotation class
 	- 
 - add used libraries in README for license reasons
