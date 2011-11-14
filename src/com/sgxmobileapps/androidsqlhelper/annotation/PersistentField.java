@@ -32,10 +32,6 @@ import java.lang.annotation.Target;
  * The default column name is the uppercase field name 
  * </li>
  * <li>
- * <B>columnType:</B> SQL type for the column 
- * The default column type depend on the java type of the field.
- * </li>
- * <li>
  * <B>nullable:</B> declare the column for this field as nullable 
  * The dafault value is true (column nullable). For key fields the 
  * column is declared as not nullable.
@@ -52,7 +48,6 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.SOURCE)
 public @interface PersistentField {
     String columnName() default "";
-    String columnType() default "";
     boolean nullable() default true;
     String customColumnDefinition() default "";
 }

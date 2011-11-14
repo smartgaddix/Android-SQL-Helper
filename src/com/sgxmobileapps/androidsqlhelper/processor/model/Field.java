@@ -33,8 +33,8 @@ import javax.lang.model.type.DeclaredType;
 public class Field implements Visitable {
     protected String mFieldName;
     protected String mColumnName;
-    protected String mColumnType;
     protected boolean mNullable;
+    protected String mColumnType;
     protected Table mTable;
     protected String mCustomColumnDefinition;
     protected int mIndex;
@@ -70,61 +70,58 @@ public class Field implements Visitable {
         
         field.mTable = table;
                 
-        if (!annotation.columnType().isEmpty())
-            field.mColumnType = annotation.columnType();
-        else {
-            switch(member.asType().getKind()) {
-            case BOOLEAN:
-            case BYTE:
-            case LONG:
-            case INT:
-            case SHORT:
-                field.mColumnType = "INTEGER";
-                break;
-            case FLOAT:
-            case DOUBLE:
-                field.mColumnType = "REAL";
-                break;
-            case CHAR:
+        
+        switch(member.asType().getKind()) {
+        case BOOLEAN:
+        case BYTE:
+        case LONG:
+        case INT:
+        case SHORT:
+            field.mColumnType = "INTEGER";
+            break;
+        case FLOAT:
+        case DOUBLE:
+            field.mColumnType = "REAL";
+            break;
+        case CHAR:
+            field.mColumnType = "TEXT";
+            break;
+            
+        case DECLARED:
+            // TODO
+            //change declared type management
+         
+            String declaredName =  ((DeclaredType)member.asType()).asElement().toString();
+            
+            if (declaredName.equals("java.lang.Character") || 
+                declaredName.equals("java.lang.String") || 
+                declaredName.equals("java.lang.CharSequence")) {
+            
                 field.mColumnType = "TEXT";
-                break;
+            } else if (declaredName.equals("java.lang.Byte") || 
+                    declaredName.equals("java.lang.Boolean") || 
+                    declaredName.equals("java.lang.Long") || 
+                    declaredName.equals("java.lang.Integer") || 
+                    declaredName.equals("java.lang.Short")) {
                 
-            case DECLARED:
-                // TODO
-                //change declared type management
-             
-                String declaredName =  ((DeclaredType)member.asType()).asElement().toString();
+                field.mColumnType = "INTEGER";
+            } else if (declaredName.equals("java.lang.Double") || 
+                    declaredName.equals("java.lang.Float")) {
                 
-                if (declaredName.equals("java.lang.Character") || 
-                    declaredName.equals("java.lang.String") || 
-                    declaredName.equals("java.lang.CharSequence")) {
-                
-                    field.mColumnType = "TEXT";
-                } else if (declaredName.equals("java.lang.Byte") || 
-                        declaredName.equals("java.lang.Boolean") || 
-                        declaredName.equals("java.lang.Long") || 
-                        declaredName.equals("java.lang.Integer") || 
-                        declaredName.equals("java.lang.Short")) {
-                    
-                    field.mColumnType = "INTEGER";
-                } else if (declaredName.equals("java.lang.Double") || 
-                        declaredName.equals("java.lang.Float")) {
-                    
-                    field.mColumnType = "REAL";
-                } else if (declaredName.equals("java.util.Date") || 
-                        declaredName.equals("java.util.GregorianCalendar") || 
-                        declaredName.equals("java.util.Calendar")) {
-                    /* FixMe */
-                    field.mColumnType = "INTEGER";  
-                } else {
-                    throw new UnsupportedFieldTypeException("Declared type " + declaredName + " unsupported");
-                }
-                break;
-                
-            default:
-                throw new UnsupportedFieldTypeException("Kind " + member.asType().getKind() + " unsupported");
-            }     
-        }
+                field.mColumnType = "REAL";
+            } else if (declaredName.equals("java.util.Date") || 
+                    declaredName.equals("java.util.GregorianCalendar") || 
+                    declaredName.equals("java.util.Calendar")) {
+                /* FixMe */
+                field.mColumnType = "INTEGER";  
+            } else {
+                throw new UnsupportedFieldTypeException("Declared type " + declaredName + " unsupported");
+            }
+            break;
+            
+        default:
+            throw new UnsupportedFieldTypeException("Kind " + member.asType().getKind() + " unsupported");
+        }     
         
         return field;
     }
