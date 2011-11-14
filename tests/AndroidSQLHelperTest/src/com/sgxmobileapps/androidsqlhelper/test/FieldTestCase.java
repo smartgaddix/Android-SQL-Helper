@@ -34,19 +34,19 @@ import java.util.ArrayList;
  * @author Massimo Gaddini
  *
  */
-public class TableTestCase extends BaseTestCase {
+public class FieldTestCase extends BaseTestCase {
 
     @BeforeClass
     public static void beforeTests() throws IOException{
-        openSummary("table");
+        openSummary("field");
     }
     
     @Test
-    public void tableNameSpecified() throws IOException{
+    public void uniqueAndNullableFieldSpecified() throws IOException{
         writeDefaultSchema();
 
         ArrayList<String> sources = new ArrayList<String>();
-        sources.add("src/com/sgxmobileapps/androidsqlhelper/test/entities/TableTestEntity1.java");
+        sources.add("src/com/sgxmobileapps/androidsqlhelper/test/entities/FullEntity.java");
 
         ArrayList<String> options = new ArrayList<String>();
         options.add("-cp");
@@ -56,37 +56,10 @@ public class TableTestCase extends BaseTestCase {
         
         assertTrue(checkGeneratedSource("outpackage/test/TestDbAdapter", "outpackage/test/TestDbMetadata"));
 
-        String tableName = null;
-		try {
-		    Class<?> metadataClazz = loadGeneratedClass("outpackage.test.TestDbMetadata$TableTestEntity1");
-            Field tableNameField = metadataClazz.getField("TABLETESTENTITY1_TABLE_NAME");
-            tableName = (String)tableNameField.get(null);    
-        } catch (Exception e) {
-            fail(e.getMessage());
-        } 
-		
-		assertTrue(tableName.equals("FIRSTENTITY"));
-    }
-    
-    @Test
-    public void uniqueSpecified() throws IOException{
-        writeDefaultSchema();
-
-        ArrayList<String> sources = new ArrayList<String>();
-        sources.add("src/com/sgxmobileapps/androidsqlhelper/test/entities/TableTestEntity1.java");
-
-        ArrayList<String> options = new ArrayList<String>();
-        options.add("-cp");
-        options.add(getInDir().getAbsolutePath() + File.pathSeparator + "lib/androidsqlhelper.jar" + File.pathSeparator + "lib/android.jar" );
-
-        assertTrue(compileFiles(options, sources));
-
-        assertTrue(checkGeneratedSource("outpackage/test/TestDbAdapter", "outpackage/test/TestDbMetadata"));
-        
         String createTable = null;
         try {
             Class<?> adapterClazz = loadGeneratedClass("outpackage.test.TestDbAdapter");
-            Field createTableField = adapterClazz.getDeclaredField("SQL_TABLETESTENTITY1_CREATE_TABLE");
+            Field createTableField = adapterClazz.getDeclaredField("SQL_FULLENTITY_CREATE_TABLE");
             createTableField.setAccessible(true);
             createTable = (String)createTableField.get(null);    
         } catch (Exception e) {
@@ -95,28 +68,27 @@ public class TableTestCase extends BaseTestCase {
         
         printToOutput(createTable);
         
-        assertTrue(createTable.contains("MFIELDSTRING TEXT NOT NULL UNIQUE")  && createTable.contains("MFIELDLONG INTEGER NOT NULL UNIQUE"));
+        assertTrue(createTable.contains("LONG INTEGER NOT NULL UNIQUE")  && createTable.contains("INT INTEGER NOT NULL UNIQUE"));
     }
     
-    @Test
-    public void noIdColumn() throws IOException{
+    public void notNullSpecified() throws IOException{
         writeDefaultSchema();
 
         ArrayList<String> sources = new ArrayList<String>();
-        sources.add("src/com/sgxmobileapps/androidsqlhelper/test/entities/TableTestEntity2.java");
+        sources.add("src/com/sgxmobileapps/androidsqlhelper/test/entities/FullEntity.java");
 
         ArrayList<String> options = new ArrayList<String>();
         options.add("-cp");
         options.add(getInDir().getAbsolutePath() + File.pathSeparator + "lib/androidsqlhelper.jar" + File.pathSeparator + "lib/android.jar" );
 
         assertTrue(compileFiles(options, sources));
-
-        assertTrue(checkGeneratedSource("outpackage/test/TestDbAdapter", "outpackage/test/TestDbMetadata"));
         
+        assertTrue(checkGeneratedSource("outpackage/test/TestDbAdapter", "outpackage/test/TestDbMetadata"));
+
         String createTable = null;
         try {
             Class<?> adapterClazz = loadGeneratedClass("outpackage.test.TestDbAdapter");
-            Field createTableField = adapterClazz.getDeclaredField("SQL_TABLETESTENTITY2_CREATE_TABLE");
+            Field createTableField = adapterClazz.getDeclaredField("SQL_FULLENTITY_CREATE_TABLE");
             createTableField.setAccessible(true);
             createTable = (String)createTableField.get(null);    
         } catch (Exception e) {
@@ -125,28 +97,28 @@ public class TableTestCase extends BaseTestCase {
         
         printToOutput(createTable);
         
-        assertTrue(!createTable.contains("_id INTEGER PRIMARY KEY AUTOINCREMENT"));
+        assertTrue(createTable.contains("INT INTEGER NOT NULL"));
     }
     
     @Test
-    public void fieldsPrefix() throws IOException{
+    public void columnNameSpecified() throws IOException{
         writeDefaultSchema();
 
         ArrayList<String> sources = new ArrayList<String>();
-        sources.add("src/com/sgxmobileapps/androidsqlhelper/test/entities/TableTestEntity2.java");
+        sources.add("src/com/sgxmobileapps/androidsqlhelper/test/entities/FullEntity.java");
 
         ArrayList<String> options = new ArrayList<String>();
         options.add("-cp");
         options.add(getInDir().getAbsolutePath() + File.pathSeparator + "lib/androidsqlhelper.jar" + File.pathSeparator + "lib/android.jar" );
 
         assertTrue(compileFiles(options, sources));
-
-        assertTrue(checkGeneratedSource("outpackage/test/TestDbAdapter", "outpackage/test/TestDbMetadata"));
         
+        assertTrue(checkGeneratedSource("outpackage/test/TestDbAdapter", "outpackage/test/TestDbMetadata"));
+
         String createTable = null;
         try {
             Class<?> adapterClazz = loadGeneratedClass("outpackage.test.TestDbAdapter");
-            Field createTableField = adapterClazz.getDeclaredField("SQL_TABLETESTENTITY2_CREATE_TABLE");
+            Field createTableField = adapterClazz.getDeclaredField("SQL_FULLENTITY_CREATE_TABLE");
             createTableField.setAccessible(true);
             createTable = (String)createTableField.get(null);    
         } catch (Exception e) {
@@ -155,8 +127,36 @@ public class TableTestCase extends BaseTestCase {
         
         printToOutput(createTable);
         
-        assertTrue( createTable.contains("FIELDSTRING TEXT")  && 
-                    createTable.contains("FIELDLONG INTEGER") &&
-                    !createTable.contains("MFIELDSTRING") && !createTable.contains("MFIELDLONG"));
+        assertTrue(createTable.contains("LONGPRIV INTEGER"));
+    }
+    
+    @Test
+    public void customDefinitionSpecified() throws IOException{
+        writeDefaultSchema();
+
+        ArrayList<String> sources = new ArrayList<String>();
+        sources.add("src/com/sgxmobileapps/androidsqlhelper/test/entities/FullEntity.java");
+
+        ArrayList<String> options = new ArrayList<String>();
+        options.add("-cp");
+        options.add(getInDir().getAbsolutePath() + File.pathSeparator + "lib/androidsqlhelper.jar" + File.pathSeparator + "lib/android.jar" );
+
+        assertTrue(compileFiles(options, sources));
+        
+        assertTrue(checkGeneratedSource("outpackage/test/TestDbAdapter", "outpackage/test/TestDbMetadata"));
+
+        String createTable = null;
+        try {
+            Class<?> adapterClazz = loadGeneratedClass("outpackage.test.TestDbAdapter");
+            Field createTableField = adapterClazz.getDeclaredField("SQL_FULLENTITY_CREATE_TABLE");
+            createTableField.setAccessible(true);
+            createTable = (String)createTableField.get(null);    
+        } catch (Exception e) {
+            fail(e.getMessage());
+        } 
+        
+        printToOutput(createTable);
+        
+        assertTrue(createTable.contains("INTPRIMITIVE REAL UNIQUE NOT NULL"));
     }
 }

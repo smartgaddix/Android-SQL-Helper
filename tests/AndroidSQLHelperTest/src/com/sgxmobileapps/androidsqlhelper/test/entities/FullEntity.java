@@ -30,128 +30,109 @@ import java.util.GregorianCalendar;
         tableName="FULL", 
         noIdCol=true, 
         orderBy="LONGPRIMITIVE ASC, INTPRIMITIVE DESC",
-        unique={"mLong", "mInt"},
+        unique={"Long", "Int"},
         fieldPrefix="m")
 @SuppressWarnings(value="unused")
 public class FullEntity {
     
     @PersistentField(
-            columnName="LongPrimitive",
-            columnType="INTEGER",
-            nullable=false)
+            columnName="LONGPRIV",
+            nullable=true)
     private long mLongPrimitive;
     
     @PersistentField(
             columnName="Long",
-            columnType="INTEGER",
-            nullable=false)
+            nullable=true)
     private Long mLong;
     
     @PersistentField(
             columnName="IntPrimitive",
-            columnType="INTEGER",
-            nullable=false)
+            nullable=true, 
+            customColumnDefinition="REAL UNIQUE NOT NULL")
     private int mIntPrimitive;
     
     @PersistentField(
             columnName="Int",
-            columnType="INTEGER",
             nullable=false)
     private Integer mInt;
     
     @PersistentField(
             columnName="BytePrimitive",
-            columnType="INTEGER",
             nullable=false)
     private byte mBytePrimitive;
     
     @PersistentField(
             columnName="Byte",
-            columnType="INTEGER",
             nullable=false)
     private Byte mByte;
     
     @PersistentField(
             columnName="ShortPrimitive",
-            columnType="INTEGER",
             nullable=false)
     private short mShortPrimitive;
     
     @PersistentField(
             columnName="Short",
-            columnType="INTEGER",
             nullable=false)
     private Short mShort;
     
     @PersistentField(
             columnName="CharPrimitive",
-            columnType="TEXT",
             nullable=false)
     private char mCharPrimitive;
     
     @PersistentField(
             columnName="Char",
-            columnType="TEXT",
             nullable=false)
     private Character mChar;
     
     @PersistentField(
             columnName="BoolPrimitive",
-            columnType="INTEGER",
             nullable=false)
     private boolean mBoolPrimitive;
     
     @PersistentField(
             columnName="Bool",
-            columnType="INTEGER",
             nullable=false)
     private Boolean mBool;
     
     @PersistentField(
             columnName="FloatPrimitive",
-            columnType="REAL",
             nullable=false)
     private float mFloatPrimitive;
     
     @PersistentField(
             columnName="Float",
-            columnType="REAL",
             nullable=false)
     private Float mFloat;
     
     @PersistentField(
             columnName="DoublePrimitive",
-            columnType="REAL",
             nullable=false)
     private double mDoublePrimitive;
     
     @PersistentField(
             columnName="Double",
-            columnType="REAL",
             nullable=false)
     private Double mDouble;
     
     @PersistentField(
             columnName="String",
-            columnType="TEXT",
             nullable=false)
     private String mString;
     
     @PersistentField(
             columnName="CharSeq",
-            columnType="TEXT",
             nullable=false)
     private CharSequence mCharSeq;    
     
     @PersistentField(
             columnName="Date",
-            columnType="INTEGER",
             nullable=false)
     private Date mDate;
     
     @PersistentField(
             columnName="Calendar",
-            columnType="INTEGER",
             nullable=false)
     private GregorianCalendar mCalendar;
 }
