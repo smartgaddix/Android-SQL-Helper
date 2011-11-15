@@ -26,6 +26,7 @@ import com.sun.codemodel.JBlock;
 import com.sun.codemodel.JClassAlreadyExistsException;
 import com.sun.codemodel.JDocComment;
 import com.sun.codemodel.JExpr;
+import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JMod;
 import com.sun.codemodel.JFieldVar;
@@ -63,7 +64,7 @@ public class DbAdapterClassVisitor implements Visitor {
         try {
             generateDbAdapterClass(schema);
             generateDbAdapterJavaDoc(schema);
-            generateDbHelperClass();
+            generateDbHelperClass(schema);
         } catch (JClassAlreadyExistsException e) {
             throw new VisitorException("Visiting schema exception", e);
         }
@@ -147,7 +148,7 @@ public class DbAdapterClassVisitor implements Visitor {
             doc.add("\n\n@author " + schema.getAuthor());
     }
 
-    private void generateDbHelperClass() throws JClassAlreadyExistsException {
+    private void generateDbHelperClass(Schema schema) throws JClassAlreadyExistsException {
 
         JFieldVar dataStoreField = ctx.mDbAdapterInfo.mHelperClass.field(JMod.PRIVATE, ctx.mDbAdapterInfo.mClass, CodeGenerationConstants.DBADAPTER_DBHELPER_DATASTORE_MEMBER_NAME);
 
@@ -178,6 +179,12 @@ public class DbAdapterClassVisitor implements Visitor {
         onUpgradeMethod.javadoc().add(CodeGenerationConstants.DBADAPTER_DBHELPER_ONUPGRADE_METHOD_JAVADOC);
 
         ctx.mDbAdapterInfo.mHelperOnUpgradeMethodBody = onUpgradeMethod.body();
+        FormattedExpression jexprLog = FormattedExpression.lit("Upgrading from version ", false, false);
+        jexprLog = jexprLog.add(oldvVar, false, false);
+        jexprLog = jexprLog.add(FormattedExpression.lit(" to ", false, false), false, false);
+        jexprLog = jexprLog.add(newvVar, false, false);
+        jexprLog = jexprLog.add(FormattedExpression.lit(", which will destroy all old data", false, false), false, false);        
+        ctx.mDbAdapterInfo.mHelperOnUpgradeMethodBody.add(ctx.mCMRoot.ref(android.util.Log.class).staticInvoke("w").arg(JExpr.lit(schema.getDbAdapterClassName())).arg(jexprLog));
         ctx.mDbAdapterInfo.mHelperOnUpgradeMethodBody._if(dataStoreField.invoke(ctx.mDbAdapterInfo.mOnUpgradeMethod).arg(ctx.mDbAdapterInfo.mHelperOnUpgradeDbParam).arg(oldvVar).arg(newvVar))._then()._return();
         ctx.mDbAdapterInfo.mHelperOnUpgradeMethodBody.directStatement(CodeGenerationConstants.DBADAPTER_DBHELPER_ONUPGRADE_METHOD_CODE_COMMENT1);
         ctx.mDbAdapterInfo.mHelperOnUpgradeMethodBody.directStatement(CodeGenerationConstants.DBADAPTER_DBHELPER_ONUPGRADE_METHOD_CODE_COMMENT2);
