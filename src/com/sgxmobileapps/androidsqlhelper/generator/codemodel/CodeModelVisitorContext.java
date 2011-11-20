@@ -46,17 +46,17 @@ public class CodeModelVisitorContext implements VisitorContext{
         HashMap<String, MetaFieldInfo> mFields = new HashMap<String, MetaFieldInfo>();
     }
     
-    class DbAdapterTableInfo {
-        public String mEntityName;
-        public JFieldVar mCreateTableField;
-        public JFieldVar mDropTableField;
-    }
-    
     class MetadataClassInfo {
         public JDefinedClass mClass;
         public JFieldVar mDbNameField;
         public JFieldVar mDbVerField;
         public HashMap<String, MetaTableInfo> mTables = new HashMap<String, MetaTableInfo>();
+    }
+    
+    class DbAdapterTableInfo {
+        public String mEntityName;
+        public JFieldVar mCreateTableField;
+        public JFieldVar mDropTableField;
     }
     
     class DbAdapterClassInfo {

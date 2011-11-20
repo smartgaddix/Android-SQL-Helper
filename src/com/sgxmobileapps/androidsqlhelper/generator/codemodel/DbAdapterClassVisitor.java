@@ -26,7 +26,6 @@ import com.sun.codemodel.JBlock;
 import com.sun.codemodel.JClassAlreadyExistsException;
 import com.sun.codemodel.JDocComment;
 import com.sun.codemodel.JExpr;
-import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JMod;
 import com.sun.codemodel.JFieldVar;
@@ -93,15 +92,18 @@ public class DbAdapterClassVisitor implements Visitor {
     }
 
     private void generateDbAdapterClass(Schema schema) throws JClassAlreadyExistsException {
-		ctx.mDbAdapterInfo.mClass = ctx.mPckg._class(JMod.ABSTRACT|JMod.PUBLIC, schema.getDbAdapterClassName());
+		/* class and inner class */
+        ctx.mDbAdapterInfo.mClass = ctx.mPckg._class(JMod.ABSTRACT|JMod.PUBLIC, schema.getDbAdapterClassName());
         ctx.mDbAdapterInfo.mHelperClass = ctx.mDbAdapterInfo.mClass._class(JMod.PRIVATE|JMod.STATIC, CodeGenerationConstants.DBADAPTER_DBHELPER_CLASS_NAME);
         ctx.mDbAdapterInfo.mHelperClass._extends(ctx.mCMRoot.ref(android.database.sqlite.SQLiteOpenHelper.class));
 
+        /* fields dbHelper and db */
 		JFieldVar dbHelperField = ctx.mDbAdapterInfo.mClass.field(JMod.PRIVATE, ctx.mDbAdapterInfo.mHelperClass, CodeGenerationConstants.DBADAPTER_DBHELPER_MEMBER_NAME);
 		dbHelperField.javadoc().add(CodeGenerationConstants.DBADAPTER_DBHELPER_MEMBER_JAVADOC);
 		JFieldVar dbField = ctx.mDbAdapterInfo.mClass.field(JMod.PRIVATE, android.database.sqlite.SQLiteDatabase.class, CodeGenerationConstants.DBADAPTER_DB_MEMBER_NAME);
 		dbField.javadoc().add(CodeGenerationConstants.DBADAPTER_DB_MEMBER_JAVADOC);
 		
+		/* constructor */
 		JMethod cstr = ctx.mDbAdapterInfo.mClass.constructor(JMod.PUBLIC);
         JVar ctxVar = cstr.param(ctx.mCMRoot.ref(android.content.Context.class), CodeGenerationConstants.DBADAPTER_CONSTRUCTOR_METHOD_PARAM_CTX_NAME);
         cstr.javadoc().add(CodeGenerationConstants.DBADAPTER_CONSTRUCTOR_METHOD_JAVADOC);
@@ -115,6 +117,7 @@ public class DbAdapterClassVisitor implements Visitor {
                 .arg(ctx.mMetadataInfo.mClass.staticRef(ctx.mMetadataInfo.mDbVerField))
                 .arg(JExpr._this()));
         
+        /* open method */
         JMethod openMethod = ctx.mDbAdapterInfo.mClass.method(JMod.PUBLIC, ctx.mDbAdapterInfo.mClass, CodeGenerationConstants.DBADAPTER_OPEN_METHOD_NAME);
         openMethod._throws(android.database.SQLException.class);
         openMethod.javadoc().add(CodeGenerationConstants.DBADAPTER_OPEN_METHOD_JAVADOC);
@@ -124,11 +127,13 @@ public class DbAdapterClassVisitor implements Visitor {
         openBody.assign(dbField, JExpr.invoke(dbHelperField, "getWritableDatabase"));
         openBody._return(JExpr._this());
 
+        /* close method */
         JMethod closeMethod = ctx.mDbAdapterInfo.mClass.method(JMod.PUBLIC, ctx.mCMRoot.VOID, CodeGenerationConstants.DBADAPTER_CLOSE_METHOD_NAME);
         closeMethod.javadoc().add(CodeGenerationConstants.DBADAPTER_CLOSE_METHOD_JAVADOC);
         JBlock closeBody = closeMethod.body();
         closeBody._if(dbField.ne(JExpr._null()))._then().invoke(dbField, "close");
         
+        /* onUpgrade method */
 		ctx.mDbAdapterInfo.mOnUpgradeMethod = ctx.mDbAdapterInfo.mClass.method(JMod.PUBLIC, Boolean.class, CodeGenerationConstants.DBADAPTER_ONUPGRADE_METHOD_NAME);
 		JVar dbVar = ctx.mDbAdapterInfo.mOnUpgradeMethod.param(android.database.sqlite.SQLiteDatabase.class, CodeGenerationConstants.DBADAPTER_ONUPGRADE_METHOD_PARAM_DB_NAME);
 		JVar oldvVar = ctx.mDbAdapterInfo.mOnUpgradeMethod.param(ctx.mCMRoot.INT, CodeGenerationConstants.DBADAPTER_ONUPGRADE_METHOD_PARAM_OLDV_NAME);
@@ -149,35 +154,38 @@ public class DbAdapterClassVisitor implements Visitor {
     }
 
     private void generateDbHelperClass(Schema schema) throws JClassAlreadyExistsException {
-
+        /* datastore field */
         JFieldVar dataStoreField = ctx.mDbAdapterInfo.mHelperClass.field(JMod.PRIVATE, ctx.mDbAdapterInfo.mClass, CodeGenerationConstants.DBADAPTER_DBHELPER_DATASTORE_MEMBER_NAME);
 
+        /* constructor */
         JMethod cstr = ctx.mDbAdapterInfo.mHelperClass.constructor(JMod.PUBLIC);
         JVar ctxVar = cstr.param(ctx.mCMRoot.ref(android.content.Context.class), CodeGenerationConstants.DBADAPTER_DBHELPER_CONSTRUCTOR_METHOD_PARAM_CTX_NAME);
         JVar nameVar = cstr.param(ctx.mCMRoot.ref(String.class), CodeGenerationConstants.DBADAPTER_DBHELPER_CONSTRUCTOR_METHOD_PARAM_NAME_NAME);
         JVar factoryVar = cstr.param(ctx.mCMRoot.ref(android.database.sqlite.SQLiteDatabase.CursorFactory.class), CodeGenerationConstants.DBADAPTER_DBHELPER_CONSTRUCTOR_METHOD_PARAM_FACTORY_NAME);
         JVar verVar = cstr.param(ctx.mCMRoot.INT, CodeGenerationConstants.DBADAPTER_DBHELPER_CONSTRUCTOR_METHOD_PARAM_VERSION_NAME);
         JVar datastoreVar = cstr.param(ctx.mDbAdapterInfo.mClass, CodeGenerationConstants.DBADAPTER_DBHELPER_CONSTRUCTOR_METHOD_PARAM_DATASTORE_NAME);
-
         JBlock cstrBody = cstr.body();
         cstrBody.invoke("super").arg(ctxVar).arg(nameVar).arg(factoryVar).arg(verVar);
         cstrBody.assign(dataStoreField, datastoreVar);
-
-
+        
+        /* onCreate method */
         JMethod onCreateMethod = ctx.mDbAdapterInfo.mHelperClass.method(JMod.PUBLIC, ctx.mCMRoot.VOID, CodeGenerationConstants.DBADAPTER_DBHELPER_ONCREATE_METHOD_NAME);
         ctx.mDbAdapterInfo.mHelperOnCreateDbParam = onCreateMethod.param(android.database.sqlite.SQLiteDatabase.class, CodeGenerationConstants.DBADAPTER_DBHELPER_ONCREATE_METHOD_PARAM_DB_NAME);
         onCreateMethod.annotate(Override.class);
         onCreateMethod.javadoc().add(CodeGenerationConstants.DBADAPTER_DBHELPER_ONCREATE_METHOD_JAVADOC);
-
+        
+        /* body generated later with create statements for tables */
         ctx.mDbAdapterInfo.mHelperOnCreateMethodBody = onCreateMethod.body();
 
+        /* onUpgrade method */
         JMethod onUpgradeMethod = ctx.mDbAdapterInfo.mHelperClass.method(JMod.PUBLIC, ctx.mCMRoot.VOID, CodeGenerationConstants.DBADAPTER_DBHELPER_ONUPGRADE_METHOD_NAME);
         ctx.mDbAdapterInfo.mHelperOnUpgradeDbParam = onUpgradeMethod.param(android.database.sqlite.SQLiteDatabase.class, CodeGenerationConstants.DBADAPTER_DBHELPER_ONUPGRADE_METHOD_PARAM_DB_NAME);
         JVar oldvVar = onUpgradeMethod.param(ctx.mCMRoot.INT, CodeGenerationConstants.DBADAPTER_DBHELPER_ONUPGRADE_METHOD_PARAM_OLDV_NAME);
         JVar newvVar = onUpgradeMethod.param(ctx.mCMRoot.INT, CodeGenerationConstants.DBADAPTER_DBHELPER_ONUPGRADE_METHOD_PARAM_NEWV_NAME);
         onUpgradeMethod.annotate(Override.class);
         onUpgradeMethod.javadoc().add(CodeGenerationConstants.DBADAPTER_DBHELPER_ONUPGRADE_METHOD_JAVADOC);
-
+        
+        /* method body partially generated. Completed later with drop statements for tables */
         ctx.mDbAdapterInfo.mHelperOnUpgradeMethodBody = onUpgradeMethod.body();
         FormattedExpression jexprLog = FormattedExpression.lit("Upgrading from version ", false, false);
         jexprLog = jexprLog.add(oldvVar, false, false);
@@ -190,7 +198,6 @@ public class DbAdapterClassVisitor implements Visitor {
         ctx.mDbAdapterInfo.mHelperOnUpgradeMethodBody.directStatement(CodeGenerationConstants.DBADAPTER_DBHELPER_ONUPGRADE_METHOD_CODE_COMMENT2);
         ctx.mDbAdapterInfo.mHelperOnUpgradeMethodBody.directStatement(CodeGenerationConstants.DBADAPTER_DBHELPER_ONUPGRADE_METHOD_CODE_COMMENT3);
         ctx.mDbAdapterInfo.mHelperOnUpgradeMethodBody.invoke(CodeGenerationConstants.DBADAPTER_DBHELPER_ONCREATE_METHOD_NAME).arg(ctx.mDbAdapterInfo.mHelperOnUpgradeDbParam);
-
         ctx.mDbAdapterInfo.mHelperOnUpgradeMethodBody.pos(3);  //prepare for drop statement insertion
     }
 

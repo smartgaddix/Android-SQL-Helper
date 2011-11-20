@@ -65,7 +65,8 @@ public class MetadataClassVisitor implements Visitor {
     public void visit(Table table) throws VisitorException {
         CodeModelVisitorContext.MetaTableInfo mti = ctx.getMetaTableInfo(table.getEntityName());
         try{
-            mti.mClass = ctx.mMetadataInfo.mClass._class(JMod.PUBLIC|JMod.STATIC|JMod.FINAL, table.getEntityName());
+            mti.mClass = ctx.mMetadataInfo.mClass._class(JMod.PUBLIC|JMod.STATIC|JMod.FINAL, 
+                    table.getEntityName());
             generateEntityMetadataConstants(mti, table);
         } catch (JClassAlreadyExistsException e) {
             throw new VisitorException("Visiting table " + table.getEntityName() + " exception", e);
@@ -76,8 +77,10 @@ public class MetadataClassVisitor implements Visitor {
      * @see com.sgxmobileapps.androidsqlhelper.processor.model.Visitor#visit(com.sgxmobileapps.androidsqlhelper.processor.model.Field)
      */
     public void visit(Field field) throws VisitorException {
-        CodeModelVisitorContext.MetaTableInfo mti = ctx.getMetaTableInfo(field.getTable().getEntityName());
-        CodeModelVisitorContext.MetaFieldInfo mfi = ctx.getMetaFieldInfo(field.getTable().getEntityName(), field.getFieldName());
+        CodeModelVisitorContext.MetaTableInfo mti = 
+                ctx.getMetaTableInfo(field.getTable().getEntityName());
+        CodeModelVisitorContext.MetaFieldInfo mfi = 
+                ctx.getMetaFieldInfo(field.getTable().getEntityName(), field.getFieldName());
         
         generateEntityMetadataField(mti, mfi, field); 
     }
@@ -91,28 +94,45 @@ public class MetadataClassVisitor implements Visitor {
     
     private void generateMetadataConstants(Schema schema) throws JClassAlreadyExistsException {
         ctx.mMetadataInfo.mDbNameField = 
-            ctx.mMetadataInfo.mClass.field(JMod.PUBLIC|JMod.STATIC|JMod.FINAL, String.class, CodeGenerationConstants.METADATA_DATABASE_NAME_FIELD, JExpr.lit(schema.getDbName()));
+            ctx.mMetadataInfo.mClass.field(JMod.PUBLIC|JMod.STATIC|JMod.FINAL, 
+                    String.class, 
+                    CodeGenerationConstants.METADATA_DATABASE_NAME_FIELD, 
+                    JExpr.lit(schema.getDbName()));
+        
         ctx.mMetadataInfo.mDbVerField = 
-            ctx.mMetadataInfo.mClass.field(JMod.PUBLIC|JMod.STATIC|JMod.FINAL, int.class, CodeGenerationConstants.METADATA_DATABASE_VERSION_FIELD, JExpr.lit(Integer.parseInt(schema.getDbVersion())));
+            ctx.mMetadataInfo.mClass.field(JMod.PUBLIC|JMod.STATIC|JMod.FINAL, 
+                    int.class, 
+                    CodeGenerationConstants.METADATA_DATABASE_VERSION_FIELD, 
+                    JExpr.lit(Integer.parseInt(schema.getDbVersion())));
     }
     
     private void generateEntityMetadataConstants(CodeModelVisitorContext.MetaTableInfo mti, Table table) throws JClassAlreadyExistsException {
-        mti.mTableNameField = mti.mClass.field(JMod.PUBLIC|JMod.STATIC|JMod.FINAL, String.class, 
-                table.getEntityName().toUpperCase() + CodeGenerationConstants.METADATA_ENTITY_TABLE_NAME_SUFFIX, JExpr.lit(table.getTableName()));
+        mti.mTableNameField = mti.mClass.field(JMod.PUBLIC|JMod.STATIC|JMod.FINAL, 
+                String.class, 
+                table.getEntityName().toUpperCase() + CodeGenerationConstants.METADATA_ENTITY_TABLE_NAME_SUFFIX, 
+                JExpr.lit(table.getTableName()));
         
-        if ((table.getOrderBy() == null)  || (table.getOrderBy().isEmpty())) {
-            mti.mDefOrderField = mti.mClass.field(JMod.PUBLIC|JMod.STATIC|JMod.FINAL, String.class, 
-                    table.getEntityName().toUpperCase() + CodeGenerationConstants.METADATA_ENTITY_DEFAULT_ORDER_SUFFIX, JExpr._null());
+        if ((table.getOrderBy() == null) || (table.getOrderBy().isEmpty())) {
+            mti.mDefOrderField = mti.mClass.field(JMod.PUBLIC|JMod.STATIC|JMod.FINAL, 
+                    String.class, 
+                    table.getEntityName().toUpperCase() + CodeGenerationConstants.METADATA_ENTITY_DEFAULT_ORDER_SUFFIX, 
+                    JExpr._null());
         } else {
-            mti.mDefOrderField = mti.mClass.field(JMod.PUBLIC|JMod.STATIC|JMod.FINAL, String.class, 
-                    table.getEntityName().toUpperCase() + CodeGenerationConstants.METADATA_ENTITY_DEFAULT_ORDER_SUFFIX, JExpr.lit(table.getOrderBy()));
+            mti.mDefOrderField = mti.mClass.field(JMod.PUBLIC|JMod.STATIC|JMod.FINAL, 
+                    String.class, 
+                    table.getEntityName().toUpperCase() + CodeGenerationConstants.METADATA_ENTITY_DEFAULT_ORDER_SUFFIX, 
+                    JExpr.lit(table.getOrderBy()));
         }
     }
     
     private void generateEntityMetadataField(CodeModelVisitorContext.MetaTableInfo mti, CodeModelVisitorContext.MetaFieldInfo mfi, Field field) {
-        mfi.mColNameField = mti.mClass.field(JMod.PUBLIC|JMod.STATIC|JMod.FINAL, String.class, 
-                field.getTable().getEntityName().toUpperCase() + "_" + field.getFieldName().toUpperCase() + CodeGenerationConstants.METADATA_ENTITY_COL_NAME_SUFFIX, JExpr.lit(field.getColumnName()));
-        mfi.mColIdxField = mti.mClass.field(JMod.PROTECTED|JMod.STATIC|JMod.FINAL, int.class, 
-                field.getTable().getEntityName().toUpperCase() + "_" + field.getFieldName().toUpperCase() + CodeGenerationConstants.METADATA_ENTITY_COL_IDX_SUFFIX, JExpr.lit(field.getIndex()));
+        mfi.mColNameField = mti.mClass.field(JMod.PUBLIC|JMod.STATIC|JMod.FINAL, 
+                String.class, 
+                field.getTable().getEntityName().toUpperCase() + "_" + field.getFieldName().toUpperCase() + CodeGenerationConstants.METADATA_ENTITY_COL_NAME_SUFFIX, 
+                JExpr.lit(field.getColumnName()));
+        mfi.mColIdxField = mti.mClass.field(JMod.PROTECTED|JMod.STATIC|JMod.FINAL, 
+                int.class, 
+                field.getTable().getEntityName().toUpperCase() + "_" + field.getFieldName().toUpperCase() + CodeGenerationConstants.METADATA_ENTITY_COL_IDX_SUFFIX, 
+                JExpr.lit(field.getIndex()));
     }
 }
