@@ -82,4 +82,8 @@ public class CodeGenerationConstants {
     public static final String DBADAPTER_DBHELPER_ONUPGRADE_METHOD_CODE_COMMENT1 = "// Upgrade the existing database to conform to the new version. Multiple previous versions can be handled by comparing _oldVersion and _newVersion values";
     public static final String DBADAPTER_DBHELPER_ONUPGRADE_METHOD_CODE_COMMENT2 = "// The simplest case is to drop the old table and create a new one.";
     public static final String DBADAPTER_DBHELPER_ONUPGRADE_METHOD_CODE_COMMENT3 = "// Create a new one.";
+    
+    /* DbAdapter helper functions */
+    public static final String DBADAPTER_HELPER_METHOD_GETCONTENTVALUES_NAME = "getContentValues";
+    public static final String DBADAPTER_HELPER_METHOD_FILLFROMCURSOR_NAME = "fillFromCursor";
 } 

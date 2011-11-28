@@ -30,4 +30,24 @@ public class TableTestEntity1 {
 
     @PersistentField
     public long mFieldLong;
+
+    
+    public String getMFieldString() {
+        return mFieldString;
+    }
+
+    
+    public void setMFieldString(String fieldString) {
+        mFieldString = fieldString;
+    }
+
+    
+    public long getMFieldLong() {
+        return mFieldLong;
+    }
+
+    
+    public void setMFieldLong(long fieldLong) {
+        mFieldLong = fieldLong;
+    }
 }

@@ -31,6 +31,7 @@ import javax.lang.model.type.DeclaredType;
  * @author Massimo Gaddini
  */
 public class Field implements Visitable {
+    protected boolean mIdField;
     protected String mFieldName;
     protected String mColumnName;
     protected boolean mNullable;
@@ -38,6 +39,9 @@ public class Field implements Visitable {
     protected Table mTable;
     protected String mCustomColumnDefinition;
     protected int mIndex;
+    protected String mGetterMethod;
+    protected String mGetterConvMethod;
+    protected boolean mStringfy;
     
     /**
      * Builds a Field instance from an PersistentField annotation and
@@ -49,6 +53,8 @@ public class Field implements Visitable {
      */
     public static Field buildField(PersistentField annotation, Element member, Table table) throws UnsupportedFieldTypeException{
         Field field = new Field();
+        
+        field.mIdField = false;
         
         String fieldName = member.getSimpleName().toString();
         if (fieldName.startsWith(table.getFieldPrefix())){
@@ -69,10 +75,14 @@ public class Field implements Visitable {
         field.mCustomColumnDefinition = annotation.customColumnDefinition();
         
         field.mTable = table;
-                
+         
+        String fieldNameForGetter = field.mFieldName.substring(0,1).toUpperCase() + field.mFieldName.substring(1);
+        field.mGetterMethod = "get" + fieldNameForGetter;
+        field.mStringfy = false;
         
         switch(member.asType().getKind()) {
         case BOOLEAN:
+            field.mGetterMethod = "is" + fieldNameForGetter;
         case BYTE:
         case LONG:
         case INT:
@@ -84,6 +94,7 @@ public class Field implements Visitable {
             field.mColumnType = "REAL";
             break;
         case CHAR:
+            field.mStringfy = true;
             field.mColumnType = "TEXT";
             break;
             
@@ -93,13 +104,19 @@ public class Field implements Visitable {
          
             String declaredName =  ((DeclaredType)member.asType()).asElement().toString();
             
-            if (declaredName.equals("java.lang.Character") || 
-                declaredName.equals("java.lang.String") || 
+            if (declaredName.equals("java.lang.String")) {
+                
+                field.mColumnType = "TEXT";
+            } else if (declaredName.equals("java.lang.Character") ||                  
                 declaredName.equals("java.lang.CharSequence")) {
             
+                field.mGetterConvMethod = "toString";
                 field.mColumnType = "TEXT";
+            } else if (declaredName.equals("java.lang.Boolean")) {
+                
+                field.mGetterMethod = "is" + fieldNameForGetter;
+                field.mColumnType = "INTEGER";
             } else if (declaredName.equals("java.lang.Byte") || 
-                    declaredName.equals("java.lang.Boolean") || 
                     declaredName.equals("java.lang.Long") || 
                     declaredName.equals("java.lang.Integer") || 
                     declaredName.equals("java.lang.Short")) {
@@ -109,11 +126,17 @@ public class Field implements Visitable {
                     declaredName.equals("java.lang.Float")) {
                 
                 field.mColumnType = "REAL";
-            } else if (declaredName.equals("java.util.Date") || 
-                    declaredName.equals("java.util.GregorianCalendar") || 
-                    declaredName.equals("java.util.Calendar")) {
+            } else if (declaredName.equals("java.util.Date")) {
+                
                 /* FixMe */
-                field.mColumnType = "INTEGER";  
+                field.mColumnType = "INTEGER";
+                field.mGetterConvMethod = "getTime";
+            } else if ( declaredName.equals("java.util.GregorianCalendar") || 
+                        declaredName.equals("java.util.Calendar")) {
+                
+                /* FixMe */
+                field.mColumnType = "INTEGER";
+                field.mGetterConvMethod = "getTimeInMillis";
             } else {
                 throw new UnsupportedFieldTypeException("Declared type " + declaredName + " unsupported");
             }
@@ -129,13 +152,15 @@ public class Field implements Visitable {
     public static Field buildIdField(Table table){
         Field field = new Field();
         
+        field.mIdField = true;
         field.mIndex = 0;
-        field.mFieldName = "id";
+        field.mFieldName = "Id";
         field.mColumnName = "_id";
         field.mNullable = false;
         field.mTable = table;
         field.mColumnType = "INTEGER";
         field.mCustomColumnDefinition = "INTEGER PRIMARY KEY AUTOINCREMENT";
+        field.mGetterMethod = "get" + field.mFieldName;
         
         return field;
     }
@@ -178,52 +203,10 @@ public class Field implements Visitable {
     }
     
     /**
-     * @param columnName the columnName to set
-     */
-    public void setColumnName(String columnName) {
-        mColumnName = columnName;
-    }
-    
-    /**
-     * @return the columnType
-     */
-    public String getColumnType() {
-        return mColumnType;
-    }
-    
-    /**
-     * @param columnType the columnType to set
-     */
-    public void setColumnType(String columnType) {
-        mColumnType = columnType;
-    }
-    
-    /**
-     * @return the nullable
-     */
-    public boolean isNullable() {
-        return mNullable;
-    }
-    
-    /**
-     * @param nullable the nullable to set
-     */
-    public void setNullable(boolean nullable) {
-        mNullable = nullable;
-    }
-    
-    /**
      * @return the fieldName
      */
     public String getFieldName() {
         return mFieldName;
-    }
-    
-    /**
-     * @param fieldName the fieldName to set
-     */
-    public void setFieldName(String fieldName) {
-        mFieldName = fieldName;
     }
     
     /**
@@ -232,28 +215,6 @@ public class Field implements Visitable {
     public Table getTable() {
         return mTable;
     }
-    
-    /**
-     * @param table the table to set
-     */
-    public void setTable(Table table) {
-        mTable = table;
-    }
-    
-    /**
-     * @return the customColumnDefinition
-     */
-    public String getCustomColumnDefinition() {
-        return mCustomColumnDefinition;
-    }
-    
-    /**
-     * @param customColumnDefinition the customColumnDefinition to set
-     */
-    public void setCustomColumnDefinition(String customColumnDefinition) {
-        mCustomColumnDefinition = customColumnDefinition;
-    }
-
     
     /**
      * @return the index
@@ -268,6 +229,35 @@ public class Field implements Visitable {
      */
     public void setIndex(int index) {
         mIndex = index;
+    }
+
+    
+    /**
+     * @return the idField
+     */
+    public boolean isIdField() {
+        return mIdField;
+    }
+    
+    /**
+     * @return the getterMethod
+     */
+    public String getGetterMethod() {
+        return mGetterMethod;
+    }
+
+    /**
+     * @return the getterConvMethod
+     */
+    public String getGetterConvMethod() {
+        return mGetterConvMethod;
+    }
+    
+    /**
+     * @return the stringfy
+     */
+    public boolean isStringfy() {
+        return mStringfy;
     }
 
     /* 
@@ -301,6 +291,14 @@ public class Field implements Visitable {
         builder.append(mIndex);
         builder.append(", mNullable=");
         builder.append(mNullable);
+        builder.append(", mIdField=");
+        builder.append(mIdField);
+        builder.append(", mGetterMethod=");
+        builder.append(mGetterMethod);
+        builder.append(", mGetterConvMethod=");
+        builder.append(mGetterConvMethod);
+        builder.append(", mStringfy=");
+        builder.append(mStringfy);
         builder.append("]");
         return builder.toString();
     }

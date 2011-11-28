@@ -17,6 +17,7 @@ package com.sgxmobileapps.androidsqlhelper.generator.codemodel;
 
 import com.sgxmobileapps.androidsqlhelper.processor.model.VisitorContext;
 import com.sun.codemodel.JBlock;
+import com.sun.codemodel.JClass;
 import com.sun.codemodel.JCodeModel;
 import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JFieldVar;
@@ -32,18 +33,20 @@ import java.util.HashMap;
  *
  */
 public class CodeModelVisitorContext implements VisitorContext{
-    class MetaFieldInfo {
-        public String mFieldName;
-        public JFieldVar mColNameField;
-        public JFieldVar mColIdxField;
-    }
-    
+
+    /* Metadata class table and field information */
     class MetaTableInfo {
         public String mEntityName;
         public JDefinedClass mClass;
         public JFieldVar mTableNameField;
         public JFieldVar mDefOrderField;
         HashMap<String, MetaFieldInfo> mFields = new HashMap<String, MetaFieldInfo>();
+    }
+    
+    class MetaFieldInfo {
+        public String mFieldName;
+        public JFieldVar mColNameField;
+        public JFieldVar mColIdxField;
     }
     
     class MetadataClassInfo {
@@ -53,10 +56,15 @@ public class CodeModelVisitorContext implements VisitorContext{
         public HashMap<String, MetaTableInfo> mTables = new HashMap<String, MetaTableInfo>();
     }
     
+    
+    /* Db Adapter class table and field information */
     class DbAdapterTableInfo {
         public String mEntityName;
         public JFieldVar mCreateTableField;
         public JFieldVar mDropTableField;
+        public JMethod mGetContentValuesMethod;
+        public JMethod mFillFromCursorMethod;
+        public JClass mClass;
     }
     
     class DbAdapterClassInfo {

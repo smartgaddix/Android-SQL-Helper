@@ -217,35 +217,12 @@ public class Schema implements Visitable {
     public void setLicense(String license) {
         mLicense = license;
     }
-
-    
-    /**
-     * @return the license file name
-     */
-    public String getLicenseFile() {
-        return mLicenseFile;
-    }
-
     
     /**
      * @param licenseFile the license file name to set
      */
     public void setLicenseFile(String licenseFile) {
         mLicenseFile = licenseFile;
-    }
-
-    /**
-     * @return the tables
-     */
-    public Vector<Table> getTables() {
-        return mTables;
-    }
-    
-    /**
-     * @param tables the tables to set
-     */
-    public void setTables(Vector<Table> tables) {
-        mTables = tables;
     }
     
     /**

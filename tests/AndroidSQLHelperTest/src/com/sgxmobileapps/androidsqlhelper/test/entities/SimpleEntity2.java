@@ -38,4 +38,44 @@ public class SimpleEntity2 {
     
     @PersistentField
     public Date mFieldDate;
+
+    
+    public String getFieldString() {
+        return mFieldString;
+    }
+
+    
+    public void setFieldString(String fieldString) {
+        mFieldString = fieldString;
+    }
+
+    
+    public Long getFieldLong() {
+        return mFieldLong;
+    }
+
+    
+    public void setFieldLong(Long fieldLong) {
+        mFieldLong = fieldLong;
+    }
+
+    
+    public Long getFieldLongNP() {
+        return mFieldLongNP;
+    }
+
+    
+    public void setFieldLongNP(Long fieldLongNP) {
+        mFieldLongNP = fieldLongNP;
+    }
+
+    
+    public Date getFieldDate() {
+        return mFieldDate;
+    }
+
+    
+    public void setFieldDate(Date fieldDate) {
+        mFieldDate = fieldDate;
+    }
 }

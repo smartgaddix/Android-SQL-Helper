@@ -2,3 +2,9 @@
 .DS_Store
 tests/AndroidSQLHelperTest/bin
 tests/AndroidSQLHelperTest/tests
+tests/AndroidSQLHelperTest/lib/androidsqlhelper.jar
+tests/AndroidSQLHelperTest/lib/androidsqlhelperannotations.jar
+tests/AndroidSQLHelperTest/lib/androidsqlhelpermodel.jar
+tests/SampleProject/lib/androidsqlhelper.jar
+tests/SampleProject/lib/androidsqlhelperannotations.jar
+tests/SampleProject/lib/androidsqlhelpermodel.jar

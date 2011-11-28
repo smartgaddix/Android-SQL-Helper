@@ -30,4 +30,24 @@ public class SimpleEntity {
     
     @PersistentField
     public long mFieldLong;
+
+    
+    public String getFieldString() {
+        return mFieldString;
+    }
+
+    
+    public void setFieldString(String fieldString) {
+        mFieldString = fieldString;
+    }
+
+    
+    public long getFieldLong() {
+        return mFieldLong;
+    }
+
+    
+    public void setFieldLong(long fieldLong) {
+        mFieldLong = fieldLong;
+    }
 }

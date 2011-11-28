@@ -40,6 +40,7 @@ public class CodeModelCodeGenerator implements CodeGenerator {
             
             (new MetadataClassVisitor()).startVisit(schema, ctx);
             (new DbAdapterClassVisitor()).startVisit(schema, ctx);
+            (new HelperFunctionsVisitor()).startVisit(schema, ctx);
             
             HeaderFileCodeWriter codeWriter = new HeaderFileCodeWriter(schema, filer);
             ctx.mCMRoot.build(codeWriter);

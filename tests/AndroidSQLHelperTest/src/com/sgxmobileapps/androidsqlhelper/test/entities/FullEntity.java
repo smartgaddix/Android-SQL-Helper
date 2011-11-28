@@ -32,7 +32,6 @@ import java.util.GregorianCalendar;
         orderBy="LONGPRIMITIVE ASC, INTPRIMITIVE DESC",
         unique={"Long", "Int"},
         fieldPrefix="m")
-@SuppressWarnings(value="unused")
 public class FullEntity {
     
     @PersistentField(
@@ -135,4 +134,204 @@ public class FullEntity {
             columnName="Calendar",
             nullable=false)
     private GregorianCalendar mCalendar;
+
+    
+    public long getLongPrimitive() {
+        return mLongPrimitive;
+    }
+
+    
+    public void setLongPrimitive(long longPrimitive) {
+        mLongPrimitive = longPrimitive;
+    }
+
+    
+    public Long getLong() {
+        return mLong;
+    }
+
+    
+    public void setLong(Long l) {
+        mLong = l;
+    }
+
+    
+    public int getIntPrimitive() {
+        return mIntPrimitive;
+    }
+
+    
+    public void setIntPrimitive(int intPrimitive) {
+        mIntPrimitive = intPrimitive;
+    }
+
+    
+    public Integer getInt() {
+        return mInt;
+    }
+
+    
+    public void setInt(Integer i) {
+        mInt = i;
+    }
+
+    
+    public byte getBytePrimitive() {
+        return mBytePrimitive;
+    }
+
+    
+    public void setBytePrimitive(byte bytePrimitive) {
+        mBytePrimitive = bytePrimitive;
+    }
+
+    
+    public Byte getByte() {
+        return mByte;
+    }
+
+    
+    public void setByte(Byte b) {
+        mByte = b;
+    }
+
+    
+    public short getShortPrimitive() {
+        return mShortPrimitive;
+    }
+
+    
+    public void setShortPrimitive(short shortPrimitive) {
+        mShortPrimitive = shortPrimitive;
+    }
+
+    
+    public Short getShort() {
+        return mShort;
+    }
+
+    
+    public void setShort(Short s) {
+        mShort = s;
+    }
+
+    
+    public char getCharPrimitive() {
+        return mCharPrimitive;
+    }
+
+    
+    public void setCharPrimitive(char charPrimitive) {
+        mCharPrimitive = charPrimitive;
+    }
+
+    
+    public Character getChar() {
+        return mChar;
+    }
+
+    
+    public void setChar(Character c) {
+        mChar = c;
+    }
+
+    
+    public boolean isBoolPrimitive() {
+        return mBoolPrimitive;
+    }
+
+    
+    public void setBoolPrimitive(boolean boolPrimitive) {
+        mBoolPrimitive = boolPrimitive;
+    }
+
+    
+    public Boolean isBool() {
+        return mBool;
+    }
+
+    
+    public void setBool(Boolean bool) {
+        mBool = bool;
+    }
+
+    
+    public float getFloatPrimitive() {
+        return mFloatPrimitive;
+    }
+
+    
+    public void setFloatPrimitive(float floatPrimitive) {
+        mFloatPrimitive = floatPrimitive;
+    }
+
+    
+    public Float getFloat() {
+        return mFloat;
+    }
+
+    
+    public void setFloat(Float f) {
+        mFloat = f;
+    }
+
+    
+    public double getDoublePrimitive() {
+        return mDoublePrimitive;
+    }
+
+    
+    public void setDoublePrimitive(double doublePrimitive) {
+        mDoublePrimitive = doublePrimitive;
+    }
+
+    
+    public Double getDouble() {
+        return mDouble;
+    }
+
+    
+    public void setDouble(Double d) {
+        mDouble = d;
+    }
+
+    
+    public String getString() {
+        return mString;
+    }
+
+    
+    public void setString(String string) {
+        mString = string;
+    }
+
+    
+    public CharSequence getCharSeq() {
+        return mCharSeq;
+    }
+
+    
+    public void setCharSeq(CharSequence charSeq) {
+        mCharSeq = charSeq;
+    }
+
+    
+    public Date getDate() {
+        return mDate;
+    }
+
+    
+    public void setDate(Date date) {
+        mDate = date;
+    }
+
+    
+    public GregorianCalendar getCalendar() {
+        return mCalendar;
+    }
+
+    
+    public void setCalendar(GregorianCalendar calendar) {
+        mCalendar = calendar;
+    }
 }
