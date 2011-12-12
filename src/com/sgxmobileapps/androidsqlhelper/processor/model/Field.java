@@ -34,14 +34,19 @@ public class Field implements Visitable {
     protected boolean mIdField;
     protected String mFieldName;
     protected String mColumnName;
+    protected boolean mUnique;
     protected boolean mNullable;
     protected String mColumnType;
     protected Table mTable;
     protected String mCustomColumnDefinition;
     protected int mIndex;
     protected String mGetterMethod;
+    protected String mSetterMethod;
     protected String mGetterConvMethod;
-    protected boolean mStringfy;
+    protected String mSetterConvMethod;
+    protected String mCursorGetterMethod;
+    protected Class<?> mClazz;
+    protected Class<?> mClazzCast;
     
     /**
      * Builds a Field instance from an PersistentField annotation and
@@ -69,76 +74,147 @@ public class Field implements Visitable {
             field.mColumnName = annotation.columnName().toUpperCase();
         }
         
+        field.mUnique = annotation.unique();
+        
         List<String> unique = Arrays.asList(table.getUniqueConstraint());
-        field.mNullable = unique.contains(field.mFieldName)?false:annotation.nullable();
+        List<String> pk = Arrays.asList(table.getPKConstraint());
+        field.mNullable = !unique.contains(field.mFieldName) && 
+                          !pk.contains(field.mFieldName) && 
+                          !field.mUnique &&
+                          annotation.nullable();
 
         field.mCustomColumnDefinition = annotation.customColumnDefinition();
         
         field.mTable = table;
          
-        String fieldNameForGetter = field.mFieldName.substring(0,1).toUpperCase() + field.mFieldName.substring(1);
+        String fieldNameForGetter = field.getFieldNameForMethod();
         field.mGetterMethod = "get" + fieldNameForGetter;
-        field.mStringfy = false;
+        field.mSetterMethod = "set" + fieldNameForGetter;
+        field.mGetterConvMethod = null;
+        field.mSetterConvMethod = null; 
         
         switch(member.asType().getKind()) {
         case BOOLEAN:
             field.mGetterMethod = "is" + fieldNameForGetter;
+            field.mColumnType = "INTEGER";
+            field.mCursorGetterMethod = "getLong";
+            field.mClazz = boolean.class;
+            field.mClazzCast = boolean.class;
+            break;
         case BYTE:
+            field.mColumnType = "INTEGER";
+            field.mCursorGetterMethod = "getLong";
+            field.mClazz = byte.class;
+            field.mClazzCast = byte.class;
+            break;
         case LONG:
+            field.mColumnType = "INTEGER";
+            field.mCursorGetterMethod = "getLong";
+            field.mClazz = long.class;
+            field.mClazzCast = null;
+            break;
         case INT:
+            field.mColumnType = "INTEGER";
+            field.mCursorGetterMethod = "getLong";
+            field.mClazz = int.class;
+            field.mClazzCast = int.class;
+            break;
         case SHORT:
             field.mColumnType = "INTEGER";
+            field.mCursorGetterMethod = "getLong";
+            field.mClazz = short.class;
+            field.mClazzCast = short.class;
             break;
         case FLOAT:
+            field.mColumnType = "REAL";
+            field.mCursorGetterMethod = "getDouble";
+            field.mClazz = float.class;
+            field.mClazzCast = float.class;
+            break;
         case DOUBLE:
             field.mColumnType = "REAL";
-            break;
-        case CHAR:
-            field.mStringfy = true;
-            field.mColumnType = "TEXT";
+            field.mCursorGetterMethod = "getDouble";
+            field.mClazz = double.class;
+            field.mClazzCast = null;
             break;
             
         case DECLARED:
             // TODO
             //change declared type management
          
-            String declaredName =  ((DeclaredType)member.asType()).asElement().toString();
+            String javaClass =  ((DeclaredType)member.asType()).asElement().toString();
             
-            if (declaredName.equals("java.lang.String")) {
+            try {
+                field.mClazz = Class.forName(javaClass);
+            } catch (ClassNotFoundException e) {
+                throw new UnsupportedFieldTypeException("Declared type " + javaClass + " not found", e);
+            }
+            
+            if (javaClass.equals("java.lang.String")) {
                 
                 field.mColumnType = "TEXT";
-            } else if (declaredName.equals("java.lang.Character") ||                  
-                declaredName.equals("java.lang.CharSequence")) {
-            
+                field.mCursorGetterMethod = "getString";
+                field.mClazzCast = null;
+            } else if ( javaClass.equals("java.lang.CharSequence") ) {
+                
+                field.mColumnType = "TEXT";
                 field.mGetterConvMethod = "toString";
-                field.mColumnType = "TEXT";
-            } else if (declaredName.equals("java.lang.Boolean")) {
+                field.mCursorGetterMethod = "getString";
+                field.mClazzCast = null;
+            } else if (javaClass.equals("java.lang.Boolean")) {
                 
+                field.mColumnType = "INTEGER";
                 field.mGetterMethod = "is" + fieldNameForGetter;
-                field.mColumnType = "INTEGER";
-            } else if (declaredName.equals("java.lang.Byte") || 
-                    declaredName.equals("java.lang.Long") || 
-                    declaredName.equals("java.lang.Integer") || 
-                    declaredName.equals("java.lang.Short")) {
+                field.mCursorGetterMethod = "getLong";
+                field.mClazzCast = boolean.class;
+            } else if (javaClass.equals("java.lang.Byte")) {
                 
                 field.mColumnType = "INTEGER";
-            } else if (declaredName.equals("java.lang.Double") || 
-                    declaredName.equals("java.lang.Float")) {
+                field.mCursorGetterMethod = "getLong";
+                field.mClazzCast = byte.class; 
+            } else if (javaClass.equals("java.lang.Long")) {
+                
+                field.mColumnType = "INTEGER";
+                field.mCursorGetterMethod = "getLong";
+                field.mClazzCast = null;
+            } else if (javaClass.equals("java.lang.Integer")) {
+                
+                field.mColumnType = "INTEGER";
+                field.mCursorGetterMethod = "getLong";
+                field.mClazzCast = int.class;
+            } else if (javaClass.equals("java.lang.Short")) {
+                
+                field.mColumnType = "INTEGER";
+                field.mCursorGetterMethod = "getLong";
+                field.mClazzCast = short.class;
+            } else if (javaClass.equals("java.lang.Double")) {
                 
                 field.mColumnType = "REAL";
-            } else if (declaredName.equals("java.util.Date")) {
+                field.mCursorGetterMethod = "getDouble";
+                field.mClazzCast = null;
+            } else if (javaClass.equals("java.lang.Float")) {
+                
+                field.mColumnType = "REAL";
+                field.mCursorGetterMethod = "getDouble";
+                field.mClazzCast = float.class;
+            } else if (javaClass.equals("java.util.Date")) {
                 
                 /* FixMe */
                 field.mColumnType = "INTEGER";
                 field.mGetterConvMethod = "getTime";
-            } else if ( declaredName.equals("java.util.GregorianCalendar") || 
-                        declaredName.equals("java.util.Calendar")) {
+                field.mSetterConvMethod = "setTime";
+                field.mCursorGetterMethod = "getLong";
+                field.mClazzCast = null;
+            } else if ( javaClass.equals("java.util.GregorianCalendar") ) {
                 
                 /* FixMe */
                 field.mColumnType = "INTEGER";
                 field.mGetterConvMethod = "getTimeInMillis";
+                field.mSetterConvMethod = "setTimeInMillis";
+                field.mCursorGetterMethod = "getLong";
+                field.mClazzCast = null;
             } else {
-                throw new UnsupportedFieldTypeException("Declared type " + declaredName + " unsupported");
+                throw new UnsupportedFieldTypeException("Declared type " + javaClass + " unsupported");
             }
             break;
             
@@ -156,12 +232,18 @@ public class Field implements Visitable {
         field.mIndex = 0;
         field.mFieldName = "Id";
         field.mColumnName = "_id";
+        field.mUnique = false;
         field.mNullable = false;
         field.mTable = table;
         field.mColumnType = "INTEGER";
         field.mCustomColumnDefinition = "INTEGER PRIMARY KEY AUTOINCREMENT";
-        field.mGetterMethod = "get" + field.mFieldName;
-        
+        field.mGetterMethod = "get" + field.getFieldNameForMethod();
+        field.mSetterMethod = "set" + field.getFieldNameForMethod();
+        field.mCursorGetterMethod = "getLong";
+        field.mGetterConvMethod = null;
+        field.mSetterConvMethod = null;
+        field.mClazz = long.class;
+        field.mClazzCast = null;
         return field;
     }
     
@@ -179,12 +261,27 @@ public class Field implements Visitable {
             definition += " NOT NULL";
         }
         
-        List<String> unique = Arrays.asList(mTable.getUniqueConstraint());
-        if (unique.contains(mFieldName)) {
+        if (mUnique) {
             definition += " UNIQUE";
         }
         
         return definition;
+    }
+    
+    /**
+     * Returns the field name to use in method name as getter and setter
+     * @return the field name
+     */
+    public String getFieldNameForMethod(){
+        return mFieldName.substring(0,1).toUpperCase() + mFieldName.substring(1);
+    }
+    
+    /**
+     * Returns the field name to use in variable name
+     * @return the field name
+     */
+    public String getFieldNameForVar(){
+        return mFieldName.substring(0,1).toLowerCase() + mFieldName.substring(1);
     }
     
     /* 
@@ -245,6 +342,13 @@ public class Field implements Visitable {
     public String getGetterMethod() {
         return mGetterMethod;
     }
+    
+    /**
+     * @return the setterMethod
+     */
+    public String getSetterMethod() {
+        return mSetterMethod;
+    }
 
     /**
      * @return the getterConvMethod
@@ -252,12 +356,33 @@ public class Field implements Visitable {
     public String getGetterConvMethod() {
         return mGetterConvMethod;
     }
+      
+    /**
+     * @return the setterConvMethod
+     */
+    public String getSetterConvMethod() {
+        return mSetterConvMethod;
+    }
+  
+    /**
+     * @return the cursorGetterMethod
+     */
+    public String getCursorGetterMethod() {
+        return mCursorGetterMethod;
+    }
     
     /**
-     * @return the stringfy
+     * @return the clazz
      */
-    public boolean isStringfy() {
-        return mStringfy;
+    public Class<?> getClazz() {
+        return mClazz;
+    }
+    
+    /**
+     * @return the clazzCast
+     */
+    public Class<?> getClazzCast() {
+        return mClazzCast;
     }
 
     /* 
@@ -289,16 +414,26 @@ public class Field implements Visitable {
         }
         builder.append("mIndex=");
         builder.append(mIndex);
+        builder.append(", mUnique=");
+        builder.append(mUnique);
         builder.append(", mNullable=");
         builder.append(mNullable);
         builder.append(", mIdField=");
         builder.append(mIdField);
         builder.append(", mGetterMethod=");
         builder.append(mGetterMethod);
+        builder.append(", mSetterMethod=");
+        builder.append(mSetterMethod);
         builder.append(", mGetterConvMethod=");
         builder.append(mGetterConvMethod);
-        builder.append(", mStringfy=");
-        builder.append(mStringfy);
+        builder.append(", mSetterConvMethod=");
+        builder.append(mSetterConvMethod);
+        builder.append(", mCursorGetterMethod=");
+        builder.append(mCursorGetterMethod);
+        builder.append(", mClazz=");
+        builder.append(mClazz);
+        builder.append(", mClazzCast=");
+        builder.append(mClazzCast);
         builder.append("]");
         return builder.toString();
     }

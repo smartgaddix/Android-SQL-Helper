@@ -77,6 +77,7 @@ public class HeaderFileCodeWriter extends CodeWriter {
     	
         if (!mSchema.getLicense().isEmpty()) {
             out.write(mSchema.getLicense().getBytes());
+            out.write(System.getProperty("line.separator").getBytes());
         }
         
         return out;

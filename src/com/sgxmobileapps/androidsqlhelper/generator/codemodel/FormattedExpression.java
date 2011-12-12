@@ -51,6 +51,10 @@ public class FormattedExpression extends JExpressionImpl {
     public static FormattedExpression lit(String s, boolean bracket, boolean newline) {
         return new StringLiteral(s, bracket, newline);
     }
+    
+    public static FormattedExpression plus(JExpression left, JExpression right, boolean bracket, boolean newline){
+        return new FormattedExpression("+", left, right, bracket, newline);
+    }
 
     /* 
      * @see com.sun.codemodel.JGenerable#generate(com.sun.codemodel.JFormatter)

@@ -35,10 +35,12 @@ public class Table implements Visitable {
     protected String        mFullyQualifiedClassName;
     protected String        mEntityName;
     protected String        mTableName;
+    protected String[]      mPKConstraint;
     protected String[]      mUniqueConstraint;
     protected String        mOrderBy;
     protected String        mFieldPrefix;
     protected Vector<Field> mFields = new Vector<Field>();
+    protected Field         mIdField;
     protected Schema        mSchema;
     protected boolean       mNoIdColumn;
 
@@ -64,6 +66,7 @@ public class Table implements Visitable {
         else
             table.mTableName = annotation.tableName().toUpperCase();
 
+        table.mPKConstraint = annotation.pk();
         table.mUniqueConstraint = annotation.unique();
         table.mOrderBy = annotation.orderBy();
         table.mNoIdColumn = annotation.noIdCol();
@@ -72,10 +75,27 @@ public class Table implements Visitable {
         table.mSchema = schema;
 
         if (!table.isNoIdColumn()) {
-            table.addField(Field.buildIdField(table));
+            table.mIdField = Field.buildIdField(table);
+            table.addField(table.mIdField);
         }
 
         return table;
+    }
+    
+    /**
+     * Returns the entity name to use in method name as getter and setter
+     * @return the entity name
+     */
+    public String getEntityNameForMethod(){
+        return mEntityName.substring(0,1).toUpperCase() + mEntityName.substring(1);
+    }
+    
+    /**
+     * Returns the entity name to use in variable name
+     * @return the entity name
+     */
+    public String getEntityNameForVar(){
+        return mEntityName.substring(0,1).toLowerCase() + mEntityName.substring(1);
     }
 
     /*
@@ -104,6 +124,13 @@ public class Table implements Visitable {
     public String getTableName() {
         return mTableName;
     }
+    
+    /**
+     * @return the pkConstraint
+     */
+    public String[] getPKConstraint() {
+        return mPKConstraint;
+    }
 
     /**
      * @return the uniqueConstraint
@@ -131,6 +158,13 @@ public class Table implements Visitable {
      */
     public Vector<Field> getFields() {
         return mFields;
+    }
+    
+    /**
+     * @return the id field
+     */
+    public Field getIdField() {
+        return mIdField;
     }
 
     /**
@@ -178,6 +212,11 @@ public class Table implements Visitable {
             builder.append(mFields);
             builder.append(", ");
         }
+        if (mIdField != null) {
+            builder.append("mIdField=");
+            builder.append(mIdField);
+            builder.append(", ");
+        }
         builder.append("mNoIdColumn=");
         builder.append(mNoIdColumn);
         builder.append(", ");
@@ -190,6 +229,10 @@ public class Table implements Visitable {
             builder.append("mTableName=");
             builder.append(mTableName);
             builder.append(", ");
+        }
+        if (mPKConstraint != null) {
+            builder.append("mPKConstraint=");
+            builder.append(Arrays.toString(mPKConstraint));
         }
         if (mUniqueConstraint != null) {
             builder.append("mUniqueConstraint=");

@@ -49,5 +49,6 @@ import java.lang.annotation.Target;
 public @interface PersistentField {
     String columnName() default "";
     boolean nullable() default true;
+    boolean unique() default false;
     String customColumnDefinition() default "";
 }

@@ -71,6 +71,36 @@ public class FieldTestCase extends BaseTestCase {
         assertTrue(createTable.contains("LONG INTEGER NOT NULL UNIQUE")  && createTable.contains("INT INTEGER NOT NULL UNIQUE"));
     }
     
+    @Test
+    public void uniqueFieldConstraintSpecified() throws IOException{
+        writeDefaultSchema();
+
+        ArrayList<String> sources = new ArrayList<String>();
+        sources.add("src/com/sgxmobileapps/androidsqlhelper/test/entities/TableTestEntity1.java");
+
+        ArrayList<String> options = new ArrayList<String>();
+        options.add("-cp");
+        options.add(getInDir().getAbsolutePath() + File.pathSeparator + "lib/androidsqlhelper.jar" + File.pathSeparator + "lib/android.jar" );
+
+        assertTrue(compileFiles(options, sources));
+
+        assertTrue(checkGeneratedSource("outpackage/test/TestDbAdapter", "outpackage/test/TestDbMetadata"));
+        
+        String createTable = null;
+        try {
+            Class<?> adapterClazz = loadGeneratedClass("outpackage.test.TestDbAdapter");
+            Field createTableField = adapterClazz.getDeclaredField("SQL_TABLETESTENTITY1_CREATE_TABLE");
+            createTableField.setAccessible(true);
+            createTable = (String)createTableField.get(null);    
+        } catch (Exception e) {
+            fail(e.getMessage());
+        } 
+        
+        printToOutput(createTable);
+        
+        assertTrue(createTable.contains("MFIELDSTRING TEXT NOT NULL UNIQUE")  && createTable.contains("MFIELDLONG INTEGER NOT NULL UNIQUE"));
+    }
+    
     public void notNullSpecified() throws IOException{
         writeDefaultSchema();
 

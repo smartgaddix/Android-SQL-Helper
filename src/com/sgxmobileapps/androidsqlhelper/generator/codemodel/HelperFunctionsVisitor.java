@@ -24,12 +24,14 @@ import com.sgxmobileapps.androidsqlhelper.processor.model.VisitorContext;
 import com.sgxmobileapps.androidsqlhelper.processor.model.VisitorException;
 import com.sun.codemodel.JBlock;
 import com.sun.codemodel.JClassAlreadyExistsException;
+import com.sun.codemodel.JDocComment;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
+import com.sun.codemodel.JInvocation;
+import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JMod;
 import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
-
 
 
 /**
@@ -68,7 +70,11 @@ public class HelperFunctionsVisitor implements Visitor {
         CodeModelVisitorContext.MetaTableInfo mti = ctx.getMetaTableInfo(table.getEntityName());
         
         try {
+            dbati.mClass = ctx.mCMRoot.ref(table.getFullyQualifiedClassName());
             generateMethodGetContentValues(mti, dbati, table);
+            generateMethodFillFromCursor(mti, dbati, table);
+            generateMethodAddEntity(mti, dbati, table);
+            generateMethodsById(mti, dbati, table);
         } catch (JClassAlreadyExistsException e) {
             throw new VisitorException("Visiting table " + table.getEntityName() + " exception", e);
         } 
@@ -88,8 +94,7 @@ public class HelperFunctionsVisitor implements Visitor {
                         contentValuesType, 
                         CodeGenerationConstants.DBADAPTER_HELPER_METHOD_GETCONTENTVALUES_NAME);
         
-        dbati.mClass = ctx.mCMRoot.ref(table.getFullyQualifiedClassName());
-        JVar entityParam = dbati.mGetContentValuesMethod.param(dbati.mClass, "entity");
+        JVar entityParam = dbati.mGetContentValuesMethod.param(dbati.mClass, table.getEntityNameForVar());
         
         JBlock methodBody = dbati.mGetContentValuesMethod.body();
         JVar valuesVar = methodBody.decl(contentValuesType, 
@@ -106,9 +111,7 @@ public class HelperFunctionsVisitor implements Visitor {
             JExpression getterExpression = JExpr.invoke(entityParam, field.getGetterMethod());
             if (field.getGetterConvMethod() != null){
                 getterExpression = JExpr.invoke(getterExpression, field.getGetterConvMethod());
-            } else if (field.isStringfy()) {
-                getterExpression = JExpr.lit("").plus(getterExpression);
-            }
+            } 
             
             methodBody.invoke(valuesVar, "put")
                 .arg(mti.mClass.staticRef(mfi.mColNameField))
@@ -117,5 +120,154 @@ public class HelperFunctionsVisitor implements Visitor {
         
         methodBody._return(valuesVar);
     }
+    
+    
+    private void generateMethodFillFromCursor(CodeModelVisitorContext.MetaTableInfo mti, CodeModelVisitorContext.DbAdapterTableInfo dbati, Table table) throws JClassAlreadyExistsException {
+        dbati.mFillFromCursorMethod = 
+                ctx.mDbAdapterInfo.mClass.method(JMod.PRIVATE, 
+                        dbati.mClass, 
+                        CodeGenerationConstants.DBADAPTER_HELPER_METHOD_FILLFROMCURSOR_NAME_PREFIX + table.getEntityNameForMethod());
+        
+        JVar cursorParam = dbati.mFillFromCursorMethod.param(ctx.mCMRoot._ref(android.database.Cursor.class), "cursor");
+        
+        JBlock methodBody = dbati.mFillFromCursorMethod.body();
+        JVar entityVar = methodBody.decl(dbati.mClass, 
+                table.getEntityNameForVar(), 
+                JExpr._new(dbati.mClass));
+       
+        for(int i = 0; i < table.getFields().size(); i++){
+            Field field = table.getFields().get(i);
+            if (field.isIdField()) {
+                continue;
+            }
+            
+            CodeModelVisitorContext.MetaFieldInfo mfi = ctx.getMetaFieldInfo(table.getEntityName(), field.getFieldName());
+            
+            JExpression cursorGetterExpression = 
+                    JExpr.invoke(cursorParam, field.getCursorGetterMethod())
+                    .arg(mti.mClass.staticRef(mfi.mColIdxField));
+            
+            if (field.getSetterConvMethod() != null) {
+                JVar var = methodBody.decl(
+                        ctx.mCMRoot.ref(field.getClazz().getName()), 
+                        field.getFieldNameForVar(), 
+                        JExpr._new(ctx.mCMRoot.ref(field.getClazz().getName())));
+                
+                methodBody.invoke(var, field.getSetterConvMethod()).arg(cursorGetterExpression);
+                cursorGetterExpression = var;
+            } else if (field.getClazz().equals(boolean.class) || field.getClazz().equals(Boolean.class)) {
+                cursorGetterExpression = cursorGetterExpression.gt(JExpr.lit(0));
+            } else if (field.getClazzCast() != null) {
+                cursorGetterExpression = JExpr.cast(ctx.mCMRoot._ref(field.getClazzCast()), cursorGetterExpression);
+            }
+            
+            methodBody.invoke(entityVar, field.getSetterMethod())
+                .arg(cursorGetterExpression);
+        }
+        
+        methodBody._return(entityVar);
+    }
+    
+    private void generateMethodAddEntity(CodeModelVisitorContext.MetaTableInfo mti, CodeModelVisitorContext.DbAdapterTableInfo dbati, Table table) throws JClassAlreadyExistsException {
+        
+        JMethod addMethod = ctx.mDbAdapterInfo.mClass.method(JMod.PUBLIC, 
+                long.class, 
+                CodeGenerationConstants.DBADAPTER_HELPER_METHOD_ADDENTITY_NAME_PREFIX + table.getEntityNameForMethod());
+        
+        JVar entityParam = addMethod.param(dbati.mClass, table.getEntityNameForVar());
+        
+        JDocComment jdoc = addMethod.javadoc();
+        jdoc.add("Inserts a " + table.getEntityName() + " to database");
+        jdoc.addParam(entityParam).add("The " + table.getEntityName() + " to insert");
+        jdoc.addReturn().add("the row ID of the newly inserted row, or -1 if an error occurred");
+        
+        JInvocation insertInvocation = ctx.mDbAdapterInfo.mDbField.invoke("insert")
+                .arg(mti.mClass.staticRef(mti.mTableNameField)).arg(JExpr._null())
+                .arg(JExpr.invoke(dbati.mGetContentValuesMethod).arg(entityParam));
+        
+        addMethod.body()._return(insertInvocation);
+    }
+    
+    private void generateMethodsById(CodeModelVisitorContext.MetaTableInfo mti, CodeModelVisitorContext.DbAdapterTableInfo dbati, Table table) throws JClassAlreadyExistsException {
+        
+        if (table.isNoIdColumn()) {
+            return;
+        }
+        
+        Field idField = table.getIdField();
+        CodeModelVisitorContext.MetaFieldInfo mfi = ctx.getMetaFieldInfo(table.getEntityName(), idField.getFieldName());
+        
+        /* update method */
+        JMethod updateMethod = ctx.mDbAdapterInfo.mClass.method(JMod.PUBLIC, 
+                long.class, 
+                CodeGenerationConstants.DBADAPTER_HELPER_METHOD_UPDATEENTITY_NAME_PREFIX + table.getEntityNameForMethod());
+        
+        JVar idParam = updateMethod.param(idField.getClazz(), idField.getFieldNameForVar());
+        JVar entityParam = updateMethod.param(dbati.mClass, table.getEntityNameForVar());
+                
+        JDocComment jdoc = updateMethod.javadoc();
+        jdoc.add("Updates a " + table.getEntityName() + " in database");
+        jdoc.addParam(idParam).add("The id of the " + table.getEntityName() + " to update");
+        jdoc.addParam(entityParam).add("The " + table.getEntityName() + " to update");
+        jdoc.addReturn().add("the number of rows affected (1 or 0)");
+        
+        JBlock updateBody = updateMethod.body();
+        JExpression whereExpression = 
+                FormattedExpression.plus(mti.mClass.staticRef(mfi.mColNameField), JExpr.lit(" = "), false, false)
+                .add(idParam, false, false);
+        JVar whereVar = updateBody.decl(ctx.mCMRoot._ref(String.class), "where", whereExpression);
+   
+        
+        JInvocation updateInvocation = ctx.mDbAdapterInfo.mDbField.invoke("update")
+                .arg(mti.mClass.staticRef(mti.mTableNameField))
+                .arg(JExpr.invoke(dbati.mGetContentValuesMethod).arg(entityParam))
+                .arg(whereVar)
+                .arg(JExpr._null());
+        
+        updateMethod.body()._return(updateInvocation);
+        
+        /* remove method */
+        JMethod removeMethod = ctx.mDbAdapterInfo.mClass.method(JMod.PUBLIC, 
+                long.class, 
+                CodeGenerationConstants.DBADAPTER_HELPER_METHOD_REMOVEENTITY_NAME_PREFIX + table.getEntityNameForMethod());
+        
+        idParam = removeMethod.param(idField.getClazz(), idField.getFieldNameForVar());
+                
+        jdoc = removeMethod.javadoc();
+        jdoc.add("Deletes a " + table.getEntityName() + " from database");
+        jdoc.addParam(idParam).add("The id of the " + table.getEntityName() + " to delete");
+        jdoc.addReturn().add("the number of rows affected (1 or 0)");
+        
+        JBlock removeBody = removeMethod.body();
+        whereExpression = 
+                FormattedExpression.plus(mti.mClass.staticRef(mfi.mColNameField), JExpr.lit(" = "), false, false)
+                .add(idParam, false, false);
+        whereVar = removeBody.decl(ctx.mCMRoot._ref(String.class), "where", whereExpression);
+   
+        
+        JInvocation removeInvocation = ctx.mDbAdapterInfo.mDbField.invoke("delete")
+                .arg(mti.mClass.staticRef(mti.mTableNameField))
+                .arg(whereVar)
+                .arg(JExpr._null());
+        
+        removeMethod.body()._return(removeInvocation);
+        
+        /* remove all method */
+        JMethod removeAllMethod = ctx.mDbAdapterInfo.mClass.method(JMod.PUBLIC, 
+                long.class, 
+                CodeGenerationConstants.DBADAPTER_HELPER_METHOD_REMOVEALL_NAME_PREFIX + table.getEntityNameForMethod());
+                
+        jdoc = removeAllMethod.javadoc();
+        jdoc.add("Deletes all " + table.getEntityName() + " from database");
+        jdoc.addReturn().add("the number of rows deleted");
+
+        JInvocation removeAllInvocation = ctx.mDbAdapterInfo.mDbField.invoke("delete")
+                .arg(mti.mClass.staticRef(mti.mTableNameField))
+                .arg(JExpr.lit("1"))
+                .arg(JExpr._null());
+        
+        removeAllMethod.body()._return(removeAllInvocation);
+    }
+      
         
 }

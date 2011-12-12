@@ -22,32 +22,32 @@ import com.sgxmobileapps.androidsqlhelper.annotation.PersistentField;
  * @author Massimo Gaddini
  *
  */
-@PersistentEntity(tableName="FIRSTENTITY")
-public class TableTestEntity1 {
+@PersistentEntity(tableName="FIRSTENTITY", fieldPrefix="m", noIdCol=true, pk={"FieldString", "FieldLong"}, unique={"FieldString", "FieldLong"})
+public class TableTestEntity3 {
 
-    @PersistentField(unique=true)
+    @PersistentField
     public String mFieldString;
 
-    @PersistentField(unique=true)
+    @PersistentField
     public long mFieldLong;
 
     
-    public String getMFieldString() {
+    public String getFieldString() {
         return mFieldString;
     }
 
     
-    public void setMFieldString(String fieldString) {
+    public void setFieldString(String fieldString) {
         mFieldString = fieldString;
     }
 
     
-    public long getMFieldLong() {
+    public long getFieldLong() {
         return mFieldLong;
     }
 
     
-    public void setMFieldLong(long fieldLong) {
+    public void setFieldLong(long fieldLong) {
         mFieldLong = fieldLong;
     }
 }

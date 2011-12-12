@@ -69,36 +69,6 @@ public class TableTestCase extends BaseTestCase {
     }
     
     @Test
-    public void uniqueSpecified() throws IOException{
-        writeDefaultSchema();
-
-        ArrayList<String> sources = new ArrayList<String>();
-        sources.add("src/com/sgxmobileapps/androidsqlhelper/test/entities/TableTestEntity1.java");
-
-        ArrayList<String> options = new ArrayList<String>();
-        options.add("-cp");
-        options.add(getInDir().getAbsolutePath() + File.pathSeparator + "lib/androidsqlhelper.jar" + File.pathSeparator + "lib/android.jar" );
-
-        assertTrue(compileFiles(options, sources));
-
-        assertTrue(checkGeneratedSource("outpackage/test/TestDbAdapter", "outpackage/test/TestDbMetadata"));
-        
-        String createTable = null;
-        try {
-            Class<?> adapterClazz = loadGeneratedClass("outpackage.test.TestDbAdapter");
-            Field createTableField = adapterClazz.getDeclaredField("SQL_TABLETESTENTITY1_CREATE_TABLE");
-            createTableField.setAccessible(true);
-            createTable = (String)createTableField.get(null);    
-        } catch (Exception e) {
-            fail(e.getMessage());
-        } 
-        
-        printToOutput(createTable);
-        
-        assertTrue(createTable.contains("MFIELDSTRING TEXT NOT NULL UNIQUE")  && createTable.contains("MFIELDLONG INTEGER NOT NULL UNIQUE"));
-    }
-    
-    @Test
     public void noIdColumn() throws IOException{
         writeDefaultSchema();
 
@@ -158,5 +128,65 @@ public class TableTestCase extends BaseTestCase {
         assertTrue( createTable.contains("FIELDSTRING TEXT")  && 
                     createTable.contains("FIELDLONG INTEGER") &&
                     !createTable.contains("MFIELDSTRING") && !createTable.contains("MFIELDLONG"));
+    }
+    
+    @Test
+    public void uniqueTableConstraintSpecified() throws IOException{
+        writeDefaultSchema();
+
+        ArrayList<String> sources = new ArrayList<String>();
+        sources.add("src/com/sgxmobileapps/androidsqlhelper/test/entities/TableTestEntity3.java");
+
+        ArrayList<String> options = new ArrayList<String>();
+        options.add("-cp");
+        options.add(getInDir().getAbsolutePath() + File.pathSeparator + "lib/androidsqlhelper.jar" + File.pathSeparator + "lib/android.jar" );
+
+        assertTrue(compileFiles(options, sources));
+
+        assertTrue(checkGeneratedSource("outpackage/test/TestDbAdapter", "outpackage/test/TestDbMetadata"));
+        
+        String createTable = null;
+        try {
+            Class<?> adapterClazz = loadGeneratedClass("outpackage.test.TestDbAdapter");
+            Field createTableField = adapterClazz.getDeclaredField("SQL_TABLETESTENTITY3_CREATE_TABLE");
+            createTableField.setAccessible(true);
+            createTable = (String)createTableField.get(null);    
+        } catch (Exception e) {
+            fail(e.getMessage());
+        } 
+        
+        printToOutput(createTable);
+        
+        assertTrue(createTable.contains("UNIQUE (FIELDSTRING, FIELDLONG)"));
+    }
+    
+    @Test
+    public void pkTableConstraintSpecified() throws IOException{
+        writeDefaultSchema();
+
+        ArrayList<String> sources = new ArrayList<String>();
+        sources.add("src/com/sgxmobileapps/androidsqlhelper/test/entities/TableTestEntity3.java");
+
+        ArrayList<String> options = new ArrayList<String>();
+        options.add("-cp");
+        options.add(getInDir().getAbsolutePath() + File.pathSeparator + "lib/androidsqlhelper.jar" + File.pathSeparator + "lib/android.jar" );
+
+        assertTrue(compileFiles(options, sources));
+
+        assertTrue(checkGeneratedSource("outpackage/test/TestDbAdapter", "outpackage/test/TestDbMetadata"));
+        
+        String createTable = null;
+        try {
+            Class<?> adapterClazz = loadGeneratedClass("outpackage.test.TestDbAdapter");
+            Field createTableField = adapterClazz.getDeclaredField("SQL_TABLETESTENTITY3_CREATE_TABLE");
+            createTableField.setAccessible(true);
+            createTable = (String)createTableField.get(null);    
+        } catch (Exception e) {
+            fail(e.getMessage());
+        } 
+        
+        printToOutput(createTable);
+        
+        assertTrue(createTable.contains("PRIMARY KEY (FIELDSTRING, FIELDLONG)"));
     }
 }

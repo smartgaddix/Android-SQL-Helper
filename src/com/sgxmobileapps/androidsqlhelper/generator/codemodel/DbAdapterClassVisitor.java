@@ -100,8 +100,8 @@ public class DbAdapterClassVisitor implements Visitor {
         /* fields dbHelper and db */
 		JFieldVar dbHelperField = ctx.mDbAdapterInfo.mClass.field(JMod.PRIVATE, ctx.mDbAdapterInfo.mHelperClass, CodeGenerationConstants.DBADAPTER_DBHELPER_MEMBER_NAME);
 		dbHelperField.javadoc().add(CodeGenerationConstants.DBADAPTER_DBHELPER_MEMBER_JAVADOC);
-		JFieldVar dbField = ctx.mDbAdapterInfo.mClass.field(JMod.PRIVATE, android.database.sqlite.SQLiteDatabase.class, CodeGenerationConstants.DBADAPTER_DB_MEMBER_NAME);
-		dbField.javadoc().add(CodeGenerationConstants.DBADAPTER_DB_MEMBER_JAVADOC);
+		ctx.mDbAdapterInfo.mDbField = ctx.mDbAdapterInfo.mClass.field(JMod.PRIVATE, android.database.sqlite.SQLiteDatabase.class, CodeGenerationConstants.DBADAPTER_DB_MEMBER_NAME);
+		ctx.mDbAdapterInfo.mDbField.javadoc().add(CodeGenerationConstants.DBADAPTER_DB_MEMBER_JAVADOC);
 		
 		/* constructor */
 		JMethod cstr = ctx.mDbAdapterInfo.mClass.constructor(JMod.PUBLIC);
@@ -124,14 +124,14 @@ public class DbAdapterClassVisitor implements Visitor {
         openMethod.javadoc().addThrows(android.database.SQLException.class).add(CodeGenerationConstants.DBADAPTER_OPEN_METHOD_EXCP_JAVADOC);
         openMethod.javadoc().addReturn().add(CodeGenerationConstants.DBADAPTER_OPEN_METHOD_RETURN_JAVADOC);
         JBlock openBody = openMethod.body();
-        openBody.assign(dbField, JExpr.invoke(dbHelperField, "getWritableDatabase"));
+        openBody.assign(ctx.mDbAdapterInfo.mDbField, JExpr.invoke(dbHelperField, "getWritableDatabase"));
         openBody._return(JExpr._this());
 
         /* close method */
         JMethod closeMethod = ctx.mDbAdapterInfo.mClass.method(JMod.PUBLIC, ctx.mCMRoot.VOID, CodeGenerationConstants.DBADAPTER_CLOSE_METHOD_NAME);
         closeMethod.javadoc().add(CodeGenerationConstants.DBADAPTER_CLOSE_METHOD_JAVADOC);
         JBlock closeBody = closeMethod.body();
-        closeBody._if(dbField.ne(JExpr._null()))._then().invoke(dbField, "close");
+        closeBody._if(ctx.mDbAdapterInfo.mDbField.ne(JExpr._null()))._then().invoke(ctx.mDbAdapterInfo.mDbField, "close");
         
         /* onUpgrade method */
 		ctx.mDbAdapterInfo.mOnUpgradeMethod = ctx.mDbAdapterInfo.mClass.method(JMod.PUBLIC, Boolean.class, CodeGenerationConstants.DBADAPTER_ONUPGRADE_METHOD_NAME);
@@ -213,7 +213,39 @@ public class DbAdapterClassVisitor implements Visitor {
             createTableExpr = createTableExpr.add(mti.mClass.staticRef(mfi.mColNameField), false, true);
             createTableExpr = createTableExpr.add(JExpr.lit(" " + field.getColumnDefinition() + ((i < (table.getFields().size()-1))?", ":"")), false, false);
         }
+        
+        String[] pk = table.getPKConstraint();
+        if (pk.length > 0) {
+            createTableExpr = createTableExpr.add(JExpr.lit(", "), false, false);
+            createTableExpr = createTableExpr.add(JExpr.lit("PRIMARY KEY ("), false, true);
+            
+            for(int i = 0; i < table.getPKConstraint().length; i++){
+                CodeModelVisitorContext.MetaFieldInfo mfi = ctx.getMetaFieldInfo(table.getEntityName(), table.getPKConstraint()[i]);
+                createTableExpr = createTableExpr.add(mti.mClass.staticRef(mfi.mColNameField), false, false);
+                
+                if (i < (table.getPKConstraint().length - 1)) {
+                    createTableExpr = createTableExpr.add(JExpr.lit(", "), false, false);
+                }
+            }
+            createTableExpr = createTableExpr.add(JExpr.lit(")"), false, false);
+        }
 
+        String[] unique = table.getUniqueConstraint();
+        if (unique.length > 0) {
+            createTableExpr = createTableExpr.add(JExpr.lit(", "), false, false);
+            createTableExpr = createTableExpr.add(JExpr.lit("UNIQUE ("), false, true);
+            
+            for(int i = 0; i < table.getUniqueConstraint().length; i++) {
+                CodeModelVisitorContext.MetaFieldInfo mfi = ctx.getMetaFieldInfo(table.getEntityName(), table.getUniqueConstraint()[i]);
+                createTableExpr = createTableExpr.add(mti.mClass.staticRef(mfi.mColNameField), false, false);
+                
+                if (i < (table.getUniqueConstraint().length - 1)) {
+                    createTableExpr = createTableExpr.add(JExpr.lit(", "), false, false);
+                }
+            }
+            createTableExpr = createTableExpr.add(JExpr.lit(")"), false, false);
+        }
+        
         createTableExpr = createTableExpr.add(JExpr.lit(" );"), false, false);
 
         dbati.mCreateTableField =

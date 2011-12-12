@@ -75,6 +75,7 @@ public class CodeModelVisitorContext implements VisitorContext{
         public JBlock mHelperOnUpgradeMethodBody;
         public JVar mHelperOnCreateDbParam;
         public JVar mHelperOnUpgradeDbParam;
+        public JFieldVar mDbField;
         public HashMap<String, DbAdapterTableInfo> mTables = new HashMap<String, DbAdapterTableInfo>();
     }
     

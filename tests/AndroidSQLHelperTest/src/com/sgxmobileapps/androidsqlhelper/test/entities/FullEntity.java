@@ -41,7 +41,8 @@ public class FullEntity {
     
     @PersistentField(
             columnName="Long",
-            nullable=true)
+            nullable=true,
+            unique=true)
     private Long mLong;
     
     @PersistentField(
@@ -52,7 +53,8 @@ public class FullEntity {
     
     @PersistentField(
             columnName="Int",
-            nullable=false)
+            nullable=false,
+            unique=true)
     private Integer mInt;
     
     @PersistentField(
@@ -74,16 +76,6 @@ public class FullEntity {
             columnName="Short",
             nullable=false)
     private Short mShort;
-    
-    @PersistentField(
-            columnName="CharPrimitive",
-            nullable=false)
-    private char mCharPrimitive;
-    
-    @PersistentField(
-            columnName="Char",
-            nullable=false)
-    private Character mChar;
     
     @PersistentField(
             columnName="BoolPrimitive",
@@ -215,27 +207,6 @@ public class FullEntity {
         mShort = s;
     }
 
-    
-    public char getCharPrimitive() {
-        return mCharPrimitive;
-    }
-
-    
-    public void setCharPrimitive(char charPrimitive) {
-        mCharPrimitive = charPrimitive;
-    }
-
-    
-    public Character getChar() {
-        return mChar;
-    }
-
-    
-    public void setChar(Character c) {
-        mChar = c;
-    }
-
-    
     public boolean isBoolPrimitive() {
         return mBoolPrimitive;
     }

@@ -85,5 +85,9 @@ public class CodeGenerationConstants {
     
     /* DbAdapter helper functions */
     public static final String DBADAPTER_HELPER_METHOD_GETCONTENTVALUES_NAME = "getContentValues";
-    public static final String DBADAPTER_HELPER_METHOD_FILLFROMCURSOR_NAME = "fillFromCursor";
-} 
+    public static final String DBADAPTER_HELPER_METHOD_FILLFROMCURSOR_NAME_PREFIX = "fillFromCursor";
+    public static final String DBADAPTER_HELPER_METHOD_ADDENTITY_NAME_PREFIX = "add";
+    public static final String DBADAPTER_HELPER_METHOD_GETENTITY_NAME_PREFIX = "get";
+    public static final String DBADAPTER_HELPER_METHOD_UPDATEENTITY_NAME_PREFIX = "update";
+    public static final String DBADAPTER_HELPER_METHOD_REMOVEENTITY_NAME_PREFIX = "delete";
+    public static final String DBADAPTER_HELPER_METHOD_REMOVEALL_NAME_PREFIX = "deleteAll";} 

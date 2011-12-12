@@ -36,6 +36,10 @@ import java.lang.annotation.Target;
  * The default value is an empty list (no unique constraint)
  * </li>
  * <li>
+ * <B>pk:</B> list of field names to use for creating a primary key constraint for the table. 
+ * The default value is an empty list (no constraint)
+ * </li>
+ * <li>
  * <B>orderBy:</B> order by code string for the default order by of the table. 
  * The default value is an empty string (default order by).  
  * </li>
@@ -54,6 +58,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.SOURCE)
 public @interface PersistentEntity {
     String tableName() default "";
+    String[] pk() default {};
     String[] unique() default {};
     String orderBy() default "";
     String fieldPrefix() default "";
