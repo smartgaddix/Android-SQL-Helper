@@ -65,13 +65,17 @@ public class FormattedExpression extends JExpressionImpl {
             f.p('(');
         } 
         
-        f.g(left).p(op);
+        if (left != null) {
+            f.g(left).p(op);
+        }
         
         if (insertNewline){
             f.nl();
         }
         
-        f.g(right);
+        if (right != null) {
+            f.g(right);
+        }
         
         if (insertBracket) {
             f.p(')');

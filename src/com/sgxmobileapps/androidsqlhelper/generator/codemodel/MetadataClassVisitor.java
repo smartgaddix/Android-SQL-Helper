@@ -82,6 +82,7 @@ public class MetadataClassVisitor implements Visitor {
         CodeModelVisitorContext.MetaFieldInfo mfi = 
                 ctx.getMetaFieldInfo(field.getTable().getEntityName(), field.getFieldName());
         
+        mfi.mField = field;
         generateEntityMetadataField(mti, mfi, field); 
     }
     

@@ -15,6 +15,7 @@
  */
 package com.sgxmobileapps.androidsqlhelper.generator.codemodel;
 
+import com.sgxmobileapps.androidsqlhelper.processor.model.Field;
 import com.sgxmobileapps.androidsqlhelper.processor.model.VisitorContext;
 import com.sun.codemodel.JBlock;
 import com.sun.codemodel.JClass;
@@ -47,6 +48,7 @@ public class CodeModelVisitorContext implements VisitorContext{
         public String mFieldName;
         public JFieldVar mColNameField;
         public JFieldVar mColIdxField;
+        public Field mField;
     }
     
     class MetadataClassInfo {

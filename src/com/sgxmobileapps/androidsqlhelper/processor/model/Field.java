@@ -384,6 +384,13 @@ public class Field implements Visitable {
     public Class<?> getClazzCast() {
         return mClazzCast;
     }
+    
+    /**
+     * @return true if the field type is INTEGER or REAL
+     */
+    public boolean isNumberField() {
+        return mColumnType.equals("INTEGER") || mColumnType.equals("REAL");
+    }
 
     /* 
      * @see java.lang.Object#toString()

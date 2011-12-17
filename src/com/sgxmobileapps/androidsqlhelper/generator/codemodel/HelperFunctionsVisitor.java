@@ -15,6 +15,7 @@
  */
 package com.sgxmobileapps.androidsqlhelper.generator.codemodel;
 
+
 import com.sgxmobileapps.androidsqlhelper.generator.CodeGenerationConstants;
 import com.sgxmobileapps.androidsqlhelper.processor.model.Field;
 import com.sgxmobileapps.androidsqlhelper.processor.model.Schema;
@@ -30,6 +31,7 @@ import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JInvocation;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JMod;
+import com.sun.codemodel.JOp;
 import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
 
@@ -74,7 +76,10 @@ public class HelperFunctionsVisitor implements Visitor {
             generateMethodGetContentValues(mti, dbati, table);
             generateMethodFillFromCursor(mti, dbati, table);
             generateMethodAddEntity(mti, dbati, table);
-            generateMethodsById(mti, dbati, table);
+            generateMethodUpdateEntityById(mti, dbati, table);
+            generateMethodUpdateEntityByKey(mti, dbati, table);
+            generateMethodRemoveEntityById(mti, dbati, table);
+            generateMethodRemoveAllEntity(mti, dbati, table);
         } catch (JClassAlreadyExistsException e) {
             throw new VisitorException("Visiting table " + table.getEntityName() + " exception", e);
         } 
@@ -188,7 +193,7 @@ public class HelperFunctionsVisitor implements Visitor {
         addMethod.body()._return(insertInvocation);
     }
     
-    private void generateMethodsById(CodeModelVisitorContext.MetaTableInfo mti, CodeModelVisitorContext.DbAdapterTableInfo dbati, Table table) throws JClassAlreadyExistsException {
+    private void generateMethodUpdateEntityById(CodeModelVisitorContext.MetaTableInfo mti, CodeModelVisitorContext.DbAdapterTableInfo dbati, Table table) throws JClassAlreadyExistsException {
         
         if (table.isNoIdColumn()) {
             return;
@@ -225,24 +230,116 @@ public class HelperFunctionsVisitor implements Visitor {
                 .arg(JExpr._null());
         
         updateMethod.body()._return(updateInvocation);
+    }
+    
+    private void generateMethodUpdateEntityByKey(CodeModelVisitorContext.MetaTableInfo mti, CodeModelVisitorContext.DbAdapterTableInfo dbati, Table table) throws JClassAlreadyExistsException {
+        
+        String[] keyFields = null;
+        if (table.getPKConstraint().length > 0) {
+            keyFields = table.getPKConstraint();
+        } else if (table.getUniqueConstraint().length > 0){
+            keyFields = table.getUniqueConstraint();
+        }
+        
+        if (keyFields == null){
+            return;
+        }
+
+        /* update method */
+        JMethod updateMethod = ctx.mDbAdapterInfo.mClass.method(JMod.PUBLIC, 
+                long.class, 
+                CodeGenerationConstants.DBADAPTER_HELPER_METHOD_UPDATEENTITY_NAME_PREFIX + table.getEntityNameForMethod());
+        
+        JVar entityParam = updateMethod.param(dbati.mClass, table.getEntityNameForVar());
+                
+        JDocComment jdoc = updateMethod.javadoc();
+        jdoc.add("Updates a " + table.getEntityName() + " in database");
+        jdoc.addParam(entityParam).add("The " + table.getEntityName() + " to update");
+        jdoc.addReturn().add("the number of rows affected (1 or 0)");
+        
+        
+        
+        JExpression whereExpression = null;
+        for(int i = 0; i < keyFields.length; i++){
+            CodeModelVisitorContext.MetaFieldInfo mfi = ctx.getMetaFieldInfo(table.getEntityName(), keyFields[i]);
+            
+            whereExpression = FormattedExpression.plus(whereExpression, mti.mClass.staticRef(mfi.mColNameField), false, false);
+            
+            if (mfi.mField.isNumberField()) {
+                whereExpression = FormattedExpression.plus(whereExpression, JExpr.lit(" = "), false, false);
+            } else {
+                whereExpression = FormattedExpression.plus(whereExpression, JExpr.lit(" = '"), false, false);
+            }
+
+            
+            JExpression getterExpression = JExpr.invoke(entityParam, mfi.mField.getGetterMethod());
+            if (mfi.mField.getGetterConvMethod() != null){
+                getterExpression = JExpr.invoke(getterExpression, mfi.mField.getGetterConvMethod());
+            } 
+            
+            if (mfi.mField.getClazz().equals(boolean.class) || mfi.mField.getClazz().equals(Boolean.class)) {
+                
+                if (mfi.mField.getClazzCast() != null) {
+                    getterExpression = JExpr.cast(ctx.mCMRoot._ref(mfi.mField.getClazzCast()), getterExpression);
+                }
+                getterExpression = JOp.cond(getterExpression, JExpr.lit(1), JExpr.lit(0));
+            }
+            
+            whereExpression = FormattedExpression.plus(whereExpression, getterExpression, false, false);
+            
+            String endStr = "";
+            if (!mfi.mField.isNumberField()) {
+                endStr += "'";
+            }
+            
+            if (i < (keyFields.length - 1)) {
+                endStr += " AND ";
+            }
+            
+            if (!endStr.isEmpty()) {
+                whereExpression = FormattedExpression.plus(whereExpression, JExpr.lit(endStr), false, false);
+            }
+        }
+        
+        JBlock updateBody = updateMethod.body();
+        JVar whereVar = updateBody.decl(ctx.mCMRoot._ref(String.class), "where", whereExpression);
+   
+        
+        JInvocation updateInvocation = ctx.mDbAdapterInfo.mDbField.invoke("update")
+                .arg(mti.mClass.staticRef(mti.mTableNameField))
+                .arg(JExpr.invoke(dbati.mGetContentValuesMethod).arg(entityParam))
+                .arg(whereVar)
+                .arg(JExpr._null());
+        
+        updateMethod.body()._return(updateInvocation);
+    }
+      
+    private void generateMethodRemoveEntityById(CodeModelVisitorContext.MetaTableInfo mti, CodeModelVisitorContext.DbAdapterTableInfo dbati, Table table) throws JClassAlreadyExistsException {
+        
+        if (table.isNoIdColumn()) {
+            return;
+        }
+        
+        Field idField = table.getIdField();
+        CodeModelVisitorContext.MetaFieldInfo mfi = ctx.getMetaFieldInfo(table.getEntityName(), idField.getFieldName());
         
         /* remove method */
         JMethod removeMethod = ctx.mDbAdapterInfo.mClass.method(JMod.PUBLIC, 
                 long.class, 
                 CodeGenerationConstants.DBADAPTER_HELPER_METHOD_REMOVEENTITY_NAME_PREFIX + table.getEntityNameForMethod());
         
-        idParam = removeMethod.param(idField.getClazz(), idField.getFieldNameForVar());
+        JVar idParam = removeMethod.param(idField.getClazz(), idField.getFieldNameForVar());
                 
-        jdoc = removeMethod.javadoc();
+        JDocComment jdoc = removeMethod.javadoc();
         jdoc.add("Deletes a " + table.getEntityName() + " from database");
         jdoc.addParam(idParam).add("The id of the " + table.getEntityName() + " to delete");
         jdoc.addReturn().add("the number of rows affected (1 or 0)");
         
         JBlock removeBody = removeMethod.body();
-        whereExpression = 
+        JExpression whereExpression = 
                 FormattedExpression.plus(mti.mClass.staticRef(mfi.mColNameField), JExpr.lit(" = "), false, false)
                 .add(idParam, false, false);
-        whereVar = removeBody.decl(ctx.mCMRoot._ref(String.class), "where", whereExpression);
+        JVar whereVar = removeBody.decl(ctx.mCMRoot._ref(String.class), "where", whereExpression);
    
         
         JInvocation removeInvocation = ctx.mDbAdapterInfo.mDbField.invoke("delete")
@@ -251,13 +348,15 @@ public class HelperFunctionsVisitor implements Visitor {
                 .arg(JExpr._null());
         
         removeMethod.body()._return(removeInvocation);
-        
+    } 
+    
+    private void generateMethodRemoveAllEntity(CodeModelVisitorContext.MetaTableInfo mti, CodeModelVisitorContext.DbAdapterTableInfo dbati, Table table) throws JClassAlreadyExistsException {
         /* remove all method */
         JMethod removeAllMethod = ctx.mDbAdapterInfo.mClass.method(JMod.PUBLIC, 
                 long.class, 
                 CodeGenerationConstants.DBADAPTER_HELPER_METHOD_REMOVEALL_NAME_PREFIX + table.getEntityNameForMethod());
                 
-        jdoc = removeAllMethod.javadoc();
+        JDocComment jdoc = removeAllMethod.javadoc();
         jdoc.add("Deletes all " + table.getEntityName() + " from database");
         jdoc.addReturn().add("the number of rows deleted");
 
@@ -267,7 +366,5 @@ public class HelperFunctionsVisitor implements Visitor {
                 .arg(JExpr._null());
         
         removeAllMethod.body()._return(removeAllInvocation);
-    }
-      
-        
+    } 
 }
