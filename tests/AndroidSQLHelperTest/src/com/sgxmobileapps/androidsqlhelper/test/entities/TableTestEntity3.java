@@ -30,6 +30,12 @@ public class TableTestEntity3 {
 
     @PersistentField
     public long mFieldLong;
+    
+    @PersistentField
+    public boolean mFieldBool;
+    
+    @PersistentField
+    public Boolean mFieldBoolean;
 
     
     public String getFieldString() {
@@ -49,5 +55,23 @@ public class TableTestEntity3 {
     
     public void setFieldLong(long fieldLong) {
         mFieldLong = fieldLong;
+    }
+    
+    public boolean isFieldBool() {
+        return mFieldBool;
+    }
+
+    
+    public void setFieldBool(boolean fieldBool) {
+        mFieldBool = fieldBool;
+    }
+    
+    public Boolean isFieldBoolean() {
+        return mFieldBoolean;
+    }
+
+    
+    public void setFieldBoolean(Boolean fieldBoolean) {
+        mFieldBoolean = fieldBoolean;
     }
 }

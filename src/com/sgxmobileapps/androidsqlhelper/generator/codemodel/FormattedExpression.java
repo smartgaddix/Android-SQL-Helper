@@ -69,7 +69,7 @@ public class FormattedExpression extends JExpressionImpl {
             f.g(left).p(op);
         }
         
-        if (insertNewline){
+        if ((left != null) && insertNewline){
             f.nl();
         }
         

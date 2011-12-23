@@ -68,7 +68,7 @@ public class FieldTestCase extends BaseTestCase {
         
         printToOutput(createTable);
         
-        assertTrue(createTable.contains("LONG INTEGER NOT NULL UNIQUE")  && createTable.contains("INT INTEGER NOT NULL UNIQUE"));
+        assertTrue(createTable.contains("LONGO INTEGER NOT NULL UNIQUE")  && createTable.contains("INTO INTEGER NOT NULL UNIQUE"));
     }
     
     @Test

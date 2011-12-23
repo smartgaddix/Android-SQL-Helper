@@ -51,6 +51,10 @@ import java.lang.annotation.Target;
  * <B>noIdCol:</B> disable the creation of the standard android id column (integer autoincrement primary key). 
  * The default value is false, id column is generated
  * </li>
+ * <li>
+ * <B>idField:</B> if true the Java class must contains getter and setter for id field: long getId() and void setId(long) 
+ * The default value is false, id field doesn't exist
+ * </li>
  * 
  * @author Massimo Gaddini
  */
@@ -63,4 +67,5 @@ public @interface PersistentEntity {
     String orderBy() default "";
     String fieldPrefix() default "";
     boolean noIdCol() default false;
+    boolean idField() default false;
 }

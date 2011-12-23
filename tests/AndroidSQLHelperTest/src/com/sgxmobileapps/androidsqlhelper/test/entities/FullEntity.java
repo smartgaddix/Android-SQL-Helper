@@ -30,7 +30,7 @@ import java.util.GregorianCalendar;
         tableName="FULL", 
         noIdCol=true, 
         orderBy="LONGPRIMITIVE ASC, INTPRIMITIVE DESC",
-        unique={"Long", "Int"},
+        unique={"LongO", "IntO"},
         fieldPrefix="m")
 public class FullEntity {
     
@@ -40,10 +40,10 @@ public class FullEntity {
     private long mLongPrimitive;
     
     @PersistentField(
-            columnName="Long",
+            columnName="LongO",
             nullable=true,
             unique=true)
-    private Long mLong;
+    private Long mLongO;
     
     @PersistentField(
             columnName="IntPrimitive",
@@ -52,10 +52,10 @@ public class FullEntity {
     private int mIntPrimitive;
     
     @PersistentField(
-            columnName="Int",
+            columnName="IntO",
             nullable=false,
             unique=true)
-    private Integer mInt;
+    private Integer mIntO;
     
     @PersistentField(
             columnName="BytePrimitive",
@@ -63,9 +63,9 @@ public class FullEntity {
     private byte mBytePrimitive;
     
     @PersistentField(
-            columnName="Byte",
+            columnName="ByteO",
             nullable=false)
-    private Byte mByte;
+    private Byte mByteO;
     
     @PersistentField(
             columnName="ShortPrimitive",
@@ -73,9 +73,9 @@ public class FullEntity {
     private short mShortPrimitive;
     
     @PersistentField(
-            columnName="Short",
+            columnName="ShortO",
             nullable=false)
-    private Short mShort;
+    private Short mShortO;
     
     @PersistentField(
             columnName="BoolPrimitive",
@@ -93,9 +93,9 @@ public class FullEntity {
     private float mFloatPrimitive;
     
     @PersistentField(
-            columnName="Float",
+            columnName="FloatO",
             nullable=false)
-    private Float mFloat;
+    private Float mFloatO;
     
     @PersistentField(
             columnName="DoublePrimitive",
@@ -103,9 +103,9 @@ public class FullEntity {
     private double mDoublePrimitive;
     
     @PersistentField(
-            columnName="Double",
+            columnName="DoubleO",
             nullable=false)
-    private Double mDouble;
+    private Double mDoubleO;
     
     @PersistentField(
             columnName="String",
@@ -138,13 +138,13 @@ public class FullEntity {
     }
 
     
-    public Long getLong() {
-        return mLong;
+    public Long getLongO() {
+        return mLongO;
     }
 
     
-    public void setLong(Long l) {
-        mLong = l;
+    public void setLongO(Long l) {
+        mLongO = l;
     }
 
     
@@ -158,13 +158,13 @@ public class FullEntity {
     }
 
     
-    public Integer getInt() {
-        return mInt;
+    public Integer getIntO() {
+        return mIntO;
     }
 
     
-    public void setInt(Integer i) {
-        mInt = i;
+    public void setIntO(Integer i) {
+        mIntO = i;
     }
 
     
@@ -178,13 +178,13 @@ public class FullEntity {
     }
 
     
-    public Byte getByte() {
-        return mByte;
+    public Byte getByteO() {
+        return mByteO;
     }
 
     
-    public void setByte(Byte b) {
-        mByte = b;
+    public void setByteO(Byte b) {
+        mByteO = b;
     }
 
     
@@ -198,13 +198,13 @@ public class FullEntity {
     }
 
     
-    public Short getShort() {
-        return mShort;
+    public Short getShortO() {
+        return mShortO;
     }
 
     
-    public void setShort(Short s) {
-        mShort = s;
+    public void setShortO(Short s) {
+        mShortO = s;
     }
 
     public boolean isBoolPrimitive() {
@@ -237,13 +237,13 @@ public class FullEntity {
     }
 
     
-    public Float getFloat() {
-        return mFloat;
+    public Float getFloatO() {
+        return mFloatO;
     }
 
     
-    public void setFloat(Float f) {
-        mFloat = f;
+    public void setFloatO(Float f) {
+        mFloatO = f;
     }
 
     
@@ -257,13 +257,13 @@ public class FullEntity {
     }
 
     
-    public Double getDouble() {
-        return mDouble;
+    public Double getDoubleO() {
+        return mDoubleO;
     }
 
     
-    public void setDouble(Double d) {
-        mDouble = d;
+    public void setDoubleO(Double d) {
+        mDoubleO = d;
     }
 
     

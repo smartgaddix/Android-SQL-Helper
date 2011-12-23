@@ -66,6 +66,7 @@ public class CodeModelVisitorContext implements VisitorContext{
         public JFieldVar mDropTableField;
         public JMethod mGetContentValuesMethod;
         public JMethod mFillFromCursorMethod;
+        public JMethod mGetAllCursorEntityMethod;
         public JClass mClass;
     }
     

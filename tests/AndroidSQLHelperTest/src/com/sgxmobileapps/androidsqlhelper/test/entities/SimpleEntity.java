@@ -22,7 +22,7 @@ import com.sgxmobileapps.androidsqlhelper.annotation.PersistentField;
  * @author Massimo Gaddini
  *
  */
-@PersistentEntity(fieldPrefix="m", orderBy="FIELDSTRING ASC, FIELDLONG DESC")
+@PersistentEntity(fieldPrefix="m", orderBy="FIELDSTRING ASC, FIELDLONG DESC", idField=true)
 public class SimpleEntity {
     
     @PersistentField
@@ -30,7 +30,14 @@ public class SimpleEntity {
     
     @PersistentField
     public long mFieldLong;
-
+    
+    public long getId(){
+        return 0;
+    }
+    
+    public void setId(long id){
+        
+    }
     
     public String getFieldString() {
         return mFieldString;

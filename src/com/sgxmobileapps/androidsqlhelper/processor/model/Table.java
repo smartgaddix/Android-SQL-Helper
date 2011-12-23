@@ -43,6 +43,7 @@ public class Table implements Visitable {
     protected Field         mIdField;
     protected Schema        mSchema;
     protected boolean       mNoIdColumn;
+    protected boolean       mHasIdField;
 
     /**
      * Builds a Table instance from an PersistentEntity annotation and the
@@ -70,6 +71,7 @@ public class Table implements Visitable {
         table.mUniqueConstraint = annotation.unique();
         table.mOrderBy = annotation.orderBy();
         table.mNoIdColumn = annotation.noIdCol();
+        table.mHasIdField = annotation.idField() && !annotation.noIdCol();
         table.mFieldPrefix = annotation.fieldPrefix();
 
         table.mSchema = schema;
@@ -189,6 +191,13 @@ public class Table implements Visitable {
     public boolean isNoIdColumn() {
         return mNoIdColumn;
     }
+    
+    /**
+     * @return the hasIdField
+     */
+    public boolean hasIdField() {
+        return mHasIdField;
+    }
 
     /*
      * @see java.lang.Object#toString()
@@ -219,6 +228,9 @@ public class Table implements Visitable {
         }
         builder.append("mNoIdColumn=");
         builder.append(mNoIdColumn);
+        builder.append(", ");
+        builder.append("mHasIdField=");
+        builder.append(mHasIdField);
         builder.append(", ");
         if (mOrderBy != null) {
             builder.append("mOrderBy=");
