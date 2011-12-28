@@ -15,8 +15,6 @@
  */
 package com.sgxmobileapps.androidsqlhelper.generator.codemodel;
 
-import android.database.Cursor;
-
 import com.sgxmobileapps.androidsqlhelper.generator.CodeGenerationConstants;
 import com.sgxmobileapps.androidsqlhelper.processor.model.Field;
 import com.sgxmobileapps.androidsqlhelper.processor.model.Schema;
@@ -27,7 +25,6 @@ import com.sgxmobileapps.androidsqlhelper.processor.model.VisitorException;
 import com.sun.codemodel.JBlock;
 import com.sun.codemodel.JClassAlreadyExistsException;
 import com.sun.codemodel.JConditional;
-import com.sun.codemodel.JDoLoop;
 import com.sun.codemodel.JDocComment;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
@@ -86,7 +83,7 @@ public class HelperFunctionsVisitor implements Visitor {
             generateMethodRemoveEntityByKey(mti, dbati, table);
             generateMethodRemoveAllEntity(mti, dbati, table);
             generateMethodGetEntityById(mti, dbati, table);
-            //generateMethodGetEntityByKey(mti, dbati, table);
+            generateMethodGetEntityByKey(mti, dbati, table);
             generateMethodGetAllEntityCursor(mti, dbati, table);
             generateMethodGetAllEntity(mti, dbati, table);
         } catch (JClassAlreadyExistsException e) {
