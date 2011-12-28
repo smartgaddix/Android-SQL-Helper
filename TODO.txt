@@ -4,17 +4,15 @@ X define annotations
 X define model
 X implement the annotation processor via apt (integrated into javac.exe)
 X loading schema properties from properties file
-- document supported types and mapping
 X use codemodel for code generation
 X make test case
 - make same sample
 - javadoc
 X use of entity annotation to force some field properties, like key or nullable
-- update/remove method based on key fields (without row id)
-- support for member class of the persistent bean
+X update/remove method based on key fields (without row id)
+- support for custom class as class member
 - support for field of type enum
-- support of date time fields. Support of standard conversion or use a custom converter class
-- support for yaml configuration files (by snakeyaml)
+X support of date time fields. Support of standard conversion or use a custom converter class
 X support for license inclusion at the beginning of generated files(from external file)
 
 Todo:
@@ -22,8 +20,16 @@ Todo:
 X optimize test project's settings for path dependency
 X optimize test project's sources
 X table annotation value for field name prefix to ignore for column name
-- store field type for conversion in code generation
-X test case:
-	X running without annotation class
-	- 
-- add used libraries in README for license reasons
+X store field type for conversion in code generation
+- try to use codemodel 2.5
+- plan the use of the needed library codemodel and android.jar
+- make a sample stand alone project
+- make a sample android project
+- javadoc
+- complete the README with:
+		- add used libraries for license reasons
+		- supported types and sql mapping
+		- supported SQLLite features
+		- use of the tool
+- clean project for tag
+- tag
