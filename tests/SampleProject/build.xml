@@ -23,7 +23,7 @@
 			 	target="1.6"
 				compiler="javac1.6">
 			<compilerarg line="-s ${gen}"/>
-			<compilerarg line="-verbose"/>
+			<!--compilerarg line="-verbose"/-->
 		</javac>
 	</target>
 </project>

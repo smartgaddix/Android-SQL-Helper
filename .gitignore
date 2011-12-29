@@ -4,3 +4,4 @@ tests/AndroidSQLHelperTest/bin
 tests/AndroidSQLHelperTest/tests
 tests/SampleProject/bin
 tests/SampleProject/classes
+tests/SampleProject/gen

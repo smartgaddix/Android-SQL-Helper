@@ -23,7 +23,6 @@ import java.util.Date;
 
 /**
  * @author Massimo Gaddini
- * Jun 9, 2011
  */
 @PersistentEntity(
         tableName="USER",
@@ -42,6 +41,9 @@ public class AppUser {
     
     @PersistentField()
     private Date mCreationDate;
+    
+    @PersistentField(nullable=false,unique=true)
+    private String mProfileId;
 
     
     /**
@@ -105,5 +107,23 @@ public class AppUser {
      */
     public void setCreationDate(Date creationDate) {
         mCreationDate = creationDate;
+    }
+
+
+    
+    /**
+     * @return the profileId
+     */
+    public String getProfileId() {
+        return mProfileId;
+    }
+
+
+    
+    /**
+     * @param profileId the profileId to set
+     */
+    public void setProfileId(String profileId) {
+        mProfileId = profileId;
     }
 }

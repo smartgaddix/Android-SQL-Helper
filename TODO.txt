@@ -23,7 +23,7 @@ X table annotation value for field name prefix to ignore for column name
 X store field type for conversion in code generation
 X try to use codemodel 2.5
 X plan the use of the needed library codemodel and android.jar
-- make a sample stand alone project
+X make a sample stand alone project
 - make a sample android project
 - javadoc
 - complete the README with:
