@@ -10,34 +10,25 @@
 	<property name="bin" value="bin" />
 	<property name="lib" value="lib" />
 	<property name="src" value="src" />
-	<property name="codemodel" value="codemodel-2.4-SNAPSHOT" />
+	<property name="codemodel_jar" value="lib/codemodel-2.5-SNAPSHOT.jar" />
+	<property name="android_jar" value="lib/android.jar" />
 
-	<property name="completejar" value="bin/androidsqlhelper.jar" />
-	<property name="annotationjar" value="bin/androidsqlhelperannotations.jar" />
-	<property name="modeljar" value="bin/androidsqlhelpermodel.jar" />
+	<property name="complete_out_jar" value="bin/androidsqlhelper.jar" />
+	<property name="annotation_out_jar" value="bin/androidsqlhelperannotations.jar" />
 	
 	<property name="targetlist" value="tests/AndroidSQLHelperTest/lib, tests/SampleProject/lib"/>
 
 	<target name="package">
-		<jar destfile="${completejar}">
+		<jar destfile="${complete_out_jar}">
 			<zipfileset dir="${bin}">
 				<include name="META-INF/**" />
 				<include name="**/*.class" />
 			</zipfileset>
-			<zipfileset dir="${lib}/${codemodel}">
-				<include name="**/*.class" />
-			</zipfileset>
 		</jar>
 		
-		<jar destfile="${annotationjar}">
+		<jar destfile="${annotation_out_jar}">
 			<zipfileset dir="${bin}">
 				<include name="**/annotation/*.class" />
-			</zipfileset>			
-		</jar>
-		
-		<jar destfile="${modeljar}">
-			<zipfileset dir="${bin}">
-				<include name="**/processor/model/*.class" />
 			</zipfileset>			
 		</jar>
 	</target>
@@ -45,9 +36,11 @@
 	<target name="copyjar" >
 		<echo>${targetdir}</echo>
 
-		<copy file="${completejar}" todir="${targetdir}"/>
-		<copy file="${annotationjar}" todir="${targetdir}"/>
-		<copy file="${modeljar}" todir="${targetdir}"/>
+		<copy file="${complete_out_jar}" todir="${targetdir}"/>
+		<copy file="${annotation_out_jar}" todir="${targetdir}"/>
+		
+		<copy file="${android_jar}" todir="${targetdir}"/>
+		<copy file="${codemodel_jar}" todir="${targetdir}"/>
 	</target>
 
 	<target name="copyjars" depends="package">

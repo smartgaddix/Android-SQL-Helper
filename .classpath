@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="lib/codemodel-2.4-SNAPSHOT" sourcepath="lib/codemodel-2.4-SNAPSHOT-sources.jar">
-		<attributes>
-			<attribute name="javadoc_location" value="jar:platform:/resource/AndroidSQLHelper/lib/codemodel-2.4-SNAPSHOT-javadoc.jar!/"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/android.jar" sourcepath="/Users/massimo/Projects/sources.zip">
 		<attributes>
 			<attribute name="javadoc_location" value="file:/Users/massimo/Projects/android-sdk-mac_x86/docs/reference/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/codemodel-2.5-SNAPSHOT.jar" sourcepath="lib/codemodel-2.5-SNAPSHOT-sources.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:platform:/resource/AndroidSQLHelper/lib/codemodel-2.5-SNAPSHOT-javadoc.jar!/"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
