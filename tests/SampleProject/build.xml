@@ -3,11 +3,16 @@
 
 	<property name="src" value="src" />
 	<property name="bin" value="bin" />
+	<property name="gen" value="gen" />
 	
 	<target name="clean">
 		<delete includeemptydirs="true">
 		    <fileset dir="${bin}" includes="**/*"/>
-		  </delete>
+		</delete>
+		
+		<delete includeemptydirs="true">
+		    <fileset dir="${gen}" includes="**/*"/>
+		</delete>
 	</target>
 	
 	<target name="compile" depends="clean">
@@ -17,6 +22,8 @@
 		       	source="1.6"
 			 	target="1.6"
 				compiler="javac1.6">
+			<compilerarg line="-s ${gen}"/>
+			<compilerarg line="-verbose"/>
 		</javac>
 	</target>
 </project>

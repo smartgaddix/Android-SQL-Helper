@@ -45,7 +45,7 @@ public class HeaderFileCodeWriter extends CodeWriter {
         mFiler = filer;
         
         if ((mFiler==null) || (mSchema==null)) {
-        	throw new CodeGenerationException("Filer or schems null");
+        	throw new CodeGenerationException("Filer or schema null");
         }
     }
 

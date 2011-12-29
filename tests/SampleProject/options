@@ -1,0 +1,3 @@
+-d bin
+-s gen
+-cp lib/androidsqlhelper.jar:lib/codemodel-2.5-SNAPSHOT.jar:lib/android.jar
