@@ -23,7 +23,6 @@ import com.sgxmobileapps.androidsqlhelper.test.entities.SimpleEntity;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -83,8 +82,7 @@ public class CompilerTestCase extends BaseTestCase {
         sources.add("src/com/sgxmobileapps/androidsqlhelper/test/entities/SimpleEntity2.java");
 
         ArrayList<String> options = new ArrayList<String>();
-        options.add("-cp");
-        options.add(getInDir().getAbsolutePath() + File.pathSeparator + "lib/androidsqlhelper.jar" + File.pathSeparator + "lib/android.jar" );
+        addStandardClassPath(options);
 
         assertTrue(compileFiles(options, sources));
         
@@ -99,8 +97,7 @@ public class CompilerTestCase extends BaseTestCase {
         sources.add("src/com/sgxmobileapps/androidsqlhelper/test/entities/FullEntity.java");
 
         ArrayList<String> options = new ArrayList<String>();
-        options.add("-cp");
-        options.add(getInDir().getAbsolutePath() + File.pathSeparator + "lib/androidsqlhelper.jar" + File.pathSeparator + "lib/android.jar");
+        addStandardClassPath(options);
 
         assertTrue(compileFiles(options, sources));
 

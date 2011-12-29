@@ -23,7 +23,6 @@ import static org.junit.Assert.fail;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -49,8 +48,7 @@ public class FieldTestCase extends BaseTestCase {
         sources.add("src/com/sgxmobileapps/androidsqlhelper/test/entities/FullEntity.java");
 
         ArrayList<String> options = new ArrayList<String>();
-        options.add("-cp");
-        options.add(getInDir().getAbsolutePath() + File.pathSeparator + "lib/androidsqlhelper.jar" + File.pathSeparator + "lib/android.jar" );
+        addStandardClassPath(options);
 
         assertTrue(compileFiles(options, sources));
         
@@ -79,8 +77,7 @@ public class FieldTestCase extends BaseTestCase {
         sources.add("src/com/sgxmobileapps/androidsqlhelper/test/entities/TableTestEntity1.java");
 
         ArrayList<String> options = new ArrayList<String>();
-        options.add("-cp");
-        options.add(getInDir().getAbsolutePath() + File.pathSeparator + "lib/androidsqlhelper.jar" + File.pathSeparator + "lib/android.jar" );
+        addStandardClassPath(options);
 
         assertTrue(compileFiles(options, sources));
 
@@ -108,8 +105,7 @@ public class FieldTestCase extends BaseTestCase {
         sources.add("src/com/sgxmobileapps/androidsqlhelper/test/entities/FullEntity.java");
 
         ArrayList<String> options = new ArrayList<String>();
-        options.add("-cp");
-        options.add(getInDir().getAbsolutePath() + File.pathSeparator + "lib/androidsqlhelper.jar" + File.pathSeparator + "lib/android.jar" );
+        addStandardClassPath(options);
 
         assertTrue(compileFiles(options, sources));
         
@@ -138,8 +134,7 @@ public class FieldTestCase extends BaseTestCase {
         sources.add("src/com/sgxmobileapps/androidsqlhelper/test/entities/FullEntity.java");
 
         ArrayList<String> options = new ArrayList<String>();
-        options.add("-cp");
-        options.add(getInDir().getAbsolutePath() + File.pathSeparator + "lib/androidsqlhelper.jar" + File.pathSeparator + "lib/android.jar" );
+        addStandardClassPath(options);
 
         assertTrue(compileFiles(options, sources));
         
@@ -168,8 +163,7 @@ public class FieldTestCase extends BaseTestCase {
         sources.add("src/com/sgxmobileapps/androidsqlhelper/test/entities/FullEntity.java");
 
         ArrayList<String> options = new ArrayList<String>();
-        options.add("-cp");
-        options.add(getInDir().getAbsolutePath() + File.pathSeparator + "lib/androidsqlhelper.jar" + File.pathSeparator + "lib/android.jar" );
+        addStandardClassPath(options);
 
         assertTrue(compileFiles(options, sources));
         

@@ -136,6 +136,12 @@ public class BaseTestCase {
 		return task.call();
     }
 	
+	protected static void addStandardClassPath(ArrayList<String> options){
+        options.add("-cp");
+        options.add(getInDir().getAbsolutePath() + File.pathSeparator + "lib/codemodel-2.5-SNAPSHOT.jar" + File.pathSeparator + "lib/androidsqlhelper.jar" + File.pathSeparator + "lib/android.jar" );
+
+	}
+	
 	protected static Schema getDefaultSchema() throws IOException{ 
         Schema schema = new Schema();
         schema.setPackage("outpackage.test");

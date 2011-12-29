@@ -23,7 +23,6 @@ import com.sgxmobileapps.androidsqlhelper.processor.model.Schema;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -47,8 +46,7 @@ public class SchemaTestCase extends BaseTestCase {
         sources.add("src/com/sgxmobileapps/androidsqlhelper/test/entities/SimpleEntity.java");
 
         ArrayList<String> options = new ArrayList<String>();
-        options.add("-cp");
-        options.add(getInDir().getAbsolutePath() + File.pathSeparator + "lib/androidsqlhelper.jar" + File.pathSeparator + "lib/android.jar" );
+        addStandardClassPath(options);
 
         assertTrue(!compileFiles(options, sources));
     }
@@ -65,8 +63,7 @@ public class SchemaTestCase extends BaseTestCase {
         sources.add("src/com/sgxmobileapps/androidsqlhelper/test/entities/SimpleEntity2.java");
 
         ArrayList<String> options = new ArrayList<String>();
-        options.add("-cp");
-        options.add(getInDir().getAbsolutePath() + File.pathSeparator + "lib/androidsqlhelper.jar" + File.pathSeparator + "lib/android.jar" );
+        addStandardClassPath(options);
 
         assertTrue(compileFiles(options, sources));
 
@@ -84,8 +81,7 @@ public class SchemaTestCase extends BaseTestCase {
         sources.add("src/com/sgxmobileapps/androidsqlhelper/test/entities/SimpleEntity.java");
 
         ArrayList<String> options = new ArrayList<String>();
-        options.add("-cp");
-        options.add(getInDir().getAbsolutePath() + File.pathSeparator + "lib/androidsqlhelper.jar" + File.pathSeparator + "lib/android.jar" );
+        addStandardClassPath(options);
 
         assertTrue(compileFiles(options, sources));
     
@@ -104,8 +100,7 @@ public class SchemaTestCase extends BaseTestCase {
         sources.add("src/com/sgxmobileapps/androidsqlhelper/test/entities/SimpleEntity.java");
 
         ArrayList<String> options = new ArrayList<String>();
-        options.add("-cp");
-        options.add(getInDir().getAbsolutePath() + File.pathSeparator + "lib/androidsqlhelper.jar" + File.pathSeparator + "lib/android.jar" );
+        addStandardClassPath(options);
 
         assertTrue(compileFiles(options, sources));
 
@@ -121,8 +116,7 @@ public class SchemaTestCase extends BaseTestCase {
         sources.add("src/com/sgxmobileapps/androidsqlhelper/test/entities/SimpleEntity.java");
 
         ArrayList<String> options = new ArrayList<String>();
-        options.add("-cp");
-        options.add(getInDir().getAbsolutePath() + File.pathSeparator + "lib/androidsqlhelper.jar" + File.pathSeparator + "lib/android.jar" );
+        addStandardClassPath(options);
 
         assertTrue(compileFiles(options, sources));
         
@@ -146,8 +140,7 @@ public class SchemaTestCase extends BaseTestCase {
         sources.add("src/com/sgxmobileapps/androidsqlhelper/test/entities/SimpleEntity.java");
 
         ArrayList<String> options = new ArrayList<String>();
-        options.add("-cp");
-        options.add(getInDir().getAbsolutePath() + File.pathSeparator + "lib/androidsqlhelper.jar" + File.pathSeparator + "lib/android.jar" );
+        addStandardClassPath(options);
 
         assertTrue(!compileFiles(options, sources));
     }

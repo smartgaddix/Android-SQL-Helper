@@ -15,6 +15,7 @@
 
 	<property name="complete_out_jar" value="bin/androidsqlhelper.jar" />
 	<property name="annotation_out_jar" value="bin/androidsqlhelperannotations.jar" />
+	<property name="model_out_jar" value="bin/androidsqlhelpermodel_fortest.jar" />
 	
 	<property name="targetlist" value="tests/AndroidSQLHelperTest/lib, tests/SampleProject/lib"/>
 
@@ -31,6 +32,12 @@
 				<include name="**/annotation/*.class" />
 			</zipfileset>			
 		</jar>
+		
+		<jar destfile="${model_out_jar}">
+			<zipfileset dir="${bin}">
+				<include name="**/model/*.class" />
+			</zipfileset>			
+		</jar>
 	</target>
 	
 	<target name="copyjar" >
@@ -38,6 +45,7 @@
 
 		<copy file="${complete_out_jar}" todir="${targetdir}"/>
 		<copy file="${annotation_out_jar}" todir="${targetdir}"/>
+		<copy file="${model_out_jar}" todir="${targetdir}"/>
 		
 		<copy file="${android_jar}" todir="${targetdir}"/>
 		<copy file="${codemodel_jar}" todir="${targetdir}"/>
