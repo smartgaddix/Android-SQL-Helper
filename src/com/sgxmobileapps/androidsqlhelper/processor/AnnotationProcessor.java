@@ -139,17 +139,19 @@ public class AnnotationProcessor extends AbstractProcessor {
         	if (fo != null) {
         		is = fo.openInputStream();
         	}
-        } catch (FileNotFoundException e) {
-            try {
-				is = new FileInputStream(Schema.SCHEMA_PROPERTIES_FILE);
-			} catch (FileNotFoundException e1) {
-				printMessage(Kind.ERROR, "Opening properties file failed. File not found: %s", e.getMessage());
-	            return false;
-			}
         } catch (IOException e) {
             printMessage(Kind.ERROR, "Opening properties file failed: %s", e.getMessage());
             return false;
         }
+    	
+    	if (is == null) {
+        	try {
+                is = new FileInputStream(Schema.SCHEMA_PROPERTIES_FILE);
+            } catch (Exception e1) {
+                printMessage(Kind.ERROR, "Opening properties file failed. File not found: %s", e1.getMessage());
+                return false;
+            }
+    	}
         
     	try {
         	mProperties.load(is);
