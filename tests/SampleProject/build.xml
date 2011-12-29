@@ -13,9 +13,10 @@
 	<target name="compile" depends="clean">
 		<javac 	srcdir="${src}"
 		       	destdir="${bin}"
-				classpath="lib/androidsqlhelper.jar"
+				classpath="lib/androidsqlhelper.jar;lib/android.jar;lib/codemodel-2.5-SNAPSHOT.jar"
 		       	source="1.6"
 			 	target="1.6"
-				/>
+				compiler="javac1.6">
+		</javac>
 	</target>
 </project>

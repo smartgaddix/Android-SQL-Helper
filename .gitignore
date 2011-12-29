@@ -2,3 +2,4 @@
 .DS_Store
 tests/AndroidSQLHelperTest/bin
 tests/AndroidSQLHelperTest/tests
+tests/SampleProject/bin

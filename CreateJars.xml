@@ -17,8 +17,10 @@
 	<property name="annotation_out_jar" value="bin/androidsqlhelperannotations.jar" />
 	<property name="model_out_jar" value="bin/androidsqlhelpermodel_fortest.jar" />
 	
-	<property name="targetlist" value="tests/AndroidSQLHelperTest/lib, tests/SampleProject/lib"/>
+	<property name="targetlist_test" value="tests/AndroidSQLHelperTest/lib"/>
+	<property name="targetlist_sample" value="tests/SampleProject/lib"/>
 
+	
 	<target name="package">
 		<jar destfile="${complete_out_jar}">
 			<zipfileset dir="${bin}">
@@ -40,7 +42,7 @@
 		</jar>
 	</target>
 	
-	<target name="copyjar" >
+	<target name="copyjar_test" >
 		<echo>${targetdir}</echo>
 
 		<copy file="${complete_out_jar}" todir="${targetdir}"/>
@@ -50,10 +52,23 @@
 		<copy file="${android_jar}" todir="${targetdir}"/>
 		<copy file="${codemodel_jar}" todir="${targetdir}"/>
 	</target>
+	
+	<target name="copyjar_sample" >
+		<echo>${targetdir}</echo>
+
+		<copy file="${complete_out_jar}" todir="${targetdir}"/>
+		<copy file="${annotation_out_jar}" todir="${targetdir}"/>
+		
+		<copy file="${android_jar}" todir="${targetdir}"/>
+		<copy file="${codemodel_jar}" todir="${targetdir}"/>
+	</target>
 
 	<target name="copyjars" depends="package">
-		<echo>${targetlist}</echo>
-		<foreach list="${targetlist}" target="copyjar" param="targetdir" delimiter="," trim="true" />
+		<echo>Copying jars to ${targetlist_test}</echo>
+		<foreach list="${targetlist_test}" target="copyjar_test" param="targetdir" delimiter="," trim="true" />
+		
+		<echo>Copying jars to ${targetlist_sample}</echo>
+		<foreach list="${targetlist_sample}" target="copyjar_sample" param="targetdir" delimiter="," trim="true" />
 	</target>
 	
 </project>
