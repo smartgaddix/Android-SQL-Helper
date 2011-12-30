@@ -93,7 +93,7 @@ public class DbAdapterClassVisitor implements Visitor {
 
     private void generateDbAdapterClass(Schema schema) throws JClassAlreadyExistsException {
 		/* class and inner class */
-        ctx.mDbAdapterInfo.mClass = ctx.mPckg._class(JMod.ABSTRACT|JMod.PUBLIC, schema.getDbAdapterClassName());
+        ctx.mDbAdapterInfo.mClass = ctx.mPckg._class(JMod.PUBLIC, schema.getDbAdapterClassName());
         ctx.mDbAdapterInfo.mHelperClass = ctx.mDbAdapterInfo.mClass._class(JMod.PRIVATE|JMod.STATIC, CodeGenerationConstants.DBADAPTER_DBHELPER_CLASS_NAME);
         ctx.mDbAdapterInfo.mHelperClass._extends(ctx.mCMRoot.ref(android.database.sqlite.SQLiteOpenHelper.class));
 
