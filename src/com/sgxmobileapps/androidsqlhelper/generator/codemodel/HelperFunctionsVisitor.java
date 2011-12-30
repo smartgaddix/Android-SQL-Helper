@@ -435,9 +435,6 @@ public class HelperFunctionsVisitor implements Visitor {
         JArray colsExpression = JExpr.newArray(ctx.mCMRoot._ref(String.class));
         for(int i = 0; i < table.getFields().size(); i++){
             Field field = table.getFields().get(i);
-            if (field.isIdField() && !table.hasIdField()) {
-                continue;
-            }
                     
             CodeModelVisitorContext.MetaFieldInfo mfi = ctx.getMetaFieldInfo(table.getEntityName(), field.getFieldName());        
             colsExpression = colsExpression.add(mti.mClass.staticRef(mfi.mColNameField));
