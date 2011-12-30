@@ -26,7 +26,6 @@ import com.sgxmobileapps.androidsqlhelper.processor.model.Schema;
 import com.sgxmobileapps.androidsqlhelper.processor.model.UnsupportedFieldTypeException;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
@@ -139,16 +138,17 @@ public class AnnotationProcessor extends AbstractProcessor {
         	if (fo != null) {
         		is = fo.openInputStream();
         	}
-        } catch (IOException e) {
-            printMessage(Kind.ERROR, "Opening properties file failed: %s", e.getMessage());
-            return false;
+        	printMessage(Kind.NOTE, "Opened properties file from class path");
+        } catch (Exception e) {
+            printMessage(Kind.WARNING, "Opening properties file from class path failed: %s", e.getMessage());
         }
     	
     	if (is == null) {
         	try {
                 is = new FileInputStream(Schema.SCHEMA_PROPERTIES_FILE);
-            } catch (Exception e1) {
-                printMessage(Kind.ERROR, "Opening properties file failed. File not found: %s", e1.getMessage());
+                printMessage(Kind.NOTE, "Opened properties file from working dir");
+            } catch (Exception e) {
+                printMessage(Kind.ERROR, "Opening properties file from working dir failed: %s", e.getMessage());
                 return false;
             }
     	}
