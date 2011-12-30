@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.  
  */
-package com.sgxmobileapps.androidsqlhelper.test.entities;
+package com.sgxmobileapps.androidsqlhelper.example.entities;
 
 import com.sgxmobileapps.androidsqlhelper.annotation.PersistentEntity;
 import com.sgxmobileapps.androidsqlhelper.annotation.PersistentField;
