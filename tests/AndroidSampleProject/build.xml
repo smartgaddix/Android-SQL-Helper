@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="." default="compile" name="AndroidSampleProject">
+
+	<property name="src" value="src" />
+	<property name="bin" value="bin/classes" />
+	<property name="android_jar" value="/Users/massimo/Projects/android-sdk-mac_x86/platforms/android-4/android.jar"/>
+	
+	<target name="clean">
+		<delete includeemptydirs="true">
+		    <fileset dir="${src}" includes="**/storage/*"/>
+		</delete>
+		
+		<delete includeemptydirs="true">
+		    <fileset dir="${bin}" includes="**/storage/**,**/entities/**"/>
+		</delete>
+	</target>
+	
+	<target name="compile" depends="clean">
+		<javac 	srcdir="${src}"
+		       	destdir="${bin}"
+				classpath="lib/androidsqlhelper.jar;lib/codemodel-2.5-SNAPSHOT.jar;${android_jar}"
+				includes="**/entities/**"
+		       	source="1.6"
+			 	target="1.6"
+				compiler="javac1.6" >
+			<compilerarg line="-s ${src}"/>
+			<compilerarg line="-verbose"/>
+		</javac>
+	</target>
+</project>

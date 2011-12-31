@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="title">AndroidSampleProjectActivity</string>
+    <string name="app_name">AndroidSampleProject</string>
+    <string name="store_button">Store Users</string>
+    <string name="list_user_button">View Users</string>
+    <string name="list_profile_button">View Profiles</string>
+
+</resources>

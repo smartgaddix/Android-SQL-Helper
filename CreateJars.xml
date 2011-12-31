@@ -19,6 +19,7 @@
 	
 	<property name="targetlist_test" value="tests/AndroidSQLHelperTest/lib"/>
 	<property name="targetlist_sample" value="tests/SampleProject/lib"/>
+	<property name="targetlist_sample_and" value="tests/AndroidSampleProject/lib"/>
 
 	
 	<target name="package">
@@ -62,6 +63,15 @@
 		<copy file="${android_jar}" todir="${targetdir}"/>
 		<copy file="${codemodel_jar}" todir="${targetdir}"/>
 	</target>
+	
+	<target name="copyjar_sample_and" >
+		<echo>${targetdir}</echo>
+
+		<copy file="${complete_out_jar}" todir="${targetdir}"/>
+		<copy file="${annotation_out_jar}" todir="${targetdir}"/>
+		
+		<copy file="${codemodel_jar}" todir="${targetdir}"/>
+	</target>
 
 	<target name="copyjars" depends="package">
 		<echo>Copying jars to ${targetlist_test}</echo>
@@ -69,6 +79,9 @@
 		
 		<echo>Copying jars to ${targetlist_sample}</echo>
 		<foreach list="${targetlist_sample}" target="copyjar_sample" param="targetdir" delimiter="," trim="true" />
+		
+		<echo>Copying jars to ${targetlist_sample_and}</echo>
+		<foreach list="${targetlist_sample_and}" target="copyjar_sample_and" param="targetdir" delimiter="," trim="true" />
 	</target>
 	
 </project>
