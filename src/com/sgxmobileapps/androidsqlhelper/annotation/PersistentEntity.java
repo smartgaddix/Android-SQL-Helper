@@ -28,32 +28,33 @@ import java.lang.annotation.Target;
  * 
  * Parameter:
  * <li>
- * <B>tableName:</B> specifies the table name. 
- * The default table name is the uppercase class name 
+ * <B>tableName:</B> specifies the SQL table name. 
+ * The default SQL table name is the upper case class name. Use this attribute to specify a custom SQL table name
+ * </li>
+ * <li>
+ * <B>fieldPrefix:</B> set the field prefix to skip for column names. 
+ * The default value is no prefix, so the column names will be the upper case complete field names
  * </li>
  * <li>
  * <B>unique:</B> list of field names to use for creating a unique constraint for the table. 
- * The default value is an empty list (no unique constraint)
+ * The default value is an empty list (no unique constraint). The specified field names must be without prefix
  * </li>
  * <li>
  * <B>pk:</B> list of field names to use for creating a primary key constraint for the table. 
- * The default value is an empty list (no constraint)
+ * The default value is an empty list (no constraint). The specified field names must be without prefix. If specify a 
+ * pk constraint and noIdCol is false, the constraint is ignored. 
  * </li>
  * <li>
- * <B>orderBy:</B> order by code string for the default order by of the table. 
- * The default value is an empty string (default order by).  
+ * <B>orderBy:</B> order by SQL statement (without ORDER BY clause) for the default ordering of the table. 
+ * The default value is an empty string (default order by). The specified ordering is used into query methods.
  * </li>
  * <li>
- * <B>fieldPrefix:</B> set the field prefix to be skipped for column names. 
- * The default value is no prefix so the columns names will be the uppercase complete fields name
- * </li>
- * <li>
- * <B>noIdCol:</B> disable the creation of the standard android id column (integer autoincrement primary key). 
- * The default value is false, id column is generated
+ * <B>noIdCol:</B> disable the creation of the standard SQLite id column (the "_id integer autoincrement primary key" column). 
+ * The default value is false, id column is generated. If true must be specified a pk constraint.
  * </li>
  * <li>
  * <B>idField:</B> if true the Java class must contains getter and setter for id field: long getId() and void setId(long) 
- * The default value is false, id field doesn't exist
+ * The default value is false, id field doesn't exist. If true the query methods fill the class field (invoking the setter).
  * </li>
  * 
  * @author Massimo Gaddini

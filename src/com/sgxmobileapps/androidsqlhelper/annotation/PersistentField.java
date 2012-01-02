@@ -29,17 +29,21 @@ import java.lang.annotation.Target;
  * Parameter:
  * <li>
  * <B>columnName:</B> specifies the column name for the field. 
- * The default column name is the uppercase field name 
+ * The default column name is the upper case field name without the field prefix.
  * </li>
  * <li>
  * <B>nullable:</B> declare the column for this field as nullable 
- * The dafault value is true (column nullable). For key fields the 
+ * The default value is true (column nullable). For key and for unique fields the 
  * column is declared as not nullable.
+ * </li>
+ * <li>
+ * <B>unique:</B> declare the column for this field as unique 
+ * The default value is false. 
  * </li>
  * <li>
  * <B>customColumnDefinition:</B> declare a custom column definition code
  * that will be appended directly after the column name. 
- * The default value is an empty string.
+ * The default value is an empty string and the column definition is created automatically.
  * </li>
  * 
  * @author Massimo Gaddini
