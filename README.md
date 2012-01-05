@@ -14,23 +14,27 @@ Android SQL Helper is inspired by [Android sql lite helper](http://github.com/fe
 The big difference is that the Android SQL Helper takes the table and column type definitions directly from the 
 application Java classes used to model persistent data.
 
-License Notice
---------------
-
-Android SQL Helper is licensed under [Apache License v. 2.0] (http://www.apache.org/licenses/LICENSE-2.0.txt)
-
 Requirements
 ------------
 
-JDK >= 1.6
-Codemodel >= 2.4
+JDK >= 1.6<br>
+CodeModel >= 2.4
+
+License Notice
+--------------
+
+Android SQL Helper is licensed under [Apache License v. 2.0] (http://www.apache.org/licenses/LICENSE-2.0.txt).<br>
+CodeModel is licensed under [GPLv2 + Classpath Exception] (http://glassfish.java.net/public/CDDL+GPL_1_1.html).<br>
+Android is licensed under [Apache License v. 2.0] (http://www.apache.org/licenses/LICENSE-2.0.txt).<br>
+Ant and Ant Contrib are licensed under [Apache License v. 2.0] (http://www.apache.org/licenses/LICENSE-2.0.txt).<br>
 
 See Also
 --------
 
-* [Codemodel](http://codemodel.java.net/)
+* [CodeModel](http://codemodel.java.net/) for source code or binary distribution
 * [Android sql lite helper](http://github.com/fedepaol/Android-sql-lite-helper)
-
+* [Android](http://developer.android.com/index.html) for API reference
+* [Ant](http://ant.apache.org/) and [Ant Contrib](http://ant-contrib.sourceforge.net/)
 
 Getting Started
 ---------------
@@ -56,80 +60,88 @@ For default the class name and field names will be used for the corresponding SQ
 The user can specify custom names with annotation's property `tableName` (for PersistentEntity annotation) and `columnName` 
 (for PersistentField annotation).
 
+For default a table will have the column `_id INTEGER PRIMARY KEY AUTOINCREMENT` that is automatically added by the tool. 
+You can change this behavior setting the `noIdCol` attribute in the `PersistentEntity` annotation and specifying a primary key 
+for the table setting the `pk` attribute with the list of the fields of the primary key. 
+
 At the moment only few Java types are supported: primitive types, String, Date.
 Following is the mapping between Java and SQL types adopted by the Android SQL Helper:
 
 <table border="1" width="500" align="center">
-    <tr align="center" bgcolor="#00F1A0">
+    <tr align="center" bgcolor="#b8b8b8">
         <th>Java</th>
         <th width="20%">SQL</th>
         <th width="50%">Note</th>
     </tr>
-    <tr align="center" bgcolor="#FFFFA0">
+    <tr align="center" bgcolor="#e8e8e8">
         <td>int/java.lang.Integer</td>
         <td>INTEGER</td>
         <td></td>
     </tr>
-    <tr align="center" bgcolor="#FFFFA0">
+    <tr align="center" bgcolor="#e8e8e8">
         <td>long/java.lang.Long</td>
         <td>INTEGER</td>
         <td></td>
     </tr>
-    <tr align="center" bgcolor="#FFFFA0">
+    <tr align="center" bgcolor="#e8e8e8">
         <td>byte/java.lang.Byte</td>
         <td>INTEGER</td>
         <td></td>
     </tr>
-    <tr align="center" bgcolor="#FFFFA0">
+    <tr align="center" bgcolor="#e8e8e8">
         <td>short/java.lang.Short</td>
         <td>INTEGER</td>
         <td></td>
     </tr>
-    <tr align="center" bgcolor="#FFFFA0">
+    <tr align="center" bgcolor="#e8e8e8">
         <td>boolean/java.lang.Boolean</td>
         <td>INTEGER</td>
         <td>0: false, >0: true</td>
     </tr>
-    <tr align="center" bgcolor="#FFFFA0">
+    <tr align="center" bgcolor="#e8e8e8">
         <td>double/java.lang.Double</td>
         <td>REAL</td>
         <td></td>
     </tr>
-    <tr align="center" bgcolor="#FFFFA0">
+    <tr align="center" bgcolor="#e8e8e8">
         <td>float/java.lang.Float</td>
         <td>REAL</td>
         <td></td>
     </tr>
-    <tr align="center" bgcolor="#FFFFA0">
+    <tr align="center" bgcolor="#e8e8e8">
         <td>java.lang.String</td>
         <td>TEXT</td>
         <td></td>
     </tr>
-    <tr align="center" bgcolor="#FFFFA0">
+    <tr align="center" bgcolor="#e8e8e8">
         <td>java.lang.CharSequence</td>
         <td>TEXT</td>
         <td></td>
     </tr>
-    <tr align="center" bgcolor="#FFFFA0">
+    <tr align="center" bgcolor="#e8e8e8">
         <td>java.util.Date</td>
         <td>INTEGER</td>
         <td>Number of milliseconds since Jan. 1, 1970, midnight GMT as returned by method java.util.Date.getTime()</td>
     </tr>
-    <tr align="center" bgcolor="#FFFFA0">
+    <tr align="center" bgcolor="#e8e8e8">
         <td>java.util.GregorianCalendar</td>
         <td>INTEGER</td>
         <td>Number of milliseconds since Jan. 1, 1970, midnight GMT as returned by method java.util.Calendar.getTimeInMillis()</td>
     </tr>
 </table>
 
+
 See annotation's javadoc for details.
+
+You can use the JavaBean with annotations directly in the Android application but is necessary to add the jar `androidsqlhelperannotations.jar`
+to the class path.
 
 ### Generated Java classes
 
 The tool generates two main Java class:
 
-* a `DbMetadata` class
-* a `DbAdapter` class
+* `DbMetadata` class
+* `DbAdapter` class
 
 #### DbMetadata class
 
@@ -153,7 +165,7 @@ and useful for make some upgrade operations. The method is the following:
 
 `public Boolean onDatastoreUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)`
 
-The default upgrade process drops all tables and creates all the new tables. 
+The default upgrade process first drops all tables and then creates all the new tables. 
 
 ### Generation properties
 
@@ -170,55 +182,55 @@ Following are listed the recognized properties and their meaning:
 
 
 <table border="1" width="700" align="center">
-    <tr align="center" bgcolor="#00F1A0">
+    <tr align="center" bgcolor="#b8b8b8">
         <th>Property</th>
         <th width="40%">Description</th>
         <th>Default</th>
         <th width="40%">Example</th>
     </tr>
-    <tr align="center" bgcolor="#FFFFA0">
+    <tr align="center" bgcolor="#e8e8e8">
         <td>package</td>
         <td>Java package of generated classes</td>
         <td>Empty</td>
         <td>package = com.mypackage</td>
     </tr>
-    <tr align="center" bgcolor="#FFFFA0">
+    <tr align="center" bgcolor="#e8e8e8">
         <td>dbadapterclassname</td>
         <td>Java class name of adapter class</td>
         <td>"DbAdapter"</td>
         <td>dbadapterclassname = DbAdapter</td>
     </tr>
-    <tr align="center" bgcolor="#FFFFA0">
+    <tr align="center" bgcolor="#e8e8e8">
         <td>metadataclassname</td>
         <td>Java class name of metadata class</td>
         <td>"DbMetadata"</td>
         <td>metadataclassname = DbMetadata</td>
     </tr>
-    <tr align="center" bgcolor="#FFFFA0">
+    <tr align="center" bgcolor="#e8e8e8">
         <td>dbname</td>
         <td>Name of the db file saved by android application</td>
         <td>"App.db"</td>
         <td>dbname = test.db</td>
     </tr>
-    <tr align="center" bgcolor="#FFFFA0">
+    <tr align="center" bgcolor="#e8e8e8">
         <td>dbversion</td>
         <td>Version number of the db schema. The version can be used to do same work during the upgrade process of the db schema. Must be a number</td>
         <td>1</td>
         <td>dbversion=1</td>
     </tr>
-    <tr align="center" bgcolor="#FFFFA0">
+    <tr align="center" bgcolor="#e8e8e8">
         <td>author</td>
         <td>Name of the author of the source file and inserted in the @author java doc tag</td>
         <td>Empty</td>
         <td>author=myname</td>
     </tr>
-    <tr align="center" bgcolor="#FFFFA0">
+    <tr align="center" bgcolor="#e8e8e8">
         <td>license</td>
         <td>Custom short string inserted as comment at the top of each generated file</td>
         <td>Empty</td>
         <td>license=Short license information</td>
     </tr>
-    <tr align="center" bgcolor="#FFFFA0">
+    <tr align="center" bgcolor="#e8e8e8">
         <td>licensefile</td>
         <td>File name of the text file to be inserted at the top of each generated file. This property has higher priority of the 'license' property</td>
         <td>Empty</td>
@@ -240,7 +252,7 @@ Following is an example of `schema.properties` file:
 ### Compiling and generating
 
 To generate the helper classes just compile the persistent beans with the `androidsqlhelper.jar`, `android.jar` and `codemodel-2.5-SNAPSHOT.jar` 
-in the class path.
+in the class path. You can find these libraries into the `lib` folder.
 The generation process is executed for each compilation. The user can choose to generate the helper classes from 
 a standalone project or from the Android application project itself using an Ant script.
 
@@ -249,9 +261,6 @@ The generation process works only if the compilation is done with Java 6 or uppe
 
 ### Use of generated classes
 
-->>>>>>> jar solo con annotations
-->>>>>>> Descrizione delle classi metadata e dbadapter
-->>>>>>> Descrizione metodi generating
-->>>>>>> descrizione metodo per upgrade
-->>>>>>> 
-->>>>>>> Estensione se modifica o aggiunta
+You can use the generated classes as are or extending the DbAdapter class and add the necessary methods and/or implement 
+the method `onDatastoreUpgrade`.
+

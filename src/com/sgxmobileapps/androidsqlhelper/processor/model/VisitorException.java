@@ -31,7 +31,6 @@ public class VisitorException extends Exception {
      * 
      */
     public VisitorException() {
-        // TODO Auto-generated constructor stub
     }
 
     /**
@@ -39,7 +38,6 @@ public class VisitorException extends Exception {
      */
     public VisitorException(String message) {
         super(message);
-        // TODO Auto-generated constructor stub
     }
 
     /**
@@ -47,7 +45,6 @@ public class VisitorException extends Exception {
      */
     public VisitorException(Throwable cause) {
         super(cause);
-        // TODO Auto-generated constructor stub
     }
 
     /**
@@ -56,7 +53,6 @@ public class VisitorException extends Exception {
      */
     public VisitorException(String message, Throwable cause) {
         super(message, cause);
-        // TODO Auto-generated constructor stub
     }
 
 }

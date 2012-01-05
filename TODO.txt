@@ -6,14 +6,15 @@ X implement the annotation processor via apt (integrated into javac.exe)
 X loading schema properties from properties file
 X use codemodel for code generation
 X make test case
-- make same sample
-- javadoc
+X make same sample
+X javadoc
 X use of entity annotation to force some field properties, like key or nullable
 X update/remove method based on key fields (without row id)
-- support for custom class as class member
-- support for field of type enum
 X support of date time fields. Support of standard conversion or use a custom converter class
 X support for license inclusion at the beginning of generated files(from external file)
+- support for custom class as class member
+- support for field of type enum
+- support for index creation
 
 Todo:
 
@@ -24,12 +25,13 @@ X store field type for conversion in code generation
 X try to use codemodel 2.5
 X plan the use of the needed library codemodel and android.jar
 X make a sample stand alone project
-- make a sample android project
-- javadoc
-- complete the README with:
-		- add used libraries for license reasons
-		- supported types and sql mapping
-		- supported SQLLite features
-		- use of the tool
-- clean project for tag
-- tag
+X make a sample android project
+X javadoc
+X README for sample project and tests
+X complete the README with:
+		X add used libraries for license reasons
+		X supported types and sql mapping
+		X use of the tool
+X clean project for tag
+X search for TODO
+X tag

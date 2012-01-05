@@ -139,8 +139,6 @@ public class Field implements Visitable {
             break;
             
         case DECLARED:
-            // TODO
-            //change declared type management
          
             String javaClass =  ((DeclaredType)member.asType()).asElement().toString();
             
@@ -199,7 +197,6 @@ public class Field implements Visitable {
                 field.mClazzCast = float.class;
             } else if (javaClass.equals("java.util.Date")) {
                 
-                /* FixMe */
                 field.mColumnType = "INTEGER";
                 field.mGetterConvMethod = "getTime";
                 field.mSetterConvMethod = "setTime";
@@ -207,7 +204,6 @@ public class Field implements Visitable {
                 field.mClazzCast = null;
             } else if ( javaClass.equals("java.util.GregorianCalendar") ) {
                 
-                /* FixMe */
                 field.mColumnType = "INTEGER";
                 field.mGetterConvMethod = "getTimeInMillis";
                 field.mSetterConvMethod = "setTimeInMillis";

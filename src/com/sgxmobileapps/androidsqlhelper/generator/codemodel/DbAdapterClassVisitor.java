@@ -214,20 +214,22 @@ public class DbAdapterClassVisitor implements Visitor {
             createTableExpr = createTableExpr.add(JExpr.lit(" " + field.getColumnDefinition() + ((i < (table.getFields().size()-1))?", ":"")), false, false);
         }
         
-        String[] pk = table.getPKConstraint();
-        if (pk.length > 0) {
-            createTableExpr = createTableExpr.add(JExpr.lit(", "), false, false);
-            createTableExpr = createTableExpr.add(JExpr.lit("PRIMARY KEY ("), false, true);
-            
-            for(int i = 0; i < table.getPKConstraint().length; i++){
-                CodeModelVisitorContext.MetaFieldInfo mfi = ctx.getMetaFieldInfo(table.getEntityName(), table.getPKConstraint()[i]);
-                createTableExpr = createTableExpr.add(mti.mClass.staticRef(mfi.mColNameField), false, false);
+        if (table.isNoIdColumn()) {
+            String[] pk = table.getPKConstraint();
+            if (pk.length > 0) {
+                createTableExpr = createTableExpr.add(JExpr.lit(", "), false, false);
+                createTableExpr = createTableExpr.add(JExpr.lit("PRIMARY KEY ("), false, true);
                 
-                if (i < (table.getPKConstraint().length - 1)) {
-                    createTableExpr = createTableExpr.add(JExpr.lit(", "), false, false);
+                for(int i = 0; i < table.getPKConstraint().length; i++){
+                    CodeModelVisitorContext.MetaFieldInfo mfi = ctx.getMetaFieldInfo(table.getEntityName(), table.getPKConstraint()[i]);
+                    createTableExpr = createTableExpr.add(mti.mClass.staticRef(mfi.mColNameField), false, false);
+                    
+                    if (i < (table.getPKConstraint().length - 1)) {
+                        createTableExpr = createTableExpr.add(JExpr.lit(", "), false, false);
+                    }
                 }
+                createTableExpr = createTableExpr.add(JExpr.lit(")"), false, false);
             }
-            createTableExpr = createTableExpr.add(JExpr.lit(")"), false, false);
         }
 
         String[] unique = table.getUniqueConstraint();
